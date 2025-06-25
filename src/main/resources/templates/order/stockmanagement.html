@@ -1,10 +1,149 @@
 <!DOCTYPE html>
-<html>
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
+<title>在庫管理画面</title>
+<style>
+    body {
+        font-family: sans-serif;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        margin-top: 20px;
+    }
+    .header {
+        width: 80%;
+        display: flex;
+        justify-content: space-between;
+        margin-bottom: 20px;
+    }
+    .header button {
+        padding: 10px 20px;
+        font-size: 16px;
+    }
+    h2 {
+        margin-bottom: 30px;
+    }
+    .item-row {
+        display: flex;
+        align-items: center;
+        width: 80%;
+        margin-bottom: 15px;
+        border: 1px solid #ccc;
+        padding: 10px;
+        justify-content: space-around;
+    }
+    .item-name {
+        width: 150px;
+        text-align: left;
+        font-size: 18px;
+    }
+    .item-status-symbol {
+        width: 30px;
+        text-align: center;
+        font-size: 24px;
+        font-weight: bold;
+    }
+    .item-weight {
+        width: 100px;
+        text-align: center;
+        font-size: 16px;
+    }
+    .item-unit {
+        width: 100px;
+        text-align: center;
+        font-size: 16px;
+    }
+    .item-order-quantity input[type="number"] {
+        width: 60px;
+        padding: 5px;
+        font-size: 16px;
+        text-align: center;
+    }
+    .item-button button {
+        padding: 8px 15px;
+        font-size: 16px;
+    }
+    .create-order-button {
+        margin-top: 30px;
+        padding: 15px 30px;
+        font-size: 20px;
+    }
+</style>
 </head>
 <body>
+    <div class="header">
+        <a href="/weight-registration"><button>重量登録</button></a>
+        <button>編集</button>
+    </div>
+
+    <h2>在庫管理画面</h2>
+
+    <div th:each="item : ${items}" class="item-row">
+        <div class="item-name" th:text="${item.name}">品目名</div>
+        <div class="item-status-symbol" th:text="${item.statusSymbol}">〇</div>
+        <div class="item-weight">重さ: <span th:text="${item.weight}"></span>g</div>
+        <div class="item-unit">個数: <span th:text="${#numbers.formatDecimal(item.calculatedUnit, 0, 1)}"></span></div>
+        <div class="item-order-quantity">
+            発注量: <input type="number" value="0" min="0"/>個
+        </div>
+        <div class="item-button">
+            <button>発注</button>
+        </div>
+    </div>
+
+    <!-- 仮のデータ表示例 (Thymeleafループの代わりに、${items}が存在しない場合に表示されます) -->
+    <div class="item-row" th:unless="${items}">
+        <div class="item-name">麺A</div>
+        <div class="item-status-symbol">〇</div>
+        <div class="item-weight">重さ: 1000g</div>
+        <div class="item-unit">個数: 0.2</div>
+        <div class="item-order-quantity">
+            発注量: <input type="number" value="0" min="0"/>個
+        </div>
+        <div class="item-button">
+            <button>発注</button>
+        </div>
+    </div>
+    <div class="item-row" th:unless="${items}">
+        <div class="item-name">麺B</div>
+        <div class="item-status-symbol">〇</div>
+        <div class="item-weight">重さ: 1200g</div>
+        <div class="item-unit">個数: 0.2</div>
+        <div class="item-order-quantity">
+            発注量: <input type="number" value="0" min="0"/>個
+        </div>
+        <div class="item-button">
+            <button>発注</button>
+        </div>
+    </div>
+    <div class="item-row" th:unless="${items}">
+        <div class="item-name">麺C</div>
+        <div class="item-status-symbol">△</div>
+        <div class="item-weight">重さ: 800g</div>
+        <div class="item-unit">個数: 0.1</div>
+        <div class="item-order-quantity">
+            発注量: <input type="number" value="0" min="0"/>個
+        </div>
+        <div class="item-button">
+            <button>発注</button>
+        </div>
+    </div>
+    <div class="item-row" th:unless="${items}">
+        <div class="item-name">チャーシュー</div>
+        <div class="item-status-symbol">◎</div>
+        <div class="item-weight">重さ: 500g</div>
+        <div class="item-unit">個数: 0.1</div>
+        <div class="item-order-quantity">
+            発注量: <input type="number" value="0" min="0"/>個
+        </div>
+        <div class="item-button">
+            <button>発注</button>
+        </div>
+    </div>
+
+
+    <button class="create-order-button">発注書を作成</button>
 
 </body>
 </html>

@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <title>重量登録画面</title>
+    <style>
+        body {
+            font-family: sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin-top: 20px;
+        }
+
+        h2 {
+            margin-bottom: 30px;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+            text-align: left;
+            width: 300px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+
+        .form-group select,
+        .form-group input[type="number"],
+        .form-group input[type="text"] {
+            width: 100%;
+            padding: 8px;
+            font-size: 16px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+
+        .submit-button {
+            padding: 10px 20px;
+            font-size: 18px;
+            cursor: pointer;
+            margin-top: 20px;
+        }
+
+        .form-section {
+            margin-top: 40px;
+            border-top: 1px solid #eee;
+            padding-top: 20px;
+            width: 80%;
+            max-width: 600px;
+            text-align: center;
+        }
+    </style>
+</head>
+
+<body>
+    <h2>重量登録画面</h2>
+
+    <div class="form-section">
+        <h3>重量センサー情報の登録</h3>
+        <form action="/register-sensor-weight" method="post">
+            <div class="form-group">
+                <label for="sensorName">センサー名:</label>
+                <input type="text" id="sensorName" name="sensorName" required>
+            </div>
+
+            <div class="form-group">
+                <label for="materialName">登録材料名:</label>
+                <input type="text" id="materialName" name="materialName" required>
+            </div>
+
+            <div class="form-group">
+                <label for="registeredWeight">登録した重量 (g):</label>
+                <input type="number" id="registeredWeight" name="registeredWeight" min="0" required>
+            </div>
+
+            <div class="form-group">
+                <label for="thresholdWeight">在庫ありの基準重量 (g):</label>
+                <input type="number" id="thresholdWeight" name="thresholdWeight" min="0" required>
+            </div>
+
+            <button type="submit" class="submit-button">センサー情報を登録</button>
+        </form>
+    </div>
+
+    <div class="form-section">
+        <h3>登録済み重量センサー情報</h3>
+        <table border="1" style="width:100%; border-collapse: collapse;">
+            <thead>
+                <tr>
+                    <th style="padding: 8px; text-align: left;">センサーID</th>
+                    <th style="padding: 8px; text-align: left;">センサー名</th>
+                    <th style="padding: 8px; text-align: left;">材料名</th>
+                    <th style="padding: 8px; text-align: left;">登録重量 (g)</th>
+                    <th style="padding: 8px; text-align: left;">基準重量 (g)</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr th:each="sensor : ${weightSensors}">
+                    <td style="padding: 8px; text-align: left;" th:text="${sensor.sensorId}"></td>
+                    <td style="padding: 8px; text-align: left;" th:text="${sensor.sensorName}"></td>
+                    <td style="padding: 8px; text-align: left;" th:text="${sensor.materialName}"></td>
+                    <td style="padding: 8px; text-align: left;" th:text="${sensor.registeredWeight}"></td>
+                    <td style="padding: 8px; text-align: left;" th:text="${sensor.thresholdWeight}"></td>
+                </tr>
+                <tr th:if="${#lists.isEmpty(weightSensors)}">
+                    <td colspan="5" style="padding: 8px; text-align: center;">登録されているセンサー情報はありません。</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div style="text-align: center;">
+        <form action="/stockmanagement" method="get">
+            <button type="submit" class="submit-button">在庫確認画面へ</button>
+        </form>
+    </div>
+
+</body>
+
+</html>
