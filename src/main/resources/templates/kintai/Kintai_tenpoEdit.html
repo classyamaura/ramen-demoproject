@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8" />
+  <title>詳細編集</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 20px;
+    }
+    h1 {
+      margin-bottom: 20px;
+    }
+    label {
+      display: inline-block;
+      width: 120px;
+      font-weight: bold;
+      margin-top: 10px;
+    }
+    input[type="time"],
+    select {
+      width: 200px;
+      padding: 5px;
+      margin-top: 10px;
+    }
+    .buttons {
+      margin-top: 30px;
+    }
+    button {
+      padding: 8px 16px;
+      margin-right: 10px;
+      font-size: 16px;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+  <h1>詳細編集</h1>
+
+  <div>
+    <label>支店名：</label>
+    <span>東京支店</span>
+  </div>
+
+  <div>
+    <label>名前：</label>
+    <span>山田 太郎</span>
+  </div>
+
+  <div>
+    <label>日付：</label>
+    <span>2025-06-25</span>
+  </div>
+
+  <div>
+    <label for="startTime">出勤時間：</label>
+    <input type="time" id="startTime" name="startTime" value="09:00" />
+  </div>
+
+  <div>
+    <label for="endTime">退勤時間：</label>
+    <input type="time" id="endTime" name="endTime" value="18:00" />
+  </div>
+
+  <div>
+    <label for="reason">修正理由：</label>
+    <select id="reason" name="reason">
+      <option value="">-- 選択してください --</option>
+      <option value="before_work">出勤前業務あり</option>
+      <option value="after_work">退勤後業務あり</option>
+      <option value="stamp_fix">打刻ミスの修正</option>
+      <option value="other">その他</option>
+    </select>
+  </div>
+
+  <div class="buttons">
+    <button type="button" onclick="alert('確認ボタンが押されました');">確認</button>
+    <button type="button" onclick="history.back();">キャンセル</button>
+  </div>
+</body>
+</html>
