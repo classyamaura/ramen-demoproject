@@ -74,6 +74,10 @@
 		.close:hover {
 			color: black;
 		}
+		
+		#kiboubi{
+			text-align: left;
+		}
 	</style>
 </head>
 
@@ -82,9 +86,10 @@
 
 
 
-	<form method="post">
+　<form method="post">
 		<label for="user">名前：</label>
 		<select name="user" id="user">
+			<option value="----">----</option>
 			<option value="佐藤 翔太">佐藤 翔太</option>
 			<option value="田中 美咲">田中 美咲</option>
 			<option value="山本 健">山本 健</option>
@@ -102,14 +107,15 @@
 		</select>
 
 
-		<h2>2025年8月</h2>
+		<h2>2025年8月
 		<form th:action="@{/punch}" method="post">
 			<label for="user"></label>
 			<select name="user" id="user">
+				<option value="7月">7月</option>
 				<option value="8月">8月</option>
 				<option value="9月">9月</option>
 				<option value="10月">10月</option>
-
+	</h2>
 			</select>
 
 			<table>
@@ -185,6 +191,7 @@
 			<!-- モーダル本体 -->
 			<div id="modal" class="modal">
 				<div class="modal-content">
+					<div id="kiboubi">【希望日】</div>
 					<span class="close" onclick="closeModal()">&times;</span>
 					<form method="post">
 						<label for="user">出勤：</label>
@@ -202,8 +209,7 @@
 							<option value="20:00">20:00</option>
 							<option value="21:00">21:00</option>
 							<option value="22:00">22:00</option>
-							<option value="23:00">23:00</option>
-							<option value="24:00">24:00</option>
+							
 						</select>
 					</form>
 					<form method="post">
@@ -222,8 +228,7 @@
 							<option value="20:00">20:00</option>
 							<option value="21:00">21:00</option>
 							<option value="22:00">22:00</option>
-							<option value="23:00">23:00</option>
-							<option value="24:00">24:00</option>
+							
 						</select>
 						<input type=text placeholder="備考欄"><button>登録</button></input>
 				</div>
@@ -246,8 +251,11 @@
 				}
 			</script>
 
+	<a href = "/manage">
+		<button>管理者ログインへ</button>
+	</a>
 
 </body>
-</head>
+
 
 </html>
