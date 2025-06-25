@@ -4,12 +4,19 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+
 @Controller
 public class ShiftController {
+	private ShiftDao shiftdao;
+
+	public ShiftController(ShiftDao shiftdao) {
+		this.shiftdao = shiftdao;
+
+	}
 
 
 //index画面
-@RequestMapping("/top")
+@RequestMapping("/shifttop")
 public String top(Model model) {
 	return "shift/shift-index";
 	
@@ -18,6 +25,12 @@ public String top(Model model) {
 @RequestMapping("/submit")
 public String submit(Model model) {
 	return "shift/shift-submit";
+	
+}
+//自分のシフトを確認する画面に入るログイン
+@RequestMapping("/personal")
+public String personal(Model model) {
+	return "shift/shiftpersonal";
 	
 }
 //自分のシフトを確認する画面

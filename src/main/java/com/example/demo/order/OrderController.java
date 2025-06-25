@@ -23,10 +23,25 @@ public class OrderController {
         return "order/stockmanagement";
     }
 
+    @GetMapping("/role-selection")
+    public String showRoleSelection() {
+        return "order/role-selection";
+    }
+
     @GetMapping("/weight-registration")
     public String showWeightRegistration(Model model) {
         model.addAttribute("weightSensors", weightSensorDao.findAll());
         return "order/weight-registration";
+    }
+
+    @GetMapping("/orderdata-registration")
+    public String showOrderDataRegistration() {
+        return "order/orderdata-registration";
+    }
+
+    @GetMapping("/mainoffice-totaldata")
+    public String showMainOfficeTotalData() {
+        return "order/mainoffice-totaldata";
     }
 
     @PostMapping("/register-sensor-weight")

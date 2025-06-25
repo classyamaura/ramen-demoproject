@@ -64,4 +64,13 @@ public class KintaiController {
 	    return "kintai/Kintai_tenmanager";
 	}
 
+	//編集画面
+	@RequestMapping("/tenpoedit")
+	public String tenpoedit(Model model) {
+
+		return "kintai/Kintai_tenpoEdit";
+	}
+	
+	
+
 }

@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>発注データ確認画面（本社行き）</title>
+<style>
+    body {
+        font-family: sans-serif;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        margin-top: 20px;
+    }
+    h2 {
+        margin-bottom: 30px;
+    }
+    .input-form {
+        margin-bottom: 20px;
+        width: 80%;
+        max-width: 600px;
+        text-align: left;
+    }
+    .input-form label {
+        display: block;
+        margin-bottom: 5px;
+        font-weight: bold;
+    }
+    .input-form input[type="text"],
+    .input-form input[type="date"] {
+        width: calc(100% - 16px);
+        padding: 8px;
+        font-size: 16px;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        margin-bottom: 15px;
+    }
+    table {
+        width: 80%;
+        max-width: 600px;
+        border-collapse: collapse;
+        margin-bottom: 30px;
+    }
+    th,
+    td {
+        border: 1px solid #ccc;
+        padding: 8px;
+        text-align: left;
+    }
+    th {
+        background-color: #f2f2f2;
+    }
+    .create-document-button {
+        padding: 15px 30px;
+        font-size: 20px;
+        cursor: pointer;
+    }
+    .back-button-container {
+        width: 80%;
+        max-width: 600px;
+        text-align: left;
+        margin-bottom: 20px;
+    }
+    .back-button {
+        padding: 10px 20px;
+        font-size: 16px;
+        cursor: pointer;
+    }
+</style>
+</head>
+<body>
+    <div class="back-button-container">
+        <button class="back-button" onclick="location.href='/stockmanagement'">在庫確認画面へ戻る</button>
+    </div>
+
+    <h2>発注データ確認画面（本社行き）</h2>
+
+    <div class="input-form">
+        <label for="storeName">店舗名:</label>
+        <input type="text" id="storeName" name="storeName" required>
+
+        <label for="responsiblePerson">担当者:</label>
+        <input type="text" id="responsiblePerson" name="responsiblePerson" required>
+
+        <label for="orderDate">発注日:</label>
+        <input type="date" id="orderDate" name="orderDate" required>
+    </div>
+
+    <table>
+        <thead>
+            <tr>
+                <th>NO.</th>
+                <th>品目名</th>
+                <th>発注量 (個)</th>
+            </tr>
+        </thead>
+        <tbody id="ordered-items-tbody">
+            <!-- 発注された品目がここに表示されます -->
+        </tbody>
+    </table>
+
+    
+
+    <div class="input-form" style="margin-top: 10px;">
+        <label for="remarks">備考欄:</label>
+        <textarea id="remarks" name="remarks" rows="5" style="width: calc(100% - 16px); padding: 10px; font-size: 16px; border: 1px solid #ccc; border-radius: 4px;"></textarea>
+    </div>
+
+    <button class="create-document-button">発注データの登録</button>
+    
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const orderedItemsTbody = document.getElementById('ordered-items-tbody');
+            const orderedItemsJson = sessionStorage.getItem('orderedItems');
+
+            if (orderedItemsJson) {
+                const orderedItems = JSON.parse(orderedItemsJson);
+
+                if (orderedItems.length > 0) {
+                    orderedItems.forEach((item, index) => {
+                        const row = document.createElement('tr');
+                        row.innerHTML = `
+                            <td>${index + 1}</td>
+                            <td>${item.name}</td>
+                            <td>${item.quantity}</td>
+                        `;
+                        orderedItemsTbody.appendChild(row);
+                    });
+                } else {
+                    orderedItemsTbody.innerHTML = '<tr><td colspan="3" style="text-align: center;">発注された品目はありません。</td></tr>';
+                }
+            } else {
+                orderedItemsTbody.innerHTML = '<tr><td colspan="3" style="text-align: center;">発注データが見つかりませんでした。</td></tr>';
+            }
+        });
+    </script>
+</body>
+</html>

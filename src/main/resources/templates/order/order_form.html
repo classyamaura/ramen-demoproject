@@ -14,25 +14,112 @@
 	td {
 	  padding: 8px 12px;
 	  text-align: center;
-	  border: 1px solid #ccc;
+	  border: 1px solid black;
 	}
 
 	th {
-	  background-color: #f4f4f4;
+	  background-color: white;
+	}
+	
+	th:nth-child(1), td:nth-child(1) {
+	    width: 10px; /* 1列目の幅を50pxに設定 */
+	  }
+	  th:nth-child(3), td:nth-child(3) {
+	    width: 10px; /* 3列目の幅を50pxに設定 */
+	  }
+	  
+	  thead tr {
+	      height: 30px; /* 行の高さを30pxに設定 */
+	    }
+	    th {
+	      padding: 0; /* セル内の余白を0に設定 */
+	    }
+		.bikou tr{
+			height: 80px; /* 行の高さを60pxに設定 */
+		}
+	.bikou td{
+		padding: 20px 10px; /* セル内の上下の余白を20px、左右の余白を10pxに設定 */
+		 line-height: 1.5; /* 行間を1.5倍に設定 */
+	   }
+	 .bikou1 th {
+	    text-align: left;
+	   }
+	h3 {
+	      align-self: center;
+	      font-size: 1.2em;
+	      margin: 0;
+	    }
+		.header-row {
+		   display: flex;
+		   width: 100%;
+		   justify-content: flex-end;
+		  
+		 }
+
+		 .ichi {
+		   font-size: 0.9em;
+		   margin: 0;
+		 }
+		 
+		 .header-row, .ichi {
+		   writing-mode: horizontal-tb; /* 横書きモードに設定 */
+		 }
+
+		
+
+	.ni {
+	      text-align: left;
+	      font-size: 0.9em;
+	      margin: 0;
+	      border-bottom: 1px solid #000;
+		  width:500px;
+		  }
+	  p {
+	        font-size: 0.9em;
+	        margin: 10px 0;
+	      }
+	  .p {
+	    font-size: 0.9em;
+	    margin: 10px 0;
+	    border-bottom: 1px solid #000;
+	    display: block; /* 各要素を縦に並べる */
+	    padding-bottom: 2px;
+		width:300px;
+		}
+		
+	form {
+		display: flex;
+		width: 100%;
+ 	    justify-content: flex-end;
+	}
+	
+	.wrapper {
+	  display: flex;
+	  flex-direction: column;        /* 縦に積むレイアウト */
+	  align-items: flex-start;           /* 横方向の中央寄せ */
+	  justify-content: flex-end;
+	  max-width: 800px;              /* 用紙幅に合わせて調整 */
+	  margin: 0 auto;                /* 横方向の自動余白で中央配置 */
+	  padding: 10px;                 /* 余白を少し追加 */
+	  box-sizing: border-box;
 	}
     </style>
 </head>
 <body>
+	<div class="wrapper">
 	<h3>発注書</h3>
-	<h4>御中</h4>
-	<h4>件名</h4>
+	<div class="header-row">
+	      <div class="header-space"></div>
+	      <h4 class="ichi">御中</h4>
+	    </div>
+	<h4 class="ni">件名:</h4>
 	
 	<p>下記のとおり、発注いたします。</p>
-	<p>現場住所：</p>
-	<p>工期：</p>
-	<p>支払期日：</p>
-	<p>支払い条件：</p>
-	<p>見積No：</p>
+	<p class="p">現場住所：</p>
+	<p class="p">工期：</p>
+	<p class="p">支払期日：</p>
+	<p class="p">支払い条件：</p>
+	<p class="p">見積No：</p>
 	
 	<table>
 	       <thead>
@@ -117,21 +204,23 @@
 	   </table>
 	   
 	   <table>
-       <thead>
+       <thead class="bikou1">
            <tr>
-               <th>備考</th>
+               <th>備考：</th>
            </tr>
        </thead>
-	   <tbody>
+	   <tbody class="bikou">
            <tr>
                <td></td>
            </tr>
 	   </tbody>
 	   </table>
 
-	   <form action="/submit" method="post">
-	     <input type="submit" value="送信">
+	   <form>
+		<div class="form-wrapper">
+	     <input type="submit" value="送信" class="right-float">
+		</div>
 	   </form>
-	   
+	</div> 
 </body>
 </html>
