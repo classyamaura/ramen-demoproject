@@ -46,15 +46,16 @@
 		      overflow: auto;
 		      background-color: rgba(0,0,0,0.5);
 		    }
-		    .modal-content {
-		      background-color: #fff;
-		      margin: 15% auto;
-		      padding: 20px;
-		      border: 2px solid #666;
-		      width: 300px;
-		      text-align: center;
-		      border-radius: 10px;
-		    }
+			.modal-content {
+			    background-color: #fff;
+			    margin: 5% auto;
+			    padding: 30px;
+			    border: 2px solid #666;
+			    width: 90%;
+			    max-width: 1000px;
+			    text-align: center;
+			    border-radius: 10px;
+			  }
 		    .close {
 		      color: #aaa;
 		      float: right;
@@ -68,6 +69,31 @@
 			.highlight {
 			      background-color: #ffff99; /* 明るい黄色 */
 			    }
+				
+				/* モーダル内のテーブル全体に適用 */
+				.modal-content table {
+				  border-collapse: collapse;
+				  width: 100%;
+				  table-layout: fixed; /* ← 全体の幅バランスを固定 */
+				}
+
+				.modal-content th, .modal-content td {
+				  border: 1px solid #999;
+				  padding: 5px;
+				  text-align: center;
+				}
+
+				/* 氏名列を広めに */
+				.modal-content td:nth-child(2),
+				.modal-content th:nth-child(2) {
+				  width: 120px;
+				}
+
+				/* 担当業務列も少し広めに */
+				.modal-content td:nth-child(3),
+				.modal-content th:nth-child(3) {
+				  width: 100px;
+				}
 	</style>
 </head>
 <body>
@@ -160,10 +186,67 @@
 	  <div class="modal-content">
 	    <span class="close" onclick="closeModal()">&times;</span>
 	    <h3>2025年8月1日</h3>
-	    <p>この日は金曜日です。</p>
-	    <p>予定をここに表示できます。</p>
-	  </div>
+	    <p>シフトを選択してください：</p>
+
+	
+	<!-- モーダル内シフト表 -->
+	<table>
+		<thead>
+			<tr>
+				<th></th>
+				<th>氏名</th>
+				<th>担当業務</th>
+				<th>9</th><th>10</th><th>11</th><th>12</th><th>13</th>
+				<th>14</th><th>15</th><th>16</th><th>17</th><th>18</th><th>19</th>
+				<th>20</th><th>21</th><th>22</th><th>23</th>
+			</tr>
+		</thead>
+		<tbody>
+			<tr>
+				<td>1</td>
+				<td>山田 太郎</td>
+				<td>受付</td>
+				<td class="shift clickable highlight"></td>
+				<td class="shift clickable"></td>
+				<td class="shift clickable"></td>
+				<td class="shift clickable"></td>
+				<td class="shift clickable"></td>
+				<td class="shift clickable"></td>
+				<td class="shift clickable"></td>
+				<td class="shift clickable"></td>
+				<td class="shift clickable"></td>
+				<td class="shift clickable"></td>
+				<td class="shift clickable"></td>
+				<td class="shift clickable"></td>
+				<td class="shift clickable"></td>
+				<td class="shift clickable"></td>
+				<td class="shift clickable"></td>
+			</tr>
+			<tr>
+				<td>2</td>
+				<td>鈴木 花子</td>
+				<td>キッチン</td>
+				<td class="shift clickable"></td>
+				<td class="shift clickable highlight"></td>
+				<td class="shift clickable"></td>
+				<td class="shift clickable"></td>
+				<td class="shift clickable"></td>
+				<td class="shift clickable"></td>
+				<td class="shift clickable"></td>
+				<td class="shift clickable"></td>
+				<td class="shift clickable"></td>
+				<td class="shift clickable"></td>
+				<td class="shift clickable"></td>
+				<td class="shift clickable"></td>
+				<td class="shift clickable"></td>
+				<td class="shift clickable"></td>
+				<td class="shift clickable"></td>
+			</tr>
+		</tbody>
+		</table>
+		</div>
 	</div>
+
 
 	<!-- JavaScript（モーダル制御） -->
 	<script>
@@ -180,6 +263,14 @@
 	      modal.style.display = "none";
 	    }
 	  }
+	  // クリックでハイライトを切り替える
+	  document.addEventListener('DOMContentLoaded', function () {
+	  	document.querySelectorAll('.shift.clickable').forEach(cell => {
+	  		cell.addEventListener('click', function () {
+	  			this.classList.toggle('highlight');
+	  		});
+	  	});
+	  });
 	</script>
 
 	
