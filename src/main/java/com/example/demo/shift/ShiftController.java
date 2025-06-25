@@ -27,6 +27,12 @@ public String submit(Model model) {
 	return "shift/shift-submit";
 	
 }
+//自分のシフトを確認する画面に入るログイン
+@RequestMapping("/personal")
+public String personal(Model model) {
+	return "shift/shiftpersonal";
+	
+}
 //自分のシフトを確認する画面
 @RequestMapping("/show")
 public String show(Model model) {

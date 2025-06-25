@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>店舗管理画面</title>
+    <style>
+        body { font-family: sans-serif; padding: 20px; }
+        table { border-collapse: collapse; width: 100%; margin-top: 20px; }
+        th, td { border: 1px solid #ccc; padding: 8px; text-align: left; }
+        th { background-color: #eee; }
+        tr.selected { background-color: #cceeff; }
+        .form-area { margin-bottom: 20px; }
+    </style>
+</head>
+<body>
+    <h1>店舗勤怠管理</h1>
+
+    <form th:action="@{/tenmanager/search}" method="get" class="form-area">
+        <label>年月：</label>
+        <input type="month" name="yearMonth" th:value="${searchYearMonth}" />
+
+        <label>日付：</label>
+        <input type="date" name="date" th:value="${searchDate}" />
+
+        <label>名前：</label>
+        <input type="text" name="name" th:value="${searchName}" />
+
+        <button type="submit">検索</button>
+    </form>
+
+    <form th:action="@{/edit}" method="get" id="editForm">
+        <input type="hidden" name="name" id="editName">
+        <input type="hidden" name="startTime" id="editStart">
+        <button type="submit" disabled id="editBtn">選択した行を編集</button>
+    </form>
+
+    <table>
+        <thead>
+            <tr>
+                <th>名前</th>
+                <th>出勤時刻</th>
+                <th>退勤時刻</th>
+                <th>勤務時間</th>
+            </tr>
+        </thead>
+        <tbody>
+			<tr th:each="k : ${kintaiList}"
+			    th:attr="onclick=|selectRow(this, '${k.name}', '${#temporals.format(k.startTime, 'yyyy-MM-dd HH:mm:ss')}')|">
+
+                <td th:text="${k.name}">佐藤 翔太</td>
+                <td th:text="${#temporals.format(k.startTime, 'yyyy-MM-dd HH:mm')}">2025-06-25 10:30</td>
+                <td th:text="${#temporals.format(k.endTime, 'yyyy-MM-dd HH:mm')}">2025-06-25 15:30</td>
+                <td th:text="${k.workTime}">5:00</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <script>
+        let selectedRow = null;
+        function selectRow(row, name, startTime) {
+            if (selectedRow) selectedRow.classList.remove('selected');
+            row.classList.add('selected');
+            selectedRow = row;
+
+       
+            document.getElementById('editName').value = name;
+            document.getElementById('editStart').value = startTime;
+
+           
+            document.getElementById('editBtn').disabled = false;
+        }
+    </script>
+</body>
+</html>
