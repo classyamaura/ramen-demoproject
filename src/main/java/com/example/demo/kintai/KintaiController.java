@@ -13,12 +13,19 @@ public class KintaiController {
 
 		return "kintai/Kintai_top";
 	}
-	//管理者ログイン画面
-	@RequestMapping("/login")
-	public String login(Model model) {
 
-		return "kintai/Kintai_login";
+	//管理者ログイン画面(店舗)
+	@RequestMapping("/logintenpo")
+	public String logintenpo(Model model) {
+
+		return "kintai/Kintai_logintenpo";
 	}
 
+	//管理者ログイン画面(本社)
+	@RequestMapping("/loginhonsya")
+	public String login(Model model) {
+
+		return "kintai/Kintai_loginhonsya";
+	}
 
 }
