@@ -107,16 +107,17 @@
 		</select>
 
 
-		<h2>2025年8月
-		<form th:action="@{/punch}" method="post">
-			<label for="user"></label>
-			<select name="user" id="user">
-				<option value="7月">7月</option>
-				<option value="8月">8月</option>
-				<option value="9月">9月</option>
-				<option value="10月">10月</option>
-	</h2>
-			</select>
+		<div style="display: flex; align-items: center; gap: 10px;">
+			  <h2 style="margin: 0;">2025年8月</h2>
+			  <form method="post">
+			    <select name="user" id="user">
+			      <option value="8月">8月</option>
+				  <option value="7月">7月</option>
+			      <option value="9月">9月</option>
+			      <option value="10月">10月</option>
+			    </select>
+			  </form>
+			</div>
 
 			<table>
 				<thead>
