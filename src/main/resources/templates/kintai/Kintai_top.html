@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>勤怠管理システム</title>
+    <style>
+        body { font-family: sans-serif; }
+        #status { margin-top: 1em; font-weight: bold; }
+    </style>
+</head>
+<body>
+    <h1>打刻してください</h1>
+
+    <label for="user">名前：</label>
+    <select id="user">
+        <option value="山田太郎">山田太郎</option>
+        <option value="佐藤花子">佐藤花子</option>
+        <option value="鈴木一郎">鈴木一郎</option>
+    </select>
+    <button id="punchBtn">打刻</button>
+
+    <p id="status"></p>
+
+    <br><br>
+
+    <!-- 管理者画面へボタン -->
+    <form th:action="@{/login}" method="get">
+        <button type="submit">店舗管理者画面へ</button>
+    </form>
+	
+	<form th:action="@{/login}" method="get">
+	       <button type="submit">本社管理画面へ</button>
+	   </form>
+
+    <script>
+        const statusMap = {};
+        const button = document.getElementById("punchBtn");
+        const userSelect = document.getElementById("user");
+        const statusText = document.getElementById("status");
+
+        button.addEventListener("click", () => {
+            const user = userSelect.value;
+            statusMap[user] = !statusMap[user];
+            const state = statusMap[user] ? "勤務中" : "退室中";
+            statusText.textContent = `${user}さんは現在「${state}」です。`;
+        });
+    </script>
+</body>
+</html>
