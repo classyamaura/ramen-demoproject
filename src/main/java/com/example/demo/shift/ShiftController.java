@@ -4,12 +4,19 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+
 @Controller
 public class ShiftController {
+	private ShiftDao shiftdao;
+
+	public ShiftController(ShiftDao shiftdao) {
+		this.shiftdao = shiftdao;
+
+	}
 
 
 //index画面
-@RequestMapping("/top")
+@RequestMapping("/shifttop")
 public String top(Model model) {
 	return "shift/shift-index";
 	

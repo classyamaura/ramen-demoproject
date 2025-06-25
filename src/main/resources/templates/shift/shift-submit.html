@@ -3,8 +3,239 @@
 <head>
 <meta charset="UTF-8">
 <title>シフト作成</title>
+<style>
+  table {
+	    border-collapse: collapse;
+	    width: 350px;
+	    border: 4px solid #333;
+	  }
+	  th, td {
+	    border: 1px solid #999;
+	    width: 50px;
+	    height: 50px;
+	    text-align: center;
+	    vertical-align: middle;
+	  }
+	  th {
+	    background-color: #f2f2f2;
+	  }
+	  .sunday {
+	    color: red;
+	  }
+	  .saturday {
+	    color: blue;
+	  }
+	  .holiday {
+	     color:red
+	     }
+
+	 .clickable:hover {
+		  background-color: #d0e7ff;
+		}
+		
+		/* モーダルスタイル */
+		    .modal {
+		      display: none;
+		      position: fixed;
+		      z-index: 10;
+		      left: 0;
+		      top: 0;
+		      width: 100%;
+		      height: 100%;
+		      overflow: auto;
+		      background-color: rgba(0,0,0,0.5);
+		    }
+		    .modal-content {
+		      background-color: #fff;
+		      margin: 15% auto;
+		      padding: 20px;
+		      border: 2px solid #666;
+		      width: 300px;
+		      text-align: center;
+		      border-radius: 10px;
+		    }
+		    .close {
+		      color: #aaa;
+		      float: right;
+		      font-size: 24px;
+		      font-weight: bold;
+		      cursor: pointer;
+		    }
+		    .close:hover {
+		      color: black;
+		    }
+	</style>
 </head>
 <body>
+	
+	
+	
+	
+	<form method="post">
+		       <label for="user">名前：</label>
+		       <select name="user" id="user">
+		           <option value="佐藤 翔太">佐藤 翔太</option>
+		           <option value="田中 美咲">田中 美咲</option>
+		           <option value="山本 健">山本 健</option>
+				   <option value="鈴木 彩乃">鈴木 彩乃</option>
+				   <option value="中村 大輔">中村 大輔</option>
+				   <option value="井上 由佳">井上 由佳</option>
+				   <option value="松本 陽平">松本 陽平</option>
+				   <option value="木村 奈々">木村 奈々</option>
+				   <option value="高橋 亮">高橋 亮</option>
+				   <option value="渡辺 真理">渡辺 真理</option>
+				   <option value="藤田 悠人">藤田 悠人</option>
+				   <option value="石井 結衣">石井 結衣</option>
+				   <option value="小林 翔">小林 翔</option>
+				   <option value="大野 沙羅">大野 沙羅</option>
+		       </select>
+	
 
+	<h2>2025年8月</h2>
+	<form th:action="@{/punch}" method="post">
+	      <label for="user"></label>
+	      <select name="user" id="user">
+			  <option value="8月">8月</option>
+	          <option value="9月">9月</option>
+	          <option value="10月">10月</option>
+			  
+	      </select>
+		
+	<table>
+	  <thead>
+	    <tr>
+	      <th class="sunday">日</th>
+	      <th>月</th>
+	      <th>火</th>
+	      <th>水</th>
+	      <th>木</th>
+	      <th>金</th>
+	      <th class="saturday">土</th>
+	    </tr>
+	  </thead>
+	  <tbody>
+	     <tr>
+	       <td class="sunday"></td>
+	       <td></td>
+	       <td></td>
+	       <td></td>
+	       <td></td>
+	       <td class="clickable" onclick="openModal()">1</td>
+	       <td class="saturday">2</td>
+	     </tr>
+	     <tr>
+	       <td class="sunday">3</td>
+	       <td>4</td>
+	       <td>5</td>
+	       <td>6</td>
+	       <td>7</td>
+	       <td>8</td>
+	       <td class="saturday">9</td>
+	     </tr>
+	     <tr>
+	       <td class="sunday">10</td>
+	       <td class="holiday">11</td>
+	       <td>12</td>
+	       <td>13</td>
+	       <td>14</td>
+	       <td>15</td>
+	       <td class="saturday">16</td>
+	     </tr>
+	     <tr>
+	       <td class="sunday">17</td>
+	       <td>18</td>
+	       <td>19</td>
+	       <td>20</td>
+	       <td>21</td>
+	       <td>22</td>
+	       <td class="saturday">23</td>
+	     </tr>
+	     <tr>
+	       <td class="sunday">24</td>
+	       <td>25</td>
+	       <td>26</td>
+	       <td>27</td>
+	       <td>28</td>
+	       <td>29</td>
+	       <td class="saturday">30</td>
+	     </tr>
+	     <tr>
+	       <td class="sunday">31</td>
+	       <td></td>
+	       <td></td>
+	       <td></td>
+	       <td></td>
+	       <td></td>
+	       <td class="saturday"></td>
+	     </tr>
+	   </tbody>
+	</table>
+	
+	<!-- モーダル本体 -->
+	<div id="modal" class="modal">
+	  <div class="modal-content">
+	    <span class="close" onclick="closeModal()">&times;</span>
+		<form method="post">
+				       <label for="user">出勤：</label>
+				       <select name="user" id="user">
+				           <option value="10:00">10:00</option>
+				           <option value="11:00">11:00</option>
+				           <option value="12:00">12:00</option>
+						   <option value="13:00">13:00</option>
+						   <option value="14:00">14:00</option>
+						   <option value="15:00">15:00</option>
+						   <option value="16:00">16:00</option>
+						   <option value="17:00">17:00</option>
+						   <option value="18:00">18:00</option>
+						   <option value="19:00">19:00</option>
+						   <option value="20:00">20:00</option>
+						   <option value="21:00">21:00</option>
+						   <option value="22:00">22:00</option>
+						   <option value="23:00">23:00</option>
+						   <option value="24:00">24:00</option>
+				       </select>
+					   <form method="post">
+					   				       <label for="user">退勤：</label>
+					   				       <select name="user" id="user">
+					   				           <option value="10:00">10:00</option>
+					   				           <option value="11:00">11:00</option>
+					   				           <option value="12:00">12:00</option>
+					   						   <option value="13:00">13:00</option>
+					   						   <option value="14:00">14:00</option>
+					   						   <option value="15:00">15:00</option>
+					   						   <option value="16:00">16:00</option>
+					   						   <option value="17:00">17:00</option>
+					   						   <option value="18:00">18:00</option>
+					   						   <option value="19:00">19:00</option>
+					   						   <option value="20:00">20:00</option>
+					   						   <option value="21:00">21:00</option>
+					   						   <option value="22:00">22:00</option>
+					   						   <option value="23:00">23:00</option>
+					   						   <option value="24:00">24:00</option>
+					   				       </select>
+	    <input type = text placeholder="備考欄"><button>登録</button></input>
+	  </div>
+	</div>
+
+	<!-- JavaScript（モーダル制御） -->
+	<script>
+	  function openModal() {
+	    document.getElementById("modal").style.display = "block";
+	  }
+	  function closeModal() {
+	    document.getElementById("modal").style.display = "none";
+	  }
+	  // モーダル外クリックで閉じる
+	  window.onclick = function(event) {
+	    const modal = document.getElementById("modal");
+	    if (event.target === modal) {
+	      modal.style.display = "none";
+	    }
+	  }
+	</script>
+
+	
 </body>
+</head>
+
 </html>
