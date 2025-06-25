@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>本社向け発注データ一覧</title>
+<style>
+    body {
+        font-family: sans-serif;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        margin-top: 20px;
+    }
+    h2 {
+        margin-bottom: 30px;
+    }
+    .order-container {
+        border: 1px solid #ccc;
+        padding: 20px;
+        margin-bottom: 30px;
+        width: 80%;
+        max-width: 800px;
+        box-shadow: 2px 2px 8px rgba(0,0,0,0.1);
+    }
+    .order-header {
+        margin-bottom: 15px;
+    }
+    .order-header p {
+        margin: 5px 0;
+    }
+    table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-top: 15px;
+    }
+    th, td {
+        border: 1px solid #ddd;
+        padding: 8px;
+        text-align: left;
+    }
+    th {
+        background-color: #f2f2f2;
+    }
+    .back-button-container {
+        width: 80%;
+        max-width: 800px;
+        text-align: left;
+        margin-bottom: 20px;
+    }
+    .back-button {
+        padding: 10px 20px;
+        font-size: 16px;
+        cursor: pointer;
+    }
+    .create-external-order-button-container {
+        width: 80%;
+        max-width: 800px;
+        text-align: center;
+        margin-top: 50px;
+    }
+    .create-external-order-button {
+        padding: 15px 30px;
+        font-size: 20px;
+        cursor: pointer;
+        background-color: #555555;
+        color: #ffffff;
+        border: none;
+        border-radius: 5px;
+        text-decoration: none;
+        transition: background-color 0.3s ease;
+    }
+    .create-external-order-button:hover {
+        background-color: #333333;
+    }
+</style>
+</head>
+<body>
+
+    <h2>本社向け発注データ一覧</h2>
+
+    <div th:if="${mainOrders.isEmpty()}">
+        <p>登録された発注データはありません。</p>
+    </div>
+
+    <div th:each="mainOrder : ${mainOrders}" class="order-container">
+        <div class="order-header" onclick="toggleOrderDetails(this)" style="cursor: pointer;">
+            <p><strong>発注ID:</strong> <span th:text="${mainOrder.orderId}"></span></p>
+            <p><strong>店舗名:</strong> <span th:text="${mainOrder.storeName}"></span></p>
+        </div>
+        <div class="order-details-content" style="display: none;">
+            <p><strong>担当者:</strong> <span th:text="${mainOrder.personInCharge}"></span></p>
+            <p><strong>発注日:</strong> <span th:text="${mainOrder.orderDate}"></span></p>
+            <p><strong>備考:</strong> <span th:text="${mainOrder.remarks}"></span></p>
+
+            <h3>発注明細</h3>
+            <table>
+                <thead>
+                    <tr>
+                        <th>明細ID</th>
+                        <th>品目名</th>
+                        <th>発注量 (個)</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr th:each="detail : ${orderDetailsMap.get(mainOrder.orderId)}">
+                        <td th:text="${detail.orderDetailId}"></td>
+                        <td th:text="${detail.itemName}"></td>
+                        <td th:text="${detail.quantity}"></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <h2 style="margin-top: 50px;">全店舗合計発注数</h2>
+    <div th:if="${totalOrderQuantities.isEmpty()}">
+        <p>合計発注データはありません。</p>
+    </div>
+    <div th:unless="${totalOrderQuantities.isEmpty()}" class="order-container">
+        <table>
+            <thead>
+                <tr>
+                    <th>品目名</th>
+                    <th>合計発注量 (個)</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr th:each="item : ${totalOrderQuantities}">
+                    <td th:text="${item.itemName}"></td>
+                    <td th:text="${item.totalQuantity}"></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div class="create-external-order-button-container" style="margin-top: 50px;">
+        <a href="/order_form" class="create-external-order-button">対外発注書の作成</a>
+    </div>
+
+    <script>
+        function toggleOrderDetails(headerElement) {
+            const content = headerElement.nextElementSibling; // order-details-content
+            if (content.style.display === "none") {
+                content.style.display = "block";
+            } else {
+                content.style.display = "none";
+            }
+        }
+    </script>
+</body>
+</html>

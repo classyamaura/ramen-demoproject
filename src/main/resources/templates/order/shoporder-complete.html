@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>発注完了</title>
+<style>
+    body {
+        font-family: sans-serif;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        min-height: 100vh;
+        margin: 0;
+        background-color: #f0f0f0; /* Light gray background */
+    }
+    .container {
+        background-color: #ffffff; /* White background for container */
+        padding: 40px 60px;
+        border-radius: 8px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+        text-align: center;
+    }
+    h2 {
+        color: #333333; /* Dark gray for heading */
+        margin-bottom: 20px;
+    }
+    p {
+        font-size: 18px;
+        color: #555555; /* Medium gray for paragraph */
+        margin-bottom: 30px;
+    }
+    .back-button {
+        padding: 12px 25px;
+        font-size: 18px;
+        color: #ffffff; /* White text for button */
+        background-color: #666666; /* Dark gray for button */
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        text-decoration: none;
+        transition: background-color 0.3s ease;
+    }
+    .back-button:hover {
+        background-color: #444444; /* Even darker gray on hover */
+    }
+</style>
+</head>
+<body>
+    <div class="container">
+        <h2>発注が完了しました！</h2>
+        <p>発注データが正常に登録されました。</p>
+        <a href="/stockmanagement" class="back-button">在庫確認画面に戻る</a>
+    </div>
+</body>
+</html> 
