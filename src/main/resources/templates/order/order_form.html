@@ -41,16 +41,32 @@
 		padding: 20px 10px; /* セル内の上下の余白を20px、左右の余白を10pxに設定 */
 		 line-height: 1.5; /* 行間を1.5倍に設定 */
 	   }
+	 .bikou1 th {
+	    text-align: left;
+	   }
 	h3 {
-	      text-align: center;
+	      align-self: center;
 	      font-size: 1.2em;
 	      margin: 0;
 	    }
-	.ichi {
-	      text-align: right;
-	      font-size: 0.9em;
-	      margin: 0;
-	    }
+		.header-row {
+		   display: flex;
+		   width: 100%;
+		   justify-content: flex-end;
+		  
+		 }
+
+		 .ichi {
+		   font-size: 0.9em;
+		   margin: 0;
+		 }
+		 
+		 .header-row, .ichi {
+		   writing-mode: horizontal-tb; /* 横書きモードに設定 */
+		 }
+
+		
+
 	.ni {
 	      text-align: left;
 	      font-size: 0.9em;
@@ -70,15 +86,32 @@
 	    padding-bottom: 2px;
 		width:300px;
 		}
+		
 	form {
+		display: flex;
+		width: 100%;
+ 	    justify-content: flex-end;
+	}
+	
+	.wrapper {
 	  display: flex;
+	  flex-direction: column;        /* 縦に積むレイアウト */
+	  align-items: flex-start;           /* 横方向の中央寄せ */
 	  justify-content: flex-end;
+	  max-width: 800px;              /* 用紙幅に合わせて調整 */
+	  margin: 0 auto;                /* 横方向の自動余白で中央配置 */
+	  padding: 10px;                 /* 余白を少し追加 */
+	  box-sizing: border-box;
 	}
     </style>
 </head>
 <body>
+	<div class="wrapper">
 	<h3>発注書</h3>
-	<h4 class="ichi">御中</h4>
+	<div class="header-row">
+	      <div class="header-space"></div>
+	      <h4 class="ichi">御中</h4>
+	    </div>
 	<h4 class="ni">件名:</h4>
 	
 	<p>下記のとおり、発注いたします。</p>
@@ -171,9 +204,9 @@
 	   </table>
 	   
 	   <table>
-       <thead>
+       <thead class="bikou1">
            <tr>
-               <th>備考</th>
+               <th>備考：</th>
            </tr>
        </thead>
 	   <tbody class="bikou">
@@ -184,8 +217,10 @@
 	   </table>
 
 	   <form>
-	     <input type="submit" value="送信">
+		<div class="form-wrapper">
+	     <input type="submit" value="送信" class="right-float">
+		</div>
 	   </form>
-	   
+	</div> 
 </body>
 </html>
