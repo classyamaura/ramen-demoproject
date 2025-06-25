@@ -64,6 +64,13 @@
         padding: 8px 15px;
         font-size: 16px;
     }
+    .order-status {
+        width: 30px;
+        text-align: center;
+        font-size: 24px;
+        color: green; /* チェックマークの色 */
+        display: none; /* 初期は非表示 */
+    }
     .create-order-button {
         margin-top: 30px;
         padding: 15px 30px;
@@ -79,71 +86,127 @@
 
     <h2>在庫管理画面</h2>
 
-    <div th:each="item : ${items}" class="item-row">
+    <div th:each="item : ${items}" class="item-row" th:data-item-name="${item.name}" th:data-item-weight="${item.weight}">
         <div class="item-name" th:text="${item.name}">品目名</div>
         <div class="item-status-symbol" th:text="${item.statusSymbol}">〇</div>
         <div class="item-weight">重さ: <span th:text="${item.weight}"></span>g</div>
         <div class="item-unit">個数: <span th:text="${#numbers.formatDecimal(item.calculatedUnit, 0, 1)}"></span></div>
         <div class="item-order-quantity">
-            発注量: <input type="number" value="0" min="0"/>個
+            発注量: <input type="number" value="0" min="0" class="order-quantity-input"/>個
         </div>
         <div class="item-button">
-            <button>発注</button>
+            <button class="order-button">発注</button>
         </div>
+        <div class="order-status">&#10003;</div> <!-- チェックマーク用の要素 -->
     </div>
 
     <!-- 仮のデータ表示例 (Thymeleafループの代わりに、${items}が存在しない場合に表示されます) -->
-    <div class="item-row" th:unless="${items}">
+    <div class="item-row" th:unless="${items}" data-item-name="麺A" data-item-weight="1000">
         <div class="item-name">麺A</div>
         <div class="item-status-symbol">〇</div>
         <div class="item-weight">重さ: 1000g</div>
         <div class="item-unit">個数: 0.2</div>
         <div class="item-order-quantity">
-            発注量: <input type="number" value="0" min="0"/>個
+            発注量: <input type="number" value="0" min="0" class="order-quantity-input"/>個
         </div>
         <div class="item-button">
-            <button>発注</button>
+            <button class="order-button">発注</button>
         </div>
+        <div class="order-status">&#10003;</div>
     </div>
-    <div class="item-row" th:unless="${items}">
+    <div class="item-row" th:unless="${items}" data-item-name="麺B" data-item-weight="1200">
         <div class="item-name">麺B</div>
         <div class="item-status-symbol">〇</div>
         <div class="item-weight">重さ: 1200g</div>
         <div class="item-unit">個数: 0.2</div>
         <div class="item-order-quantity">
-            発注量: <input type="number" value="0" min="0"/>個
+            発注量: <input type="number" value="0" min="0" class="order-quantity-input"/>個
         </div>
         <div class="item-button">
-            <button>発注</button>
+            <button class="order-button">発注</button>
         </div>
+        <div class="order-status">&#10003;</div>
     </div>
-    <div class="item-row" th:unless="${items}">
+    <div class="item-row" th:unless="${items}" data-item-name="麺C" data-item-weight="800">
         <div class="item-name">麺C</div>
         <div class="item-status-symbol">△</div>
         <div class="item-weight">重さ: 800g</div>
         <div class="item-unit">個数: 0.1</div>
         <div class="item-order-quantity">
-            発注量: <input type="number" value="0" min="0"/>個
+            発注量: <input type="number" value="0" min="0" class="order-quantity-input"/>個
         </div>
         <div class="item-button">
-            <button>発注</button>
+            <button class="order-button">発注</button>
         </div>
+        <div class="order-status">&#10003;</div>
     </div>
-    <div class="item-row" th:unless="${items}">
+    <div class="item-row" th:unless="${items}" data-item-name="チャーシュー" data-item-weight="500">
         <div class="item-name">チャーシュー</div>
         <div class="item-status-symbol">◎</div>
         <div class="item-weight">重さ: 500g</div>
         <div class="item-unit">個数: 0.1</div>
         <div class="item-order-quantity">
-            発注量: <input type="number" value="0" min="0"/>個
+            発注量: <input type="number" value="0" min="0" class="order-quantity-input"/>個
         </div>
         <div class="item-button">
-            <button>発注</button>
+            <button class="order-button">発注</button>
         </div>
+        <div class="order-status">&#10003;</div>
     </div>
 
 
     <button class="create-order-button">発注書を作成</button>
 
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const orderButtons = document.querySelectorAll('.order-button');
+            const createOrderButton = document.querySelector('.create-order-button');
+            let orderedItems = [];
+
+            orderButtons.forEach(button => {
+                button.addEventListener('click', function() {
+                    const itemRow = this.closest('.item-row');
+                    const itemName = itemRow.dataset.itemName;
+                    const itemWeight = itemRow.dataset.itemWeight; // 重さを取得
+                    const orderQuantityInput = itemRow.querySelector('.order-quantity-input');
+                    const orderQuantity = parseInt(orderQuantityInput.value, 10);
+                    const orderStatusDiv = itemRow.querySelector('.order-status');
+
+                    if (orderQuantity > 0) {
+                        // 発注情報を追加または更新
+                        const existingItemIndex = orderedItems.findIndex(item => item.name === itemName);
+                        if (existingItemIndex > -1) {
+                            orderedItems[existingItemIndex].quantity = orderQuantity;
+                        } else {
+                            orderedItems.push({
+                                name: itemName,
+                                quantity: orderQuantity,
+                                weight: itemWeight
+                            });
+                        }
+                        orderStatusDiv.style.display = 'block'; // チェックマークを表示
+                        alert(`${itemName} を ${orderQuantity} 個発注しました。`);
+                    } else {
+                        // 発注量が0の場合、チェックマークを非表示にし、リストから削除
+                        const existingItemIndex = orderedItems.findIndex(item => item.name === itemName);
+                        if (existingItemIndex > -1) {
+                            orderedItems.splice(existingItemIndex, 1);
+                        }
+                        orderStatusDiv.style.display = 'none';
+                        alert('発注量は0より大きい値にしてください。');
+                    }
+                });
+            });
+
+            createOrderButton.addEventListener('click', function() {
+                if (orderedItems.length > 0) {
+                    sessionStorage.setItem('orderedItems', JSON.stringify(orderedItems));
+                    window.location.href = '/orderdata-registration';
+                } else {
+                    alert('発注する品目を選択してください。');
+                }
+            });
+        });
+    </script>
 </body>
 </html>

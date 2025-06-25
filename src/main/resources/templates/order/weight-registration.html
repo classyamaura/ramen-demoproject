@@ -83,7 +83,7 @@
                 <input type="number" id="thresholdWeight" name="thresholdWeight" min="0" required>
             </div>
 
-            <button type="submit" class="submit-button">センサー情報を登録</button>
+            <button type="submit" class="submit-button">重量を登録</button>
         </form>
     </div>
 
@@ -108,7 +108,7 @@
                     <td style="padding: 8px; text-align: left;" th:text="${sensor.thresholdWeight}"></td>
                 </tr>
                 <tr th:if="${#lists.isEmpty(weightSensors)}">
-                    <td colspan="5" style="padding: 8px; text-align: center;">登録されているセンサー情報はありません。</td>
+                    <td colspan="5" style="padding: 8px; text-align: center;">登録されている重量はありません。</td>
                 </tr>
             </tbody>
         </table>
