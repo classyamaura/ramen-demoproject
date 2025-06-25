@@ -9,6 +9,7 @@
 	    border-collapse: collapse;
 	    width: 350px;
 	    border: 4px solid #333;
+		margin: 20px auto; 
 	  }
 	  th, td {
 	    border: 1px solid #999;
@@ -47,15 +48,16 @@
 		      background-color: rgba(0,0,0,0.5);
 		    }
 			.modal-content {
-			    background-color: #fff;
-			    margin: 5% auto;
-			    padding: 30px;
-			    border: 2px solid #666;
-			    width: 90%;
-			    max-width: 1000px;
-			    text-align: center;
-			    border-radius: 10px;
-			  }
+			  background-color: #fff;
+			  margin: 5% auto;
+			  padding: 20px;
+			  border: 2px solid #666;
+			  width: 95%;
+			  max-width: 800px;
+			  text-align: center;
+			  border-radius: 10px;
+			  overflow-x: auto;  /* 横スクロール対応 */
+			}
 		    .close {
 		      color: #aaa;
 		      float: right;
@@ -70,17 +72,20 @@
 			      background-color: #ffff99; /* 明るい黄色 */
 			    }
 				
-				/* モーダル内のテーブル全体に適用 */
+				/* テーブルの枠線をしっかり表示、幅制限 */
 				.modal-content table {
 				  border-collapse: collapse;
 				  width: 100%;
-				  table-layout: fixed; /* ← 全体の幅バランスを固定 */
+				  min-width: 600px; /* 最小幅を設定（必要に応じて調整） */
+				  table-layout: auto;
+				  font-size: 0.85rem; /* 少し小さめに */
 				}
 
 				.modal-content th, .modal-content td {
 				  border: 1px solid #999;
-				  padding: 5px;
+				  padding: 4px;
 				  text-align: center;
+				  white-space: nowrap;
 				}
 
 				/* 氏名列を広めに */
@@ -89,7 +94,7 @@
 				  width: 120px;
 				}
 
-				/* 担当業務列も少し広めに */
+				/* 担当業務列を広めに */
 				.modal-content td:nth-child(3),
 				.modal-content th:nth-child(3) {
 				  width: 100px;
@@ -97,19 +102,22 @@
 	</style>
 </head>
 <body>
-	<h1>シフト一覧（原案）</h1>
-	<button>完成（確定画面へ）</button>
-	
+	<div style="max-width: 1000px; margin: 0 auto; text-align: center;">
 
-	<h2>2025年8月</h2>
-	<form th:action="@{/punch}" method="post">
-	      <label for="user"></label>
-	      <select name="user" id="user">
-			  <option value="8月">8月</option>
+	    <h1>シフト一覧（原案）</h1>
+	    <button>完成（確定画面へ）</button>
+
+	    <div style="display: flex; justify-content: center; align-items: center; gap: 10px;">
+	      <h2 style="margin: 0;">2025年8月</h2>
+	      <form method="post">
+	        <select name="user" id="user">
+	          <option value="8月">8月</option>
+			  <option value="7月">7月</option>
 	          <option value="9月">9月</option>
 	          <option value="10月">10月</option>
-			  
-	      </select>
+	        </select>
+	      </form>
+	    </div>
 		
 	<table>
 	  <thead>
@@ -186,7 +194,7 @@
 	  <div class="modal-content">
 	    <span class="close" onclick="closeModal()">&times;</span>
 	    <h3>2025年8月1日</h3>
-	    <p>シフトを選択してください：</p>
+	    <p>シフトを選択してください</p>
 
 	
 	<!-- モーダル内シフト表 -->
@@ -204,7 +212,7 @@
 		<tbody>
 			<tr>
 				<td>1</td>
-				<td>山田 太郎</td>
+				<td>佐藤翔太</td>
 				<td>受付</td>
 				<td class="shift clickable highlight"></td>
 				<td class="shift clickable"></td>
@@ -224,7 +232,7 @@
 			</tr>
 			<tr>
 				<td>2</td>
-				<td>鈴木 花子</td>
+				<td>田中美咲</td>
 				<td>キッチン</td>
 				<td class="shift clickable"></td>
 				<td class="shift clickable highlight"></td>
@@ -244,6 +252,7 @@
 			</tr>
 		</tbody>
 		</table>
+		<button onclick="saveShift()" style="margin-top: 20px; padding: 8px 16px; font-size: 1rem;">変更を保存</button>
 		</div>
 	</div>
 
@@ -271,6 +280,11 @@
 	  		});
 	  	});
 	  });
+	  
+	  function saveShift() {
+	      alert("シフトの変更を保存しました！");
+	      // 必要ならここでデータ送信や保存処理を追加
+	    }
 	</script>
 
 	
