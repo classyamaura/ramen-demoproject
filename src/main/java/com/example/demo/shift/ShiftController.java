@@ -34,4 +34,10 @@ public String manage(Model model) {
 	return "shift/shift-manage";
 }
 
+//管理者シフト一覧（原案）
+@RequestMapping("/genan")
+public String genan(Model model) {
+	return "shift/shift-genan";
+}
+
 }
