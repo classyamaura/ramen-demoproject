@@ -4,26 +4,57 @@
 <meta charset="UTF-8">
 <title>楽々シフト管理</title>
 <style>
-	h1{
-		text-align: center;
-	}
-	
-	#option{
-		text-align: center;	
-	}
-	
-	button{
-		font-size: 20px; 
-		padding: 15px 30px
-	}
-	
-	p{
-		padding: 10px;
-		width: 100%; 
-		
-		
-	}
-	
+  /* 全体レイアウト */
+  html, body {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+  }
+  body {
+    background-color: #f7e2c6;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    font-family: sans-serif;
+    text-align: center;
+  }
+
+  h1 {
+    color: rgba(0,0,0,0.87);
+    margin-bottom: 1em;
+  }
+
+  #option {
+	display: flex;
+	 flex-direction: column; /* 縦方向に並べる */
+	 align-items: center;
+	 gap: 0.01em;  /* ここを小さく調整（例：1.5em → 0.75em） */
+	 width: 100%;
+	 padding: 0 20px;
+	 box-sizing: border-box;
+  }
+
+  /* ボタン共通スタイル */
+  button {
+    background-color: white;
+    color: orange;
+    border: none;
+    padding: 15px 30px;
+    font-size: 1.2rem;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.1s ease;
+    min-width: 240px;
+  }
+  button:hover {
+    background-color: #ffe5b4;
+    transform: scale(1.02);
+  }
+
+  a {
+    text-decoration: none;
+  }
 </style>
 
 </head>
