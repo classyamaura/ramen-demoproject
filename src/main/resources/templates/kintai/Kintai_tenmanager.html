@@ -23,7 +23,15 @@
         <input type="date" name="date" th:value="${searchDate}" />
 
         <label>名前：</label>
-        <input type="text" name="name" th:value="${searchName}" />
+		<select name="name">
+		    <option value="">--選択--</option>
+		    <option th:each="n : ${nameList}"
+		            th:value="${n}"
+		            th:text="${n}"
+		            th:selected="${n == searchName}">
+		    </option>
+		</select>
+        
 
         <button type="submit">検索</button>
     </form>
@@ -50,7 +58,7 @@
                 <td th:text="${k.name}">佐藤 翔太</td>
                 <td th:text="${#temporals.format(k.startTime, 'yyyy-MM-dd HH:mm')}">2025-06-25 10:30</td>
                 <td th:text="${#temporals.format(k.endTime, 'yyyy-MM-dd HH:mm')}">2025-06-25 15:30</td>
-                <td th:text="${k.workTime}">5:00</td>
+                <td th:text="${k.workDurationStr}">5時間0分</td>
             </tr>
         </tbody>
     </table>

@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="ja">
+<html lang="ja" xmlns:th="http://www.thymeleaf.org">
 <head>
   <meta charset="UTF-8" />
   <title>詳細編集</title>
@@ -18,6 +18,7 @@
       margin-top: 10px;
     }
     input[type="time"],
+    input[type="text"],
     select {
       width: 200px;
       padding: 5px;
@@ -37,45 +38,73 @@
 <body>
   <h1>詳細編集</h1>
 
-  <div>
-    <label>支店名：</label>
-    <span>東京支店</span>
-  </div>
+  <form th:action="@{/tenpoedit/confirm}" method="post">
+    <!-- 名前 -->
+    <div>
+      <label>名前：</label>
+      <span th:text="${kintai.name}">山田 太郎</span>
+      <input type="hidden" name="name" th:value="${kintai.name}" />
+    </div>
 
-  <div>
-    <label>名前：</label>
-    <span>山田 太郎</span>
-  </div>
+    <!-- 日付 -->
+    <div>
+      <label>日付：</label>
+      <span th:text="${#temporals.format(kintai.startTime, 'yyyy-MM-dd')}">2025-06-25</span>
+      <input type="hidden" name="date" th:value="${#temporals.format(kintai.startTime, 'yyyy-MM-dd')}" />
+    </div>
 
-  <div>
-    <label>日付：</label>
-    <span>2025-06-25</span>
-  </div>
+    <!-- 出勤時間 -->
+    <div>
+      <label for="startTime">出勤時間：</label>
+      <input type="time" id="startTime" name="startTime" th:value="${#temporals.format(kintai.startTime, 'HH:mm')}" />
+    </div>
 
-  <div>
-    <label for="startTime">出勤時間：</label>
-    <input type="time" id="startTime" name="startTime" value="09:00" />
-  </div>
+    <!-- 退勤時間 -->
+    <div>
+      <label for="endTime">退勤時間：</label>
+      <input type="time" id="endTime" name="endTime" th:value="${#temporals.format(kintai.endTime, 'HH:mm')}" />
+    </div>
 
-  <div>
-    <label for="endTime">退勤時間：</label>
-    <input type="time" id="endTime" name="endTime" value="18:00" />
-  </div>
+    <!-- 修正理由 -->
+    <div>
+      <label for="reason">修正理由：</label>
+      <select id="reason" name="reason" onchange="toggleOtherReason()">
+        <option value="">-- 選択してください --</option>
+        <option value="before_work">出勤前業務あり</option>
+        <option value="after_work">退勤後業務あり</option>
+        <option value="stamp_fix">打刻ミスの修正</option>
+        <option value="other">その他</option>
+      </select>
+    </div>
 
-  <div>
-    <label for="reason">修正理由：</label>
-    <select id="reason" name="reason">
-      <option value="">-- 選択してください --</option>
-      <option value="before_work">出勤前業務あり</option>
-      <option value="after_work">退勤後業務あり</option>
-      <option value="stamp_fix">打刻ミスの修正</option>
-      <option value="other">その他</option>
-    </select>
-  </div>
+    <!-- その他 -->
+    <div id="otherReasonDiv" style="display: none; margin-top: 10px;">
+      <label for="otherReason">理由：</label>
+      <input type="text" id="otherReason" name="otherReason" />
+    </div>
 
-  <div class="buttons">
-    <button type="button" onclick="alert('確認ボタンが押されました');">確認</button>
-    <button type="button" onclick="history.back();">キャンセル</button>
-  </div>
+    <!-- ボタン -->
+    <div class="buttons">
+      <button type="submit">確認</button>
+      <button type="button" onclick="history.back();">キャンセル</button>
+    </div>
+  </form>
+
+  <script>
+    function toggleOtherReason() {
+      const reason = document.getElementById('reason').value;
+      const otherDiv = document.getElementById('otherReasonDiv');
+      const otherInput = document.getElementById('otherReason');
+      
+      if (reason === 'other') {
+        otherDiv.style.display = 'block';
+        otherInput.disabled = false;
+      } else {
+        otherDiv.style.display = 'none';
+        otherInput.disabled = true;
+        otherInput.value = '';
+      }
+    }
+  </script>
 </body>
 </html>
