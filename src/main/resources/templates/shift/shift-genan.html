@@ -537,12 +537,11 @@
 		generateCalendar(); // Now generateCalendar just renders, no redirect
 
 		// 初期表示用のシフトサマリーテーブルをレンダリング
-		const today = new Date();
-		const fullDateToday = `${today.getFullYear()}-${String(today.getMonth() + 1).padStart(2, '0')}-${String(today.getDate()).padStart(2, '0')}`;
-		renderShiftSummaryTable(fullDateToday, shiftsForSelectedDate); // Controllerから渡された初期データを使用
+		const defaultSummaryDate = `${currentYear}-08-01`; // デフォルトを8月1日に設定
+		renderShiftSummaryTable(defaultSummaryDate, shiftsForSelectedDate); // Controllerから渡された初期データを使用
 
 		// summaryDateInputの初期値を設定
-		summaryDateInput.value = fullDateToday; // 今日の日付をデフォルトで表示
+		summaryDateInput.value = defaultSummaryDate; // 8月1日をデフォルトで表示
 
 		// ログアウト処理の仮実装
 		const outSelect = document.getElementById('out');

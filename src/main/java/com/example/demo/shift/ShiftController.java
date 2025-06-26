@@ -140,10 +140,11 @@ public class ShiftController {
 		model.addAttribute("shiftsForMonth", shiftsForMonth);
 
 		// 今日の日付の全スタッフのシフト情報を取得し、モデルに追加
-		Date today = Date.valueOf(LocalDate.now()); // 初期表示を現在の日付に設定
-		List<ShiftEntity> shiftsForToday = shiftdao.findShiftsByDate(today);
+		// Date today = Date.valueOf(LocalDate.now()); // この行は削除またはコメントアウト
+		Date defaultSummaryDate = Date.valueOf(LocalDate.of(currentYear, currentMonth, 1)); // デフォルトを現在の年の8月1日に設定
+		List<ShiftEntity> shiftsForToday = shiftdao.findShiftsByDate(defaultSummaryDate);
 		model.addAttribute("shiftsForSelectedDate", shiftsForToday); // 新しく追加するモデル属性
-		model.addAttribute("selectedDateDisplay", LocalDate.now().getMonthValue() + "月" + LocalDate.now().getDayOfMonth() + "日"); // 表示用の日付
+		model.addAttribute("selectedDateDisplay", currentMonth + "月" + 1 + "日"); // 表示用の日付を8月1日に設定
 
 		model.addAttribute("currentYear", currentYear);
 		model.addAttribute("currentMonth", currentMonth);
