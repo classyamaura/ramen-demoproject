@@ -5,7 +5,10 @@
 	  <meta charset="UTF-8">
 	  <title>楽々シフト管理</title>
 	  <style>
-	    table { border-collapse: collapse; width: 100%; max-width: 800px; margin: 20px auto; }
+		body{
+			background-color: #f7e2c6;
+		}
+	    table { border-collapse: collapse; width: 100%; max-width: 800px; margin: 20px auto; background-color: white;}
 	    th, td { border: 1px solid #aaa; width: 14.28%; height: 80px; vertical-align: top; text-align: right; padding: 5px; cursor: pointer; }
 	    th { background-color: #f0f0f0; }
 
@@ -36,6 +39,26 @@
 		#button{
 			text-align: right;
 		}
+		
+		.but1{
+			background-color: whitesmoke;
+			    color: rgba(0, 0, 0, 0.87);
+			    border: none;
+			    padding: 12px 20px;
+			    font-size: 1rem;
+			    border-radius: 8px;
+			    cursor: pointer;
+			    transition: background-color 0.3s ease, transform 0.1s ease;
+			    min-width: 140px;
+			    display: inline-block;
+			    margin: 0; /* margin は必要に応じて調整 */
+		}
+		
+		.but1:hover{
+			background-color: orange;
+			    transform: scale(1.02);
+		}
+		
 	  </style>
 	</head>
 	<body>
@@ -64,9 +87,9 @@
 	
 	<div id="button">
 		<a href= "/genan">
-			<button>編集に戻る</button>
+			<button class="but1">編集に戻る</button>
 		</a>
-		<button>通知・印刷</button>
+		<button class="but1">通知・印刷</button>
 	</div>
 
 	<!-- モーダル -->
