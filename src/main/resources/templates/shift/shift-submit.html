@@ -3,7 +3,7 @@
 
 <head>
 	<meta charset="UTF-8">
-	<title>シフト作成</title>
+	<title>楽々シフト管理</title>
 	<style>
 		table {
 			border-collapse: collapse;
@@ -197,6 +197,8 @@
 					<form method="post">
 						<label for="user">出勤：</label>
 						<select name="user" id="user">
+							<option value="----">----</option>
+							<option value="9:00">9:00</option>
 							<option value="10:00">10:00</option>
 							<option value="11:00">11:00</option>
 							<option value="12:00">12:00</option>
@@ -216,6 +218,8 @@
 					<form method="post">
 						<label for="user">退勤：</label>
 						<select name="user" id="user">
+							<option value="----">----</option>
+							<option value="9:00">9:00</option>
 							<option value="10:00">10:00</option>
 							<option value="11:00">11:00</option>
 							<option value="12:00">12:00</option>
@@ -252,10 +256,7 @@
 				}
 			</script>
 
-	<a href = "/manage">
-		<button>管理者ログインへ</button>
-	</a>
-
+	
 </body>
 
 
