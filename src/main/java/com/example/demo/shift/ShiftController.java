@@ -34,11 +34,19 @@ public class ShiftController {
 
 	//シフト提出画面 (登録用)
 	@GetMapping("/submit")
-	public String submit(Model model) {
+	public String submit(Model model,
+	                     @RequestParam(value = "year", required = false) Integer yearParam,
+	                     @RequestParam(value = "month", required = false) Integer monthParam) {
+	    
+	    int currentYear = (yearParam != null) ? yearParam : java.time.LocalDate.now().getYear();
+	    int currentMonth = (monthParam != null) ? monthParam : 8; // デフォルトを8月 (August) に設定
+
 	    List<StaffEntity> staffList = shiftdao.findAllStaff();
-	    List<ShiftEntity> shiftsForMonth = shiftdao.findShiftsByMonthAndYear(java.time.LocalDate.now().getYear(), java.time.LocalDate.now().getMonthValue());
+	    List<ShiftEntity> shiftsForMonth = shiftdao.findShiftsByMonthAndYear(currentYear, currentMonth);
 	    model.addAttribute("staffList", staffList);
 	    model.addAttribute("shiftsForMonth", shiftsForMonth);
+	    model.addAttribute("currentYear", currentYear);
+	    model.addAttribute("currentMonth", currentMonth);
 		return "shift/shift-submit";
 
 	}
@@ -116,24 +124,29 @@ public class ShiftController {
 
 	//管理者シフト一覧（原案）- シフトカレンダー表示 (編集用)
 	@GetMapping("/genan")
-	public String genan(Model model) {
+	public String genan(Model model,
+	                    @RequestParam(value = "year", required = false) Integer yearParam,
+	                    @RequestParam(value = "month", required = false) Integer monthParam) {
+
 		List<StaffEntity> staffList = shiftdao.findAllStaff();
 		model.addAttribute("staffList", staffList);
 
-		// 現在の年と月を取得
-		LocalDate now = LocalDate.now(); // 初期表示を現在の日付に設定
-		int currentYear = now.getYear();
-		int currentMonth = now.getMonthValue();
+		// 現在の年と月を取得 (またはパラメータから取得)
+		int currentYear = (yearParam != null) ? yearParam : LocalDate.now().getYear();
+		int currentMonth = (monthParam != null) ? monthParam : 8; // デフォルトを8月 (August) に設定
 
 		// その月の全シフトデータを取得
 		List<ShiftEntity> shiftsForMonth = shiftdao.findShiftsByMonthAndYear(currentYear, currentMonth);
 		model.addAttribute("shiftsForMonth", shiftsForMonth);
 
 		// 今日の日付の全スタッフのシフト情報を取得し、モデルに追加
-		Date today = Date.valueOf(now);
+		Date today = Date.valueOf(LocalDate.now()); // 初期表示を現在の日付に設定
 		List<ShiftEntity> shiftsForToday = shiftdao.findShiftsByDate(today);
 		model.addAttribute("shiftsForSelectedDate", shiftsForToday); // 新しく追加するモデル属性
-		model.addAttribute("selectedDateDisplay", now.getMonthValue() + "月" + now.getDayOfMonth() + "日"); // 表示用の日付
+		model.addAttribute("selectedDateDisplay", LocalDate.now().getMonthValue() + "月" + LocalDate.now().getDayOfMonth() + "日"); // 表示用の日付
+
+		model.addAttribute("currentYear", currentYear);
+		model.addAttribute("currentMonth", currentMonth);
 
 		return "shift/shift-genan";
 	}

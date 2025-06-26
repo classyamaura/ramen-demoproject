@@ -174,7 +174,8 @@
 			<a href="/shifttop">
 				<button type="button">トップページへ</button>
 			</a>
-			
+			<a href="/manage">
+				<button type="button">管理者画面へ</button>
 			</a>
 			<select name="sign" id="out" onchange="handleSelectChange(this)">
 				<option value="ログイン中">ログイン中</option>
@@ -185,11 +186,9 @@
 
 	<div style="display: flex; justify-content: center; align-items: center; gap: 10px;">
 		<h2 style="margin: 0;" id="currentMonth"></h2>
-			  <form method="post">
-			<select name="user" id="monthSelect" onchange="generateCalendar()">
+			  <select name="user" id="monthSelect" onchange="handleMonthChange()">
 				<!-- 月のオプションはJavaScriptで生成 -->
 			    </select>
-			  </form>
 			</div>
 
 			<table>
@@ -252,6 +251,8 @@
 	/*<![CDATA[*/
 	var staffList = /*[[${staffList}]]*/ [];
 	var shiftsForMonth = /*[[${shiftsForMonth}]]*/ [];
+	var currentYearFromBackend = /*[[${currentYear}]]*/ null;
+	var currentMonthFromBackend = /*[[${currentMonth}]]*/ null;
 	/*]]>*/
 
 	const calendarBody = document.getElementById('calendarBody');
@@ -266,25 +267,30 @@
 	const endTimeInput = document.getElementById('endTime');
 	const remarksInput = document.getElementById('remarks');
 
-	let currentYear = new Date().getFullYear();
-	let currentMonth = new Date().getMonth(); // 0-indexed
+	// Initialize currentYear and currentMonth based on backend data, or current date if not provided
+	let currentYear = currentYearFromBackend !== null ? currentYearFromBackend : new Date().getFullYear();
+	// currentMonthFromBackend is 1-indexed. For JS Date constructor, it needs to be 0-indexed.
+	let currentMonth = currentMonthFromBackend !== null ? currentMonthFromBackend : (new Date().getMonth() + 1); // This will be 1-indexed
 
 	function generateMonthOptions() {
+		// Populate monthSelect with 1-indexed values (matching backend)
 		for (let i = 0; i < 12; i++) {
 			const option = document.createElement('option');
+			// Date constructor uses 0-indexed month, so i is the month index
 			const date = new Date(currentYear, i, 1);
-			option.value = i;
+			option.value = i + 1; // Store 1-indexed month value in option value
 			option.textContent = date.toLocaleString('ja-JP', { month: 'long' });
 			monthSelect.appendChild(option);
 		}
+		// Set selected month, ensuring it's 1-indexed
 		monthSelect.value = currentMonth;
 	}
 
 	function generateCalendar() {
 		calendarBody.innerHTML = '';
-		currentMonth = parseInt(monthSelect.value);
-		const firstDayOfMonth = new Date(currentYear, currentMonth, 1);
-		const daysInMonth = new Date(currentYear, currentMonth + 1, 0).getDate();
+		// currentMonth is already 1-indexed from the variable 'currentMonth'
+		const firstDayOfMonth = new Date(currentYear, currentMonth - 1, 1); // Date constructor needs 0-indexed month
+		const daysInMonth = new Date(currentYear, currentMonth, 0).getDate(); // Date constructor needs 0-indexed month for month + 1, 0 day
 		const firstDayOfWeek = firstDayOfMonth.getDay(); // 0:Sunday, 1:Monday, ..., 6:Saturday
 
 		currentMonthHeader.textContent = `${currentYear}年${firstDayOfMonth.toLocaleString('ja-JP', { month: 'long' })}`;
@@ -302,7 +308,8 @@
 					cell.textContent = '';
 				} else {
 					cell.textContent = date;
-					const fullDate = `${currentYear}-${String(currentMonth + 1).padStart(2, '0')}-${String(date).padStart(2, '0')}`;
+					// Construct fullDate string with 1-indexed month
+					const fullDate = `${currentYear}-${String(currentMonth).padStart(2, '0')}-${String(date).padStart(2, '0')}`;
 					cell.setAttribute('data-date', fullDate);
 					cell.classList.add('clickable');
 					cell.onclick = function() { openModal(this); };
@@ -418,10 +425,18 @@
 		document.getElementById('editModeBtn').style.display = '';
 	}
 
+	// New function to handle month change and redirect
+	function handleMonthChange() {
+		const selectedMonth = parseInt(monthSelect.value); // This is already 1-indexed
+		window.location.href = `/submit?year=${currentYear}&month=${selectedMonth}`;
+	}
+
 	// 初期表示
 	document.addEventListener('DOMContentLoaded', function() {
 		generateMonthOptions();
-		generateCalendar();
+		// Set monthSelect to the currentMonth provided by the backend on page load
+		monthSelect.value = currentMonth;
+		generateCalendar(); // Now generateCalendar just renders, no redirect
         // ログアウト処理の仮実装
         const outSelect = document.getElementById('out');
         if (outSelect) {
