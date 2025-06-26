@@ -13,6 +13,17 @@
             margin-top: 20px;
         }
 
+        .header {
+            width: 80%;
+            display: flex;
+            justify-content: flex-end;
+            margin-bottom: 20px;
+        }
+        .header button {
+            padding: 10px 20px;
+            font-size: 16px;
+        }
+
         h2 {
             margin-bottom: 30px;
         }
@@ -58,6 +69,10 @@
 </head>
 
 <body>
+    <div class="header">
+        <button>重量の編集</button>
+    </div>
+
     <h2>重量登録画面</h2>
 
     <div class="form-section">
@@ -114,7 +129,7 @@
         </table>
     </div>
 
-    <div style="text-align: center;">
+    <div style="text-align: center; margin-top: 50px;">
         <form action="/stockmanagement" method="get">
             <button type="submit" class="submit-button">在庫確認画面へ</button>
         </form>
