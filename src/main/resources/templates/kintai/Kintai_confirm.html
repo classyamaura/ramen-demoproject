@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="ja" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8" />
+  <title>修正内容確認</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 20px;
+    }
+    h1 {
+      margin-bottom: 30px;
+    }
+    table {
+      border-collapse: collapse;
+      width: 100%;
+      max-width: 600px;
+      margin-bottom: 30px;
+    }
+    th, td {
+      border: 1px solid #ccc;
+      padding: 10px;
+      text-align: left;
+    }
+    th {
+      background-color: #eee;
+      width: 150px;
+    }
+    .buttons {
+      margin-top: 20px;
+    }
+    button {
+      padding: 10px 20px;
+      font-size: 16px;
+      cursor: pointer;
+      margin-right: 15px;
+    }
+  </style>
+</head>
+<body>
+  <h1>修正内容のご確認</h1>
+
+  <p>
+    浦安支店の<strong th:text="${name}">山田 太郎</strong>様の勤怠情報を、以下の内容で修正してもよろしいでしょうか？
+  </p>
+
+  <table>
+    <tr>
+      <th>項目</th>
+      <th>修正前</th>
+      <th>修正後</th>
+    </tr>
+    <tr>
+      <td>出勤時刻</td>
+      <td th:text="${oldStartTime}">09:00</td>
+      <td th:text="${newStartTime}">09:30</td>
+    </tr>
+    <tr>
+      <td>退勤時刻</td>
+      <td th:text="${oldEndTime}">18:00</td>
+      <td th:text="${newEndTime}">18:30</td>
+    </tr>
+    <tr>
+      <td>修正理由</td>
+      <td colspan="2" th:text="${reason}">打刻ミスの修正</td>
+    </tr>
+  </table>
+
+  <form th:action="@{/tenpoedit/update}" method="post" style="display: inline;">
+
+    <input type="hidden" name="name" th:value="${name}" />
+    <input type="hidden" name="date" th:value="${date}" />
+    <input type="hidden" name="startTime" th:value="${newStartTime}" />
+    <input type="hidden" name="endTime" th:value="${newEndTime}" />
+    <input type="hidden" name="reason" th:value="${reason}" />
+    <button type="submit">確認</button>
+  </form>
+
+  <form th:action="@{/tenmanager}" method="get" style="display: inline;">
+    <button type="submit">キャンセル</button>
+  </form>
+
+</body>
+</html>

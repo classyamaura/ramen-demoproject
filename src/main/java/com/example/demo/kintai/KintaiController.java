@@ -120,5 +120,85 @@ public class KintaiController {
 	        return "redirect:/tenmanager";
 	    }
 	}
+	
+	//編集確認画面
+	@PostMapping("/tenpoedit/confirm")
+	public String tenpoeditConfirm(
+	        @RequestParam("name") String name,
+	        @RequestParam("date") String dateStr,
+	        @RequestParam("startTime") String newStartTimeStr,
+	        @RequestParam("endTime") String newEndTimeStr,
+	        @RequestParam(value = "reason", required = false) String reason,
+	        @RequestParam(value = "otherReason", required = false) String otherReason,
+	        Model model) {
+
+	    LocalDate date = LocalDate.parse(dateStr);
+
+	    KintaiEntity oldKintai = kintaiDao.findByNameAndDate(name, date);
+	    if (oldKintai == null) {
+	        return "redirect:/tenmanager";
+	    }
+
+	   
+	    String displayReason = reason;
+	    if ("other".equals(reason) && otherReason != null && !otherReason.trim().isEmpty()) {
+	        displayReason = otherReason.trim();
+	    } else if (reason == null || reason.isEmpty()) {
+	        displayReason = "未指定";
+	    }
+
+
+	    model.addAttribute("name", name);
+	    model.addAttribute("date", dateStr);
+	    model.addAttribute("oldStartTime", oldKintai.getStartTime().toLocalTime().toString()); // 取时间部分字符串
+	    model.addAttribute("oldEndTime", oldKintai.getEndTime().toLocalTime().toString());
+	    model.addAttribute("newStartTime", newStartTimeStr);
+	    model.addAttribute("newEndTime", newEndTimeStr);
+	    model.addAttribute("reason", displayReason);
+
+	    return "kintai/Kintai_confirm";
+	}
+
+	//修正した情報を更新する
+	@PostMapping("/tenpoedit/update")
+	public String updateKintai(
+	        @RequestParam("name") String name,
+	        @RequestParam("date") String dateStr,
+	        @RequestParam("startTime") String newStartTimeStr,
+	        @RequestParam("endTime") String newEndTimeStr,
+	        RedirectAttributes redirectAttributes) {
+
+	    try {
+	        // 日付解析
+	        LocalDate date = LocalDate.parse(dateStr);
+
+	        // 旧データ取得
+	        KintaiEntity kintai = kintaiDao.findByNameAndDate(name, date);
+	        if (kintai == null) {
+	            redirectAttributes.addFlashAttribute("error", "更新対象のデータが見つかりません。");
+	            return "redirect:/tenmanager";
+	        }
+
+	        // 新しい時間を LocalDateTime に変換
+	        LocalDateTime newStartTime = LocalDateTime.of(date, LocalDateTime.parse(dateStr + "T" + newStartTimeStr).toLocalTime());
+	        LocalDateTime newEndTime = LocalDateTime.of(date, LocalDateTime.parse(dateStr + "T" + newEndTimeStr).toLocalTime());
+
+	        // 更新
+	        kintai.setStartTime(newStartTime);
+	        kintai.setEndTime(newEndTime);
+
+	        // 保存
+	        kintaiDao.update(kintai);
+
+	        // 完了後、一覧ページへ戻る
+	        redirectAttributes.addFlashAttribute("success", "勤怠情報を更新しました。");
+	        return "redirect:/tenmanager";
+
+	    } catch (Exception e) {
+	        e.printStackTrace();
+	        redirectAttributes.addFlashAttribute("error", "更新中にエラーが発生しました。");
+	        return "redirect:/tenmanager";
+	    }
+	}
 
 }

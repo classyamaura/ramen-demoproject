@@ -38,7 +38,7 @@
 <body>
   <h1>詳細編集</h1>
 
-  <form th:action="@{/tenpoedit/confirm}" method="post">
+  <form th:action="@{/tenpoedit/confirm}" method="post" onsubmit="return handleSubmit();">
     <!-- 名前 -->
     <div>
       <label>名前：</label>
@@ -68,20 +68,23 @@
     <!-- 修正理由 -->
     <div>
       <label for="reason">修正理由：</label>
-      <select id="reason" name="reason" onchange="toggleOtherReason()">
+      <select id="reason" name="reason" onchange="toggleOtherReason()" required>
         <option value="">-- 選択してください --</option>
-        <option value="before_work">出勤前業務あり</option>
-        <option value="after_work">退勤後業務あり</option>
-        <option value="stamp_fix">打刻ミスの修正</option>
-        <option value="other">その他</option>
+        <option value="出勤前業務あり">出勤前業務あり</option>
+        <option value="退勤後業務あり">退勤後業務あり</option>
+        <option value="打刻ミスの修正">打刻ミスの修正</option>
+        <option value="その他">その他</option>
       </select>
     </div>
 
-    <!-- その他 -->
+    <!-- その他理由入力 -->
     <div id="otherReasonDiv" style="display: none; margin-top: 10px;">
       <label for="otherReason">理由：</label>
       <input type="text" id="otherReason" name="otherReason" />
     </div>
+
+    <!-- 最終的な理由（hidden） -->
+    <input type="hidden" name="finalReason" id="finalReason" />
 
     <!-- ボタン -->
     <div class="buttons">
@@ -95,8 +98,8 @@
       const reason = document.getElementById('reason').value;
       const otherDiv = document.getElementById('otherReasonDiv');
       const otherInput = document.getElementById('otherReason');
-      
-      if (reason === 'other') {
+
+      if (reason === 'その他') {
         otherDiv.style.display = 'block';
         otherInput.disabled = false;
       } else {
@@ -104,6 +107,23 @@
         otherInput.disabled = true;
         otherInput.value = '';
       }
+    }
+
+    function handleSubmit() {
+      const selected = document.getElementById('reason').value;
+      const otherText = document.getElementById('otherReason').value.trim();
+      const finalInput = document.getElementById('finalReason');
+
+      if (selected === 'その他') {
+        if (otherText === "") {
+          alert("理由を入力してください。");
+          return false;
+        }
+        finalInput.value = otherText;
+      } else {
+        finalInput.value = selected;
+      }
+      return true;
     }
   </script>
 </body>
