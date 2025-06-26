@@ -74,10 +74,24 @@
 		.close:hover {
 			color: black;
 		}
+		.header {
+		            display: flex;
+		            align-items: center;
+		            gap: 10px;
+		        }
 		</style>
 </head>
 <body>
-	<h1>佐藤翔太さん、こんにちは</h1>
+	
+	
+	   
+	   <div class="header">
+	           <h1>佐藤翔太さん、こんにちは</h1>
+	           <select name="sign" id="out" onchange="handleSelectChange(this)">
+	               <option value="ログイン中">ログイン中</option>
+	               <option value="ログアウト">ログアウト</option>
+	           </select>
+	       </div>
 	
 	<div style="display: flex; align-items: center; gap: 10px;">
 		  <h2 style="margin: 0;">2025年8月</h2>
@@ -206,6 +220,12 @@
 					      cell.appendChild(label);
 					    }
 					  });
+					  
+					  function handleSelectChange(select) {
+					  	           if (select.value === "ログアウト") {
+					  	               window.location.href = "http://localhost:8080/shifttop";
+					  	           }
+					  	       }
 					
 				</script>
 </body>
