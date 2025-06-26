@@ -1,27 +1,83 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-<head>
-	<meta charset="UTF-8">
-	<title>楽々シフト管理</title>
 	
-	<style>
-			h1{
-				text-align: center;
-				color: rgba(0, 0, 0, 0.87);
-			}
-			body{
-				background-color: #f7e2c6;
-			}
-		</style>
-</head>
+	<head>
+	  <meta charset="UTF-8">
+	  <title>顔認証シミュレーション</title>
+	  <style>
+	    body {
+	      margin: 0;
+	      background: black;
+	      color: white;
+	      font-family: sans-serif;
+	      text-align: center;
+	    }
 
-<body>
-	<h1>管理者ログイン</h1>
-	<div style="text-align: center;">
-		<a href="/genan">
-		   <img src="顔認証の画像.png" width="250" height="400" />
-		 </a>
-		 <p>顔認証中・・・</p>
-	</div>
-</body>
-</html>
+	    #video {
+	      width: 100vw;
+	      height: 100vh;
+	      object-fit: cover;
+	      position: absolute;
+	      top: 0;
+	      left: 0;
+	      z-index: 1;
+	    }
+
+	    .overlay {
+	      position: absolute;
+	      top: 50%;
+	      left: 50%;
+	      width: 200px;
+	      height: 200px;
+	      transform: translate(-50%, -50%);
+	      border: 2px solid #00ff00;
+	      z-index: 2;
+	      animation: pulse 2s infinite;
+	    }
+
+	    @keyframes pulse {
+	      0% { border-color: #00ff00; }
+	      50% { border-color: #009900; }
+	      100% { border-color: #00ff00; }
+	    }
+
+	    #message {
+	      position: absolute;
+	      top: 80%;
+	      width: 100%;
+	      font-size: 24px;
+	      z-index: 3;
+	    }
+	  </style>
+	</head>
+	<body>
+	  <video id="video" autoplay muted></video>
+	  <div class="overlay"></div>
+	  <div id="message">顔をカメラに向けてください...</div>
+
+	  <script>
+	    const video = document.getElementById('video');
+	    const message = document.getElementById('message');
+
+	    // カメラ起動
+	    navigator.mediaDevices.getUserMedia({ video: true })
+	      .then(stream => {
+	        video.srcObject = stream;
+	      })
+	      .catch(err => {
+	        message.textContent = '顔認証中・・・';
+	      });
+
+	    // 3秒後に認証成功表示 → さらに2秒後にリダイレクト
+	    setTimeout(() => {
+	      message.textContent = "顔認証に成功しました ✅";
+	      document.querySelector('.overlay').style.borderColor = "#00ff88";
+
+	      // さらに2秒後に /show に移動
+	      setTimeout(() => {
+	        window.location.href = "http://localhost:8080/genan";
+	      }, 2000);
+	    }, 3000);
+	  </script>
+	</body>
+	</html>
