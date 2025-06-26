@@ -5,15 +5,11 @@
 	<title>楽々シフト管理</title>
 	
 	<style>
-		body{
-			background-color: #f7e2c6;
-		}
 	  table {
 	    border-collapse: collapse;
 	    width: 350px;
 	    border: 4px solid #333;
 		margin: 20px auto; 
-		background-color: white;
 	  }
 	  th, td {
 	    border: 1px solid #999;
@@ -39,24 +35,6 @@
 		  background-color: #d0e7ff;
 		}
 		
-		button{
-			background-color: orange;
-			   color: rgba(0, 0, 0, 0.87);
-			   border: none;
-			   padding: 10px 20px;
-			   font-size: 1rem;
-			   border-radius: 8px;
-			   cursor: pointer;
-			   transition: background-color 0.3s ease, transform 0.1s ease;
-			   min-width: 140px;
-			   display: inline-block;
-			   margin: 0;
-		}
-		
-		button:hover{
-			background-color:	#f7c27c;
-			    transform: scale(1.02);
-		}
 		/* モーダルスタイル */
 		    .modal {
 		      display: none;
@@ -127,9 +105,7 @@
 	<div style="max-width: 1000px; margin: 0 auto; text-align: center;">
 
 	    <h1>シフト一覧（原案）</h1>
-		<a href="/complete">
 	    <button>完成（確定画面へ）</button>
-		</a>
 
 	    <div style="display: flex; justify-content: center; align-items: center; gap: 10px;">
 	      <h2 style="margin: 0;">2025年8月</h2>
@@ -176,7 +152,7 @@
 	     </tr>
 	     <tr>
 	       <td class="sunday">10</td>
-	      <td class="holiday highlight clickable" onclick="openModal(this)">11</td>
+	       <td class="holiday highlight clickable" onclick="openModal(this)">11</td>
 	       <td>12</td>
 	       <td>13</td>
 	       <td>14</td>
@@ -289,12 +265,14 @@
 		  function openModal(cell) {
 		     clickedCell = cell;
 		     isSaved = false; // 開いたときは保存されていない
+			 
 			 // セルの中の数字（日付）を取得
-			   const day = cell.textContent.trim();
+			  const day = cell.textContent.trim();
 
-			   // モーダルタイトル更新
-			   const title = document.getElementById("modal-date-title");
-			   title.textContent = `2025年8月${day}日`;
+			  // モーダルタイトル更新
+			  const title = document.getElementById("modal-date-title");
+			  title.textContent = `2025年8月${day}日`;
+
 		     document.getElementById("modal").style.display = "block";
 		   }
 		   
@@ -317,11 +295,11 @@
 	   
 	  // クリックでハイライトを切り替える
 	  document.addEventListener('DOMContentLoaded', function () {
-	    document.querySelectorAll('.clickable.highlight').forEach(cell => {
-	      cell.addEventListener('click', function () {
-	        openModal(this);
-	      });
-	    });
+	  	document.querySelectorAll('.shift.clickable').forEach(cell => {
+	  		cell.addEventListener('click', function () {
+	  			this.classList.toggle('highlight');
+	  		});
+	  	});
 	  });
 	  
 	  function saveShift() {
