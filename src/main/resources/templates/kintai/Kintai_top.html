@@ -29,12 +29,13 @@
 		       /* 打刻ボタン */
 		       button#punchBtn {
 		           border: none;
-		           background-color: white;
-		           color: orange;
+		           background-color: orange;
+		           color: rgba(0, 0, 0, 0.87);
 		           padding: 10px 20px;
 		           font-size: 1rem;
 		           border-radius: 8px;
 		           cursor: pointer;
+				   font-weight: bold;
 		           transition: background-color 0.3s;
 		       }
 		       button#punchBtn:hover {
@@ -44,12 +45,13 @@
 		       /* 管理画面ボタン */
 		       form button {
 		           border: none;
-		           background-color: white;
-		           color: orange;
+		           background-color: orange;
+		           color: rgba(0, 0, 0, 0.87);
 		           padding: 10px 20px;
 		           font-size: 1rem;
 		           border-radius: 8px;
 		           cursor: pointer;
+				   font-weight: bold;
 		           transition: background-color 0.3s;
 		           margin: 0.5em;
 		       }
@@ -126,7 +128,7 @@
         button.addEventListener("click", () => {
             const user = userSelect.value;
             statusMap[user] = !statusMap[user];
-            const state = statusMap[user] ? "勤務中" : "退室中";
+            const state = statusMap[user] ? "勤務中" : "退勤中";
             statusText.textContent = `${user}さんは現在「${state}」です。`;
         });
     </script>
