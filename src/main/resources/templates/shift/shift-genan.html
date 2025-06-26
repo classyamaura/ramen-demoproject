@@ -85,11 +85,26 @@
     </style>
 </head>
 <body>
-	<div style="max-width: 1000px; margin: 0 auto; text-align: center;">
+	<div style="max-width: 1000px; margin: 0 auto; text-align: center; position: relative;">
 
-	    <h1>シフト一覧（原案）</h1>
-	    <button>完成（確定画面へ）</button>
+		<!-- 中央に見せたい見出し -->
+		<h1 style="margin: 0;">シフト調整</h1>
 
+		<!-- 右寄せエリア（ボタン + プルダウン）-->
+		<div style="position: absolute; right: 0; top: 50%; transform: translateY(-50%); display: flex; align-items: center; gap: 10px;">
+			<a href="/complete">
+				<button type="button">完成（確定画面へ）</button>
+			</a>
+
+			<select name="sign" id="out" onchange="handleSelectChange(this)">
+				<option value="ログイン中">ログイン中</option>
+				<option value="ログアウト">ログアウト</option>
+			</select>
+		</div>
+	</div>
+
+			   
+	   
 	    <div style="display: flex; justify-content: center; align-items: center; gap: 10px;">
 	      <h2 style="margin: 0;">2025年8月</h2>
 	      <form method="post">
@@ -276,6 +291,11 @@
 		    }
 		    closeModal(); // モーダルを閉じる
 	    }
+		function handleSelectChange(select) {
+						  	           if (select.value === "ログアウト") {
+						  	               window.location.href = "http://localhost:8080/shifttop";
+						  	           }
+						  	       }
 	</script>
 
 	

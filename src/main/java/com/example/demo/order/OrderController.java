@@ -30,6 +30,12 @@ public class OrderController {
         this.orderDetailsDao = orderDetailsDao;
     }
 
+    // 総合トップページ
+    @GetMapping("/main")
+    public String showMain() {
+        return "main-index";
+    }
+
     @GetMapping("/stockmanagement")
     public String showStockManagement(Model model) {
         model.addAttribute("items", orderDao.findAll());
