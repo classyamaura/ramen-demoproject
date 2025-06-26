@@ -1,42 +1,72 @@
 package com.example.demo.shift;
 
+import java.sql.Date;
+import java.sql.Time;
+
+// shiftsテーブルに対応するEntity
 public class ShiftEntity {
+	private int shiftId;
+	private int staffId;
+	private Date shiftDate;
+	private Time startTime;
+	private Time endTime;
+	private String remarks;
+	private String staffName;
 
-	private int id;
-	private String name;
-	private String date;
-	private String jikan;
-
-	public int getId() {
-		return id;
+	// Getters and Setters
+	public int getShiftId() {
+		return shiftId;
 	}
 
-	public void setId(int id) {
-		this.id = id;
+	public void setShiftId(int shiftId) {
+		this.shiftId = shiftId;
 	}
 
-	public String getName() {
-		return name;
+	public int getStaffId() {
+		return staffId;
 	}
 
-	public void setName(String name) {
-		this.name = name;
+	public void setStaffId(int staffId) {
+		this.staffId = staffId;
 	}
 
-	public String getDate() {
-		return date;
+	public Date getShiftDate() {
+		return shiftDate;
 	}
 
-	public void setDate(String date) {
-		this.date = date;
+	public void setShiftDate(Date shiftDate) {
+		this.shiftDate = shiftDate;
 	}
 
-	public String getJikan() {
-		return jikan;
+	public Time getStartTime() {
+		return startTime;
 	}
 
-	public void setJikan(String jikan) {
-		this.jikan = jikan;
+	public void setStartTime(Time startTime) {
+		this.startTime = startTime;
 	}
 
+	public Time getEndTime() {
+		return endTime;
+	}
+
+	public void setEndTime(Time endTime) {
+		this.endTime = endTime;
+	}
+
+	public String getRemarks() {
+		return remarks;
+	}
+
+	public void setRemarks(String remarks) {
+		this.remarks = remarks;
+	}
+
+	public String getStaffName() {
+		return staffName;
+	}
+
+	public void setStaffName(String staffName) {
+		this.staffName = staffName;
+	}
 }
