@@ -1,174 +1,261 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <title>楽々シフト管理</title>
+  <style>
+    body {
+      background-color: #f7e2c6;
+    }
 
-	<head>
-	  <meta charset="UTF-8">
-	  <title>楽々シフト管理</title>
-	  <style>
-		body{
-			background-color: #f7e2c6;
-		}
-	    table { border-collapse: collapse; width: 100%; max-width: 800px; margin: 20px auto; background-color: white;}
-	    th, td { border: 1px solid #aaa; width: 14.28%; height: 80px; vertical-align: top; text-align: right; padding: 5px; cursor: pointer; }
-	    th { background-color: #f0f0f0; }
+    table {
+      border-collapse: collapse;
+      width: 100%;
+      max-width: 800px;
+      margin: 20px auto;
+      background-color: white;
+    }
 
-	    /* モーダル */
-	    .modal {
-	      display: none; position: fixed; top: 0; left: 0;
-	      width: 100%; height: 100%;
-	      background: rgba(0,0,0,0.5); z-index: 10;
-	    }
-	    .modal-content {
-	      background: #fff; margin: 10% auto;
-	      padding: 20px; width: 80%; max-width: 600px;
-	      border-radius: 8px; position: relative;
-	    }
-	    .modal-close {
-	      position: absolute; top: 10px; right: 15px;
-	      font-size: 18px; cursor: pointer;
-	    }
-	    .shift-table {
-	      width: 100%; border-collapse: collapse; margin-top: 20px;
-	    }
-	    .shift-table th, .shift-table td {
-	      border: 1px solid #aaa; padding: 8px; text-align: center;
-	    }
-		h1{
-			text-align: center;
-		}
-		#button{
-			text-align: right;
-		}
-		
-		.but1{
-			background-color: whitesmoke;
-			    color: rgba(0, 0, 0, 0.87);
-			    border: none;
-			    padding: 12px 20px;
-			    font-size: 1rem;
-			    border-radius: 8px;
-			    cursor: pointer;
-			    transition: background-color 0.3s ease, transform 0.1s ease;
-			    min-width: 140px;
-			    display: inline-block;
-			    margin: 0; /* margin は必要に応じて調整 */
-		}
-		
-		.but1:hover{
-			background-color: orange;
-			    transform: scale(1.02);
-		}
-		
-	  </style>
-	</head>
-	<body>
-		<h1>シフト表【完成版】</h1>
-		<div style="display: flex; justify-content: center; align-items: center; margin-bottom: 15px; gap: 10px;">
-		  <h2 style="margin: 0;">2025年 シフトカレンダー</h2>
+    th, td {
+      border: 1px solid #aaa;
+      width: 14.28%;
+      height: 80px;
+      vertical-align: top;
+      text-align: right;
+      padding: 5px;
+      cursor: pointer;
+    }
 
-		  <select id="month-select" style="padding: 4px 8px;">
-		    <option value="7">7月</option>
-		    <option value="8" selected>8月</option>
-		    <option value="9">9月</option>
-		  </select>
-		</div>
+    th {
+      background-color: #f0f0f0;
+    }
 
+    .modal {
+      display: none;
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0,0,0,0.5);
+      z-index: 10;
+    }
 
-	<table id="calendar">
-	  <thead>
-	    <tr>
-	      <th>日</th><th>月</th><th>火</th><th>水</th><th>木</th><th>金</th><th>土</th>
-	    </tr>
-	  </thead>
-	  <tbody id="calendar-body">
-	    <!-- JSで挿入 -->
-	  </tbody>
-	</table>
-	
-	<div id="button">
-		<a href= "/genan">
-			<button class="but1">編集に戻る</button>
-		</a>
-		<button class="but1">通知・印刷</button>
-	</div>
+    .modal-content {
+      background: #fff;
+      margin: 10% auto;
+      padding: 20px;
+      width: 80%;
+      max-width: 600px;
+      border-radius: 8px;
+      position: relative;
+    }
 
-	<!-- モーダル -->
-	<div id="modal" class="modal">
-	  <div class="modal-content">
-	    <span class="modal-close" onclick="closeModal()">×</span>
-	    <h3 id="modal-date"></h3>
-	    <table class="shift-table" id="shift-table">
-	      <thead>
-	        <tr><th>スタッフ名</th><th>出勤</th><th>退勤</th></tr>
-	      </thead>
-	      <tbody></tbody>
-	    </table>
-	  </div>
-	</div>
+    .modal-close {
+      position: absolute;
+      top: 10px;
+      right: 15px;
+      font-size: 18px;
+      cursor: pointer;
+    }
 
-	<script>
-	  const shiftData = {
-	    "2025-08-01": [
-	      { name: "佐藤 翔太", start: "09:00", end: "17:00" },
-	      { name: "田中 美咲", start: "10:00", end: "18:00" },
-	      { name: "山本 健", start: "12:00", end: "20:00" }
-	    ],
-	    "2025-08-02": [
-	      { name: "鈴木 彩乃", start: "09:00", end: "15:00" },
-	      { name: "中村 大輔", start: "13:00", end: "21:00" }
-	    ]
-	  };
+    .shift-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 20px;
+    }
 
-	  function buildCalendar(year, month) {
-	    const tbody = document.getElementById("calendar-body");
-	    tbody.innerHTML = "";
-	    const daysInMonth = new Date(year, month, 0).getDate();
-	    const startDay = new Date(year, month - 1, 1).getDay();
+    .shift-table th, .shift-table td {
+      border: 1px solid #aaa;
+      padding: 8px;
+      text-align: center;
+    }
 
-	    let row = document.createElement("tr");
-	    for (let i = 0; i < startDay; i++) row.appendChild(document.createElement("td"));
+    h1 {
+      text-align: center;
+    }
 
-	    for (let day = 1; day <= daysInMonth; day++) {
-	      const cell = document.createElement("td");
-	      cell.textContent = day;
-	      const dateKey = `${year}-${String(month).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
-	      cell.onclick = () => openModal(dateKey, day);
-	      row.appendChild(cell);
-	      if (row.children.length === 7) {
-	        tbody.appendChild(row);
-	        row = document.createElement("tr");
-	      }
-	    }
-	    while (row.children.length < 7) row.appendChild(document.createElement("td"));
-	    tbody.appendChild(row);
-	  }
+    .sunday {
+      color: red;
+    }
 
-	  function openModal(dateKey, day) {
-	    const data = shiftData[dateKey] || [];
-	    document.getElementById("modal-date").textContent = `8月${day}日のシフト`;
-	    const tbody = document.querySelector("#shift-table tbody");
-	    tbody.innerHTML = "";
+    .saturday {
+      color: blue;
+    }
 
-	    if (data.length === 0) {
-	      tbody.innerHTML = `<tr><td colspan="3">勤務者なし</td></tr>`;
-	    } else {
-	      data.forEach(staff => {
-	        const tr = document.createElement("tr");
-	        tr.innerHTML = `<td>${staff.name}</td><td>${staff.start}</td><td>${staff.end}</td>`;
-	        tbody.appendChild(tr);
-	      });
-	    }
+    .holiday {
+      color: red;
+      font-weight: bold;
+    }
 
-	    document.getElementById("modal").style.display = "block";
-	  }
+    #button {
+      text-align: right;
+      max-width: 800px;
+      margin: 0 auto 20px;
+    }
 
-	  function closeModal() {
-	    document.getElementById("modal").style.display = "none";
-	  }
+    .but1 {
+      background-color: whitesmoke;
+      color: rgba(0, 0, 0, 0.87);
+      border: none;
+      padding: 12px 20px;
+      font-size: 1rem;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: background-color 0.3s ease, transform 0.1s ease;
+      min-width: 140px;
+      display: inline-block;
+      margin-left: 10px;
+    }
 
-	  // 実行
-	  buildCalendar(2025, 8);
-	</script>
+    .but1:hover {
+      background-color: orange;
+      transform: scale(1.02);
+    }
+  </style>
+</head>
+<body>
 
-	</body>
-	</html>
+<h1>シフト表【完成版】</h1>
+
+<div style="display: flex; justify-content: center; align-items: center; margin-bottom: 15px; gap: 10px;">
+  <h2 style="margin: 0;">2025年 シフトカレンダー</h2>
+  <select id="month-select" style="padding: 4px 8px;">
+    <option value="7">7月</option>
+    <option value="8" selected>8月</option>
+    <option value="9">9月</option>
+  </select>
+</div>
+
+<table id="calendar">
+  <thead>
+    <tr>
+      <th class="sunday">日</th>
+      <th>月</th>
+      <th>火</th>
+      <th>水</th>
+      <th>木</th>
+      <th>金</th>
+      <th class="saturday">土</th>
+    </tr>
+  </thead>
+  <tbody id="calendar-body"></tbody>
+</table>
+
+<div id="button">
+  <a href="/genan">
+    <button class="but1">編集に戻る</button>
+  </a>
+  <button class="but1">通知・印刷</button>
+</div>
+
+<!-- モーダル -->
+<div id="modal" class="modal">
+  <div class="modal-content">
+    <span class="modal-close" onclick="closeModal()">×</span>
+    <h3 id="modal-date"></h3>
+    <table class="shift-table" id="shift-table">
+      <thead>
+        <tr><th>スタッフ名</th><th>出勤</th><th>退勤</th></tr>
+      </thead>
+      <tbody></tbody>
+    </table>
+  </div>
+</div>
+
+<script>
+  const shiftData = {
+    "2025-08-01": [
+      { name: "佐藤 翔太", start: "09:00", end: "17:00" },
+      { name: "田中 美咲", start: "10:00", end: "18:00" },
+      { name: "山本 健", start: "12:00", end: "20:00" }
+    ],
+    "2025-08-02": [
+      { name: "鈴木 彩乃", start: "09:00", end: "15:00" },
+      { name: "中村 大輔", start: "13:00", end: "21:00" }
+    ],
+    "2025-08-11": [
+      { name: "松本 陽平", start: "10:00", end: "18:00" },
+      { name: "井上 由佳", start: "11:00", end: "19:00" }
+    ]
+  };
+
+  const holidays = ["2025-08-11"];
+
+  function buildCalendar(year, month) {
+    const tbody = document.getElementById("calendar-body");
+    tbody.innerHTML = "";
+
+    const daysInMonth = new Date(year, month, 0).getDate();
+    const startDay = new Date(year, month - 1, 1).getDay();
+
+    let row = document.createElement("tr");
+    for (let i = 0; i < startDay; i++) {
+      row.appendChild(document.createElement("td"));
+    }
+
+    for (let day = 1; day <= daysInMonth; day++) {
+      const cell = document.createElement("td");
+      cell.textContent = day;
+
+      const paddedMonth = String(month).padStart(2, '0');
+      const paddedDay = String(day).padStart(2, '0');
+      const dateKey = `${year}-${paddedMonth}-${paddedDay}`;
+      const weekday = (startDay + day - 1) % 7;
+
+      if (holidays.includes(dateKey)) {
+        cell.classList.add("holiday");
+      } else if (weekday === 0) {
+        cell.classList.add("sunday");
+      } else if (weekday === 6) {
+        cell.classList.add("saturday");
+      }
+
+      cell.onclick = () => openModal(dateKey, month, day);
+      row.appendChild(cell);
+
+      if (row.children.length === 7) {
+        tbody.appendChild(row);
+        row = document.createElement("tr");
+      }
+    }
+
+    while (row.children.length < 7) {
+      row.appendChild(document.createElement("td"));
+    }
+    tbody.appendChild(row);
+  }
+
+  function openModal(dateKey, month, day) {
+    const data = shiftData[dateKey] || [];
+    document.getElementById("modal-date").textContent = `${month}月${day}日のシフト`;
+    const tbody = document.querySelector("#shift-table tbody");
+    tbody.innerHTML = "";
+
+    if (data.length === 0) {
+      tbody.innerHTML = `<tr><td colspan="3">勤務者なし</td></tr>`;
+    } else {
+      data.forEach(staff => {
+        const tr = document.createElement("tr");
+        tr.innerHTML = `<td>${staff.name}</td><td>${staff.start}</td><td>${staff.end}</td>`;
+        tbody.appendChild(tr);
+      });
+    }
+
+    document.getElementById("modal").style.display = "block";
+  }
+
+  function closeModal() {
+    document.getElementById("modal").style.display = "none";
+  }
+
+  document.getElementById("month-select").addEventListener("change", function () {
+    const selectedMonth = parseInt(this.value);
+    buildCalendar(2025, selectedMonth);
+  });
+
+  // 初期表示
+  buildCalendar(2025, 8);
+</script>
+
+</body>
+</html>
