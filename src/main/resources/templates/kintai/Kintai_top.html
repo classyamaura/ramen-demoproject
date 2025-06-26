@@ -4,13 +4,95 @@
     <meta charset="UTF-8">
     <title>勤怠管理システム</title>
     <style>
-        body { font-family: sans-serif; }
-        #status { margin-top: 1em; font-weight: bold; }
+		/* ベース設定 */
+		       html, body {
+		           margin: 0;
+		           padding: 0;
+		           height: 100%;
+		       }
+		       body {
+		           display: flex;
+		           flex-direction: column;
+		           justify-content: center;  /* 縦中央 */
+		           align-items: center;      /* 横中央 */
+		           background-color: #f7e2c6;
+		           font-family: sans-serif;
+		       }
+
+		       h1, label, select, button, form {
+		           color: rgba(0, 0, 0, 0.87);
+		       }
+		       select, button {
+		           margin-top: 0.5em;
+		       }
+
+		       /* 打刻ボタン */
+		       button#punchBtn {
+		           border: none;
+		           background-color: white;
+		           color: orange;
+		           padding: 10px 20px;
+		           font-size: 1rem;
+		           border-radius: 8px;
+		           cursor: pointer;
+		           transition: background-color 0.3s;
+		       }
+		       button#punchBtn:hover {
+		           background-color: #ffe5b4;
+		       }
+
+		       /* 管理画面ボタン */
+		       form button {
+		           border: none;
+		           background-color: white;
+		           color: orange;
+		           padding: 10px 20px;
+		           font-size: 1rem;
+		           border-radius: 8px;
+		           cursor: pointer;
+		           transition: background-color 0.3s;
+		           margin: 0.5em;
+		       }
+		       form button:hover {
+		           background-color: #ffe5b4;
+		       }
+
+		       /* ステータステキスト */
+		       #status {
+		           margin-top: 1em;
+		           font-weight: bold;
+		           color: white;
+		       }
+			   
+			   /* ラッパー用 flex コンテナ */
+			   .punch-container {
+			     display: flex;
+			     align-items: center;  /* 縦方向も中央揃え */
+			     gap: 1em;              /* 各要素の間隔 */
+			   }
+
+			   /* select とボタンを大きく */
+			   .punch-container select,
+			   .punch-container button {
+			     min-width: 300px;      /* 幅を固定 */
+			     min-height: 50px;      /* 高さを固定 */
+			     font-size: 1.2rem;     /* 文字サイズアップ */
+			     padding: 0.5em 1em;    /* 内側の余白 */
+			     box-sizing: border-box;
+			   }
+
+			   /* ラベルをボタンと高さ揃え */
+			   .punch-container label {
+			     font-size: 1.2rem;
+			     white-space: nowrap;
+			   }
+        
     </style>
 </head>
 <body>
     <h1>打刻してください</h1>
 
+	<div class="punch-container">
     <label for="user">名前：</label>
     <select id="user">
         <option value="山田太郎">山田太郎</option>
@@ -18,6 +100,7 @@
         <option value="鈴木一郎">鈴木一郎</option>
     </select>
     <button id="punchBtn">打刻</button>
+	</div>
 
     <p id="status"></p>
 
