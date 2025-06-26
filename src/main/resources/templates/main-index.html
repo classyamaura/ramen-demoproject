@@ -24,7 +24,7 @@
   }
 
   button {
-    background-color: orange;
+    background-color: floralwhite;
     color: rgba(0, 0, 0, 0.87);
     border: none;
     padding: 10px 20px;
@@ -36,25 +36,64 @@
   }
 
   button:hover {
-    background-color:	#f7c27c;
+    background-color:	orange;
   }
 </style>
 
 </head>
 <body>
 	<h1>業務選択画面</h1>
-	<p>どの業務をしますか？</p>
-	<form action="http://localhost:8080/shifttop" method="get" target="_blank">
-	  <button type="submit">シフト作成</button>
-	</form>
-	
-	<form action="http://localhost:8080/kintaitop" method="get" target="_blank">
-	  <button type="submit">勤怠管理</button>
-	</form>
-	
-	<form action="http://localhost:8080/role-selection" method="get" target="_blank">
-	  <button type="submit">発注業務</button>
-	</form>
+	<div style="margin-top: 30px; text-align: center;">
 
+	  <!-- パート・アルバイト見出し -->
+	  <h1 style="
+	    background-color: orange;
+	    border: 2px solid #ccc;
+	    border-radius: 15px;
+	    font-size: 1.2rem;
+	    font-weight: bold;
+	    box-shadow: 2px 2px 6px rgba(0,0,0,0.1);
+	    padding: 12px 0;
+	    width: 80vw;
+	    margin: 0 auto 30px auto;
+	    box-sizing: border-box;
+	  ">
+	    パート・アルバイト
+	  </h1>
+
+	  <!-- シフト作成・打刻ボタン -->
+	  <div style="width: 80vw; margin: 0 auto 40px auto; display: flex; gap: 20px;">
+	    <form action="http://localhost:8080/submit" method="get" target="_blank" style="flex: 1;">
+	      <button type="submit" style="width: 100%; padding: 15px 0; font-size: 1.1rem;">シフト作成</button>
+	    </form>
+
+	    <form action="http://localhost:8080/kintaitop" method="get" target="_blank" style="flex: 1;">
+	      <button type="submit" style="width: 100%; padding: 15px 0; font-size: 1.1rem;">打刻</button>
+	    </form>
+	  </div>
+
+	  <!-- 社員見出し -->
+	  <h1 style="
+	    background-color: orange;
+	    border: 2px solid #ccc;
+	    border-radius: 15px;
+	    font-size: 1.2rem;
+	    font-weight: bold;
+	    box-shadow: 2px 2px 6px rgba(0,0,0,0.1);
+	    padding: 12px 0;
+	    width: 80vw;
+	    margin: 0 auto 20px auto;
+	    box-sizing: border-box;
+	  ">
+	    社員
+	  </h1>
+
+	  <!-- 発注業務ボタン -->
+	  <form action="http://localhost:8080/role-selection" method="get" target="_blank" style="width: 80vw; margin: 0 auto;">
+	    <button type="submit" style="width: 100%; padding: 15px 0; font-size: 1.1rem;">発注業務</button>
+	  </form>
+
+	</div>
+	
 </body>
 </html>
