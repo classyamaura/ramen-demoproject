@@ -9,6 +9,7 @@
 			border-collapse: collapse;
 			width: 350px;
 			border: 4px solid #333;
+			margin: 20px auto; 
 		}
 
 		th,
@@ -85,10 +86,11 @@
 
 
 
+	<div style="max-width: 1000px; margin: 0 auto; text-align: center;">
 
-　<form method="post">
+	<form method="post">
 		<label for="user">名前：</label>
-		<select name="user" id="user">
+		<select name="user" id="userName">
 			<option value="----">----</option>
 			<option value="佐藤 翔太">佐藤 翔太</option>
 			<option value="田中 美咲">田中 美咲</option>
@@ -107,10 +109,10 @@
 		</select>
 
 
-		<div style="display: flex; align-items: center; gap: 10px;">
+		<div style="display: flex; align-items: center; gap: 10px; justify-content: center;">
 			  <h2 style="margin: 0;">2025年8月</h2>
 			  <form method="post">
-			    <select name="user" id="user">
+			    <select name="startTime" id="startTime">
 			      <option value="8月">8月</option>
 				  <option value="7月">7月</option>
 			      <option value="9月">9月</option>
@@ -217,7 +219,7 @@
 					</form>
 					<form method="post">
 						<label for="user">退勤：</label>
-						<select name="user" id="user">
+						<select name="endTime" id="endTime">
 							<option value="----">----</option>
 							<option value="9:00">9:00</option>
 							<option value="10:00">10:00</option>
@@ -235,7 +237,7 @@
 							<option value="22:00">22:00</option>
 							
 						</select>
-						<input type=text placeholder="備考欄"><button>登録</button></input>
+						<input type=text placeholder="備考欄"><button>登録</button>
 				</div>
 			</div>
 
