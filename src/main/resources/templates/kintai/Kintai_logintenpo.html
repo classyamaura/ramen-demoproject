@@ -4,7 +4,11 @@
     <meta charset="UTF-8">
     <title>管理者ログイン</title>
     <style>
-        body { font-family: sans-serif; text-align: center; padding: 50px; }
+        body { font-family: sans-serif;
+			 text-align: center;
+			  padding: 50px;
+			  background-color: #f7e2c6;
+		   }
         .password-display { font-size: 2em; letter-spacing: 10px; margin-bottom: 20px; height: 40px; }
         .keypad {
             display: grid;
@@ -22,8 +26,22 @@
             cursor: pointer;
         }
         .key:active { background-color: #ccc; }
-        .submit-btn { font-size: 1em; padding: 10px 20px; }
+        .submit-btn { font-size: 1em; 
+			padding: 10px 20px;
+			border: none;
+			  background-color: #ffffff;
+			  color: #333333;
+			  padding: 12px 24px;
+			  font-size: 1.1rem;
+			  border-radius: 8px; /* 角を丸く */
+			  cursor: pointer;
+			  transition: background-color 0.3s;
+		 }
+		 .submit-btn:hover {
+		   background-color: #f7c27c;
+		 }
         .error { color: red; margin-top: 1em; }
+		
     </style>
 </head>
 <body>
