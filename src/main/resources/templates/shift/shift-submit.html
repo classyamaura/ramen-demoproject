@@ -190,13 +190,19 @@
 					</tr>
 				</tbody>
 			</table>
+			<a href  ="/shifttop">
+				<button>トップページへ</button>
+			</a>
+			<a href = "/manage">
+				<button>管理者画面へ</button>
+			</a>
 
 			<!-- モーダル本体 -->
 			<div id="modal" class="modal">
 				<div class="modal-content">
 					<div id="kiboubi">【希望日】</div>
 					<span class="close" onclick="closeModal()">&times;</span>
-					<form method="post">
+					<form method="post" onsubmit="return validateForm()">
 						<label for="user">出勤：</label>
 						<select name="user" id="user">
 							<option value="----">----</option>
@@ -216,10 +222,9 @@
 							<option value="22:00">22:00</option>
 							
 						</select>
-					</form>
-					<form method="post">
-						<label for="user">退勤：</label>
-						<select name="endTime" id="endTime">
+							<br>
+							<label for="endTime">退勤：</label>
+							<select name="endTime" id="endTime">
 							<option value="----">----</option>
 							<option value="9:00">9:00</option>
 							<option value="10:00">10:00</option>
@@ -237,10 +242,13 @@
 							<option value="22:00">22:00</option>
 							
 						</select>
-						<input type=text placeholder="備考欄"><button>登録</button>
-				</div>
-			</div>
-
+							<br>
+							<input type="text" placeholder="備考欄">
+							<button type="submit">登録</button>
+						</form>
+						</div>
+						
+						
 			<!-- JavaScript（モーダル制御） -->
 			<script>
 				function openModal() {
@@ -256,6 +264,14 @@
 						modal.style.display = "none";
 					}
 				}
+				function validateForm() {
+						const userName = document.getElementById("userName").value;
+						if (userName === "----") {
+							alert("名前を選択してください");
+							return false; // 登録処理を中断
+						}
+						return true;
+					}
 			</script>
 
 	
