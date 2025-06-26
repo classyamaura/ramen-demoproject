@@ -1,110 +1,112 @@
- <!DOCTYPE html>
-  <html lang="ja">
-  <head>
-    <meta charset="UTF-8">
-    <title>シフト管理</title>
-    <style>
-      table {
-        border-collapse: collapse;
-        width: 350px;
-        border: 4px solid #333;
-        margin: 20px auto;
-      }
-      th, td {
-        border: 1px solid #999;
-        width: 50px;
-        height: 50px;
-        text-align: center;
-        vertical-align: middle;
-      }
-      th { background-color: #f2f2f2; }
-      .sunday { color: red; }
-      .saturday { color: blue; }
-      .holiday { color: red; }
-      .clickable:hover { background-color: #d0e7ff; }
-      .highlight { background-color: #ffff99; }
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+	<meta charset="UTF-8">
+	<title>楽々シフト管理</title>
+	
+	<style>
+	  table {
+	    border-collapse: collapse;
+	    width: 350px;
+	    border: 4px solid #333;
+		margin: 20px auto; 
+	  }
+	  th, td {
+	    border: 1px solid #999;
+	    width: 50px;
+	    height: 50px;
+	    text-align: center;
+	    vertical-align: middle;
+	  }
+	  th {
+	    background-color: #f2f2f2;
+	  }
+	  .sunday {
+	    color: red;
+	  }
+	  .saturday {
+	    color: blue;
+	  }
+	  .holiday {
+	     color:red
+	     }
 
-      .modal {
-        display: none;
-        position: fixed;
-        z-index: 10;
-        left: 0;
-        top: 0;
-        width: 100%;
-        height: 100%;
-        overflow: auto;
-        background-color: rgba(0,0,0,0.5);
-      }
+	 .clickable:hover {
+		  background-color: #d0e7ff;
+		}
+		
+		/* モーダルスタイル */
+		    .modal {
+		      display: none;
+		      position: fixed;
+		      z-index: 10;
+		      left: 0;
+		      top: 0;
+		      width: 100%;
+		      height: 100%;
+		      overflow: auto;
+		      background-color: rgba(0,0,0,0.5);
+		    }
+			.modal-content {
+			  background-color: #fff;
+			  margin: 5% auto;
+			  padding: 20px;
+			  border: 2px solid #666;
+			  width: 95%;
+			  max-width: 800px;
+			  text-align: center;
+			  border-radius: 10px;
+			  overflow-x: auto;  /* 横スクロール対応 */
+			}
+		    .close {
+		      color: #aaa;
+		      float: right;
+		      font-size: 24px;
+		      font-weight: bold;
+		      cursor: pointer;
+		    }
+		    .close:hover {
+		      color: black;
+		    }
+			.highlight {
+			      background-color: #ffff99; /* 明るい黄色 */
+			    }
+				
+				/* テーブルの枠線をしっかり表示、幅制限 */
+				.modal-content table {
+				  border-collapse: collapse;
+				  width: 100%;
+				  min-width: 600px; /* 最小幅を設定（必要に応じて調整） */
+				  table-layout: auto;
+				  font-size: 0.85rem; /* 少し小さめに */
+				}
 
-      .modal-content {
-        background-color: #fff;
-        margin: 5% auto;
-        padding: 20px;
-        border: 2px solid #666;
-        width: 95%;
-        max-width: 800px;
-        border-radius: 10px;
-        text-align: center;
-        overflow-x: auto;
-      }
+				.modal-content th, .modal-content td {
+				  border: 1px solid #999;
+				  padding: 4px;
+				  text-align: center;
+				  white-space: nowrap;
+				}
 
-      .modal-content table {
-        border-collapse: collapse;
-        width: 100%;
-        min-width: 600px;
-        font-size: 0.85rem;
-      }
+				/* 氏名列を広めに */
+				.modal-content td:nth-child(2),
+				.modal-content th:nth-child(2) {
+				  width: 120px;
+				}
 
-      .modal-content th, .modal-content td {
-        border: 1px solid #999;
-        padding: 4px;
-        text-align: center;
-        white-space: nowrap;
-      }
-
-      .modal-content td:nth-child(2),
-      .modal-content th:nth-child(2) {
-        width: 120px;
-      }
-
-      .modal-content td:nth-child(3),
-      .modal-content th:nth-child(3) {
-        width: 100px;
-      }
-
-      .close {
-        color: #aaa;
-        float: right;
-        font-size: 24px;
-        font-weight: bold;
-        cursor: pointer;
-      }
-      .close:hover {
-        color: black;
-      }
-    </style>
+				/* 担当業務列を広めに */
+				.modal-content td:nth-child(3),
+				.modal-content th:nth-child(3) {
+				  width: 100px;
+				}
+	</style>
 </head>
 <body>
-	<div style="max-width: 1000px; margin: 0 auto; text-align: center; position: relative;">
+	<div style="max-width: 1000px; margin: 0 auto; text-align: center;">
 
-		<!-- 中央に見せたい見出し -->
-		<h1 style="margin: 0;">シフト調整</h1>
+	    <h1>シフト一覧（原案）</h1>
+	    <button>完成（確定画面へ）</button>
 
-		<!-- 右寄せエリア（ボタン + プルダウン）-->
-		<div style="position: absolute; right: 0; top: 50%; transform: translateY(-50%); display: flex; align-items: center; gap: 10px;">
-			<a href="/complete">
-				<button type="button">完成（確定画面へ）</button>
-			</a>
-
-			<select name="sign" id="out" onchange="handleSelectChange(this)">
-				<option value="ログイン中">ログイン中</option>
-				<option value="ログアウト">ログアウト</option>
-			</select>
-		</div>
-	</div>
-
-			   
-	   
 	    <div style="display: flex; justify-content: center; align-items: center; gap: 10px;">
 	      <h2 style="margin: 0;">2025年8月</h2>
 	      <form method="post">
@@ -187,15 +189,13 @@
 	   </tbody>
 	</table>
 	
-	<!-- モーダル -->
+	<!-- モーダル本体 -->
 	<div id="modal" class="modal">
 	  <div class="modal-content">
 	    <span class="close" onclick="closeModal()">&times;</span>
 	    <h3>2025年8月1日</h3>
 	    <p>シフトを選択してください</p>
-	    <button onclick="saveShift()">変更を保存</button>
-	  </div>
-	</div>
+
 	
 	<!-- モーダル内シフト表 -->
 	<table>
@@ -259,21 +259,32 @@
 
 	<!-- JavaScript（モーダル制御） -->
 	<script>
-		let clickedCell = null;
-		function openModal(cell) {
-		  clickedCell = cell; // クリックしたセルを保存
-	    document.getElementById("modal").style.display = "block";
-	  }
-	  function closeModal() {
-	    document.getElementById("modal").style.display = "none";
-	  }
+		let clickedCell = null; // 押されたセルを記憶
+		  let isSaved = false;    // 保存ボタンが押されたかどうか
+		  
+		  function openModal(cell) {
+		     clickedCell = cell;
+		     isSaved = false; // 開いたときは保存されていない
+		     document.getElementById("modal").style.display = "block";
+		   }
+		   
+		   function closeModal() {
+		       document.getElementById("modal").style.display = "none";
+		       if (clickedCell && isSaved) {
+		         clickedCell.classList.remove("highlight"); // 保存していればハイライトを消す
+		       }
+		       clickedCell = null;
+		       isSaved = false;
+		     }
+			 
 	  // モーダル外クリックで閉じる
 	  window.onclick = function(event) {
-	    const modal = document.getElementById("modal");
-	    if (event.target === modal) {
-	      modal.style.display = "none";
-	    }
-	  }
+	     const modal = document.getElementById("modal");
+	     if (event.target === modal) {
+	       closeModal();
+	     }
+	   }
+	   
 	  // クリックでハイライトを切り替える
 	  document.addEventListener('DOMContentLoaded', function () {
 	  	document.querySelectorAll('.shift.clickable').forEach(cell => {
@@ -284,18 +295,10 @@
 	  });
 	  
 	  function saveShift() {
+	      isSaved = true;
 	      alert("シフトの変更を保存しました！");
-		  if (clickedCell) {
-		      clickedCell.classList.remove('highlight'); // ハイライト削除
-		      clickedCell = null; // クリア
-		    }
-		    closeModal(); // モーダルを閉じる
 	    }
-		function handleSelectChange(select) {
-						  	           if (select.value === "ログアウト") {
-						  	               window.location.href = "http://localhost:8080/shifttop";
-						  	           }
-						  	       }
+
 	</script>
 
 	
