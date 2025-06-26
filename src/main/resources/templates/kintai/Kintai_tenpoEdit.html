@@ -2,134 +2,109 @@
 <html lang="ja" xmlns:th="http://www.thymeleaf.org">
 <head>
   <meta charset="UTF-8" />
-  <title>詳細編集 - NaviN</title>
+  <title>詳細編集</title>
   <style>
-    body {
-      background-color: #f7e2c6;
-      font-family: 'Segoe UI', sans-serif;
-      margin: 0;
-      padding: 40px 20px;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-    }
-
-    h1 {
-      color: #ff6600;
-      font-size: 2.2rem;
-      margin-bottom: 30px;
-      text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1);
-    }
-
-    form {
-      width: 100%;
-      max-width: 600px;
-    }
-
-    .form-card {
-      background-color: white;
-      border-radius: 12px;
-      box-shadow: 0 4px 6px rgba(0,0,0,0.1);
-      padding: 20px;
-      margin-bottom: 20px;
-      transition: transform 0.2s;
-      border-left: 8px solid orange;
-    }
-
-    .form-card:hover {
-      transform: scale(1.01);
-    }
-
-    .form-card label {
-      display: block;
-      font-weight: bold;
-      margin-bottom: 6px;
-      color: #333;
-    }
-
-    .form-card input[type="text"],
-    .form-card input[type="time"],
-    .form-card select {
-      width: 100%;
-      padding: 10px;
-      font-size: 1rem;
-      border: 1px solid #ccc;
-      border-radius: 6px;
-      box-sizing: border-box;
-    }
-
-    .form-card span {
-      font-size: 1rem;
-      display: block;
-      padding: 8px 0;
-      color: #444;
-    }
-
-    .buttons {
-      text-align: right;
-      margin-top: 30px;
-    }
-
-    .buttons button {
-      background-color: floralwhite;
-      color: rgba(0, 0, 0, 0.87);
-      border: none;
-      padding: 12px 24px;
-      font-size: 1rem;
-      border-radius: 8px;
-      cursor: pointer;
-      transition: background-color 0.3s, transform 0.2s;
-      margin-left: 10px;
-      box-shadow: 0 3px 5px rgba(0,0,0,0.1);
-    }
-
-    .buttons button:hover {
-      background-color: orange;
-      color: white;
-      transform: scale(1.02);
-    }
-
-    @media (max-width: 600px) {
-      .buttons {
-        text-align: center;
-      }
-    }
-  </style>
+     html, body {
+       margin: 0;
+       padding: 0;
+       height: 100%;
+     }
+     body {
+       font-family: Arial, sans-serif;
+       background-color: #f7e2c6;
+       display: flex;
+       flex-direction: column;
+       align-items: center;
+       justify-content: flex-start;
+       padding: 20px;
+       box-sizing: border-box;
+     }
+     h1 {
+       margin-bottom: 20px;
+       color: rgba(0,0,0,0.87);
+     }
+     form {
+       width: 100%;
+       max-width: 500px;
+       background-color: white;
+       padding: 20px;
+       border-radius: 8px;
+       box-sizing: border-box;
+     }
+     label {
+       display: inline-block;
+       width: 120px;
+       font-weight: bold;
+       margin-top: 10px;
+       vertical-align: middle;
+     }
+     input[type="time"],
+     input[type="text"],
+     select {
+       width: calc(100% - 130px);
+       padding: 8px;
+       margin-top: 10px;
+       font-size: 16px;
+       border: 1px solid #ccc;
+       border-radius: 4px;
+       box-sizing: border-box;
+     }
+     .buttons {
+       margin-top: 30px;
+       text-align: right;
+     }
+     .buttons button {
+       background-color: white;
+       color: rgba(0, 0, 0, 0.87);
+       border: none;
+       padding: 12px 24px;
+       font-size: 1rem;
+       border-radius: 8px;
+       cursor: pointer;
+       transition: background-color 0.3s ease, transform 0.1s ease;
+       margin-left: 10px;
+     }
+     .buttons button:hover {
+       background-color: orange;
+       transform: scale(1.02);
+     }
+     #otherReasonDiv input {
+       width: calc(100% - 130px);
+     }
+   </style>
 </head>
 <body>
-
   <h1>詳細編集</h1>
 
   <form th:action="@{/tenpoedit/confirm}" method="post" onsubmit="return handleSubmit();">
-
     <!-- 名前 -->
-    <div class="form-card">
+    <div>
       <label>名前：</label>
       <span th:text="${kintai.name}">山田 太郎</span>
       <input type="hidden" name="name" th:value="${kintai.name}" />
     </div>
 
     <!-- 日付 -->
-    <div class="form-card">
+    <div>
       <label>日付：</label>
       <span th:text="${#temporals.format(kintai.startTime, 'yyyy-MM-dd')}">2025-06-25</span>
       <input type="hidden" name="date" th:value="${#temporals.format(kintai.startTime, 'yyyy-MM-dd')}" />
     </div>
 
     <!-- 出勤時間 -->
-    <div class="form-card">
+    <div>
       <label for="startTime">出勤時間：</label>
       <input type="time" id="startTime" name="startTime" th:value="${#temporals.format(kintai.startTime, 'HH:mm')}" />
     </div>
 
     <!-- 退勤時間 -->
-    <div class="form-card">
+    <div>
       <label for="endTime">退勤時間：</label>
       <input type="time" id="endTime" name="endTime" th:value="${#temporals.format(kintai.endTime, 'HH:mm')}" />
     </div>
 
     <!-- 修正理由 -->
-    <div class="form-card">
+    <div>
       <label for="reason">修正理由：</label>
       <select id="reason" name="reason" onchange="toggleOtherReason()" required>
         <option value="">-- 選択してください --</option>
@@ -140,13 +115,13 @@
       </select>
     </div>
 
-    <!-- その他理由 -->
-    <div class="form-card" id="otherReasonDiv" style="display:none;">
-      <label for="otherReason">理由（その他）：</label>
+    <!-- その他理由入力 -->
+    <div id="otherReasonDiv" style="display: none; margin-top: 10px;">
+      <label for="otherReason">理由：</label>
       <input type="text" id="otherReason" name="otherReason" />
     </div>
 
-    <!-- 最終送信用 -->
+    <!-- 最終的な理由（hidden） -->
     <input type="hidden" name="finalReason" id="finalReason" />
 
     <!-- ボタン -->
@@ -189,6 +164,5 @@
       return true;
     }
   </script>
-
 </body>
 </html>
