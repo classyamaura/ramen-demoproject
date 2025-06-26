@@ -1,99 +1,148 @@
 <!DOCTYPE html>
-<html>
+<html lang="ja">
 <head>
-<meta charset="UTF-8">
-<title>Insert title here</title>
-<style>
-  body {
-    background-color: #f7e2c6;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    min-height: 100vh;
-    margin: 0;
-  }
+  <meta charset="UTF-8">
+  <title>NaviN</title>
+  <style>
+    body {
+      background-color: #f7e2c6;
+      margin: 0;
+      padding: 40px 0;
+      font-family: sans-serif;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
 
-  h1, p {
-    text-align: center;
-    color: rgba(0, 0, 0, 0.87);
-  }
+    h1.title {
+      font-size: 2.5rem;
+      color: black;
+      margin-bottom: 30px;
+      letter-spacing: 2px;
+    }
 
-  form {
-    margin: 10px 0;
-  }
+    /* グリッドレイアウト：2列表示 */
+    .grid-layout {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      width: 90%;
+      max-width: 800px;
+      gap: 20px;
+    }
 
-  button {
-    background-color: floralwhite;
-    color: rgba(0, 0, 0, 0.87);
-    border: none;
-    padding: 10px 20px;
-    font-size: 1rem;
-    border-radius: 8px;
-    cursor: pointer;
-    transition: background-color 0.3s;
-	font-weight: bold;
-  }
+    .header-cell {
+      text-align: center;
+      font-weight: bold;
+      background-color: orange;
+      color: white;
+      padding: 12px 0;
+      border-radius: 10px;
+      font-size: 1.1rem;
+    }
 
-  button:hover {
-    background-color:	orange;
-  }
-</style>
+    .cell {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
 
+    .button-box {
+      width: 100%;
+      max-width: 100%;
+      height: 80px;
+    }
+
+    button {
+      width: 100%;
+      height: 100%;
+      background-color: floralwhite;
+      color: rgba(0, 0, 0, 0.87);
+      border: none;
+      border-radius: 10px;
+      font-size: 1rem;
+      font-weight: bold;
+      cursor: pointer;
+      transition: background-color 0.3s;
+      box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+    }
+
+    button:hover {
+      background-color: orange;
+      color: white;
+    }
+
+    form {
+      width: 100%;
+      height: 100%;
+    }
+
+    /* スマホ対応：縦並び */
+    @media (max-width: 700px) {
+      .grid-layout {
+        grid-template-columns: 1fr;
+      }
+
+      .header-cell {
+        width: 100%;
+      }
+
+      .button-box {
+        height: 70px;
+      }
+    }
+  </style>
 </head>
 <body>
-	<h1>業務選択画面</h1>
-	<div style="margin-top: 30px; text-align: center;">
 
-	  <!-- パート・アルバイト見出し -->
-	  <h1 style="
-	    background-color: orange;
-	    border: 2px solid #ccc;
-	    border-radius: 15px;
-	    font-size: 1.2rem;
-	    font-weight: bold;
-	    box-shadow: 2px 2px 6px rgba(0,0,0,0.1);
-	    padding: 12px 0;
-	    width: 80vw;
-	    margin: 0 auto 30px auto;
-	    box-sizing: border-box;
-	  ">
-	    パート・アルバイト
-	  </h1>
+  <h1 class="title">NaviN</h1>
 
-	  <!-- シフト作成・打刻ボタン -->
-	  <div style="width: 80vw; margin: 0 auto 40px auto; display: flex; gap: 20px;">
-	    <form action="http://localhost:8080/submit" method="get" target="_blank" style="flex: 1;">
-	      <button type="submit" style="width: 100%; padding: 15px 0; font-size: 1.1rem;">シフト作成</button>
-	    </form>
+  <div class="grid-layout">
+    <!-- タイトル行 -->
+    <div class="header-cell">パート・アルバイト</div>
+    <div class="header-cell">社員</div>
 
-	    <form action="http://localhost:8080/kintaitop" method="get" target="_blank" style="flex: 1;">
-	      <button type="submit" style="width: 100%; padding: 15px 0; font-size: 1.1rem;">打刻</button>
-	    </form>
-	  </div>
+    <!-- シフト提出／発注業務 -->
+    <div class="cell">
+      <div class="button-box">
+        <form action="http://localhost:8080/submit" method="get" target="_blank">
+          <button type="submit">シフト提出</button>
+        </form>
+      </div>
+    </div>
+    <div class="cell">
+      <div class="button-box">
+        <form action="http://localhost:8080/role-selection" method="get" target="_blank">
+          <button type="submit">発注業務</button>
+        </form>
+      </div>
+    </div>
 
-	  <!-- 社員見出し -->
-	  <h1 style="
-	    background-color: orange;
-	    border: 2px solid #ccc;
-	    border-radius: 15px;
-	    font-size: 1.2rem;
-	    font-weight: bold;
-	    box-shadow: 2px 2px 6px rgba(0,0,0,0.1);
-	    padding: 12px 0;
-	    width: 80vw;
-	    margin: 0 auto 20px auto;
-	    box-sizing: border-box;
-	  ">
-	    社員
-	  </h1>
+    <!-- 打刻／シフト管理 -->
+    <div class="cell">
+      <div class="button-box">
+        <form action="http://localhost:8080/kintaitop" method="get" target="_blank">
+          <button type="submit">打刻</button>
+        </form>
+      </div>
+    </div>
+    <div class="cell">
+      <div class="button-box">
+        <form action="http://localhost:8080/manage" method="get" target="_blank">
+          <button type="submit">シフト管理</button>
+        </form>
+      </div>
+    </div>
 
-	  <!-- 発注業務ボタン -->
-	  <form action="http://localhost:8080/role-selection" method="get" target="_blank" style="width: 80vw; margin: 0 auto;">
-	    <button type="submit" style="width: 100%; padding: 15px 0; font-size: 1.1rem;">発注業務</button>
-	  </form>
+    <!-- 空欄（左）／勤怠管理 -->
+    <div class="cell"></div>
+    <div class="cell">
+      <div class="button-box">
+        <form action="http://localhost:8080/logintenpo" method="get" target="_blank">
+          <button type="submit">勤怠管理</button>
+        </form>
+      </div>
+    </div>
+  </div>
 
-	</div>
-	
 </body>
 </html>

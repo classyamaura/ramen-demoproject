@@ -1,13 +1,14 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html lang="ja" xmlns:th="http://www.thymeleaf.org">
 
 <head>
 	<meta charset="UTF-8">
-	<title>楽々シフト管理</title>
+	<title>シフト提出</title>
 	<style>
 		table {
 			border-collapse: collapse;
-			width: 350px;
+			width: 100%; /* 幅を調整 */
+			max-width: 800px; /* 最大幅を設定 */
 			border: 4px solid #333;
 			margin: 20px auto; 
 		}
@@ -15,10 +16,11 @@
 		th,
 		td {
 			border: 1px solid #999;
-			width: 50px;
-			height: 50px;
+			width: calc(100% / 7); /* 週7日で均等に分割 */
+			height: 80px; /* 高さを調整 */
 			text-align: center;
-			vertical-align: middle;
+			vertical-align: top; /* 上揃えに修正 */
+			padding-top: 5px; /* 上部に少し余白 */
 		}
 
 		th {
@@ -39,6 +41,20 @@
 
 		.clickable:hover {
 			background-color: #d0e7ff;
+			cursor: pointer;
+		}
+
+		.has-shift {
+            background-color: #c9f7d6; /* シフトが登録されている日の背景色 */
+            position: relative;
+        }
+        .has-shift::after {
+            content: '●'; /* シフトがあることを示す記号 */
+            color: green;
+            font-size: 10px;
+            position: absolute;
+            bottom: 2px;
+            right: 2px;
 		}
 
 		/* モーダルスタイル */
@@ -56,10 +72,11 @@
 
 		.modal-content {
 			background-color: #fff;
-			margin: 15% auto;
+			margin: 5% auto;
 			padding: 20px;
 			border: 2px solid #666;
-			width: 300px;
+			width: 90%;
+			max-width: 600px;
 			text-align: center;
 			border-radius: 10px;
 		}
@@ -67,7 +84,7 @@
 		.close {
 			color: #aaa;
 			float: right;
-			font-size: 24px;
+			font-size: 28px;
 			font-weight: bold;
 			cursor: pointer;
 		}
@@ -76,49 +93,102 @@
 			color: black;
 		}
 		
-		#kiboubi{
-			text-align: left;
-		}
+		.shift-form label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+
+        .shift-form input[type="time"], .shift-form textarea, .shift-form select {
+            width: calc(100% - 22px); /* Adjust for padding and border */
+            padding: 10px;
+            margin-bottom: 15px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+
+        .shift-form button {
+            padding: 10px 20px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+
+        .shift-form button:hover {
+            background-color: #45a049;
+        }
+
+        .alert {
+            padding: 10px;
+            margin-bottom: 15px;
+            border-radius: 4px;
+            text-align: center;
+        }
+        .alert-success {
+            background-color: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+        .alert-danger {
+            background-color: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+
+		#editModeBtn {
+            background-color: #fff;
+            color: #333;
+            border: 1px solid #333;
+            padding: 8px 16px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 14px;
+            transition: all 0.3s ease;
+        }
+
+        #editModeBtn:hover {
+            background-color: #eee;
+            color: #000;
+        }
+
 	</style>
 </head>
 
 <body>
+	<div style="max-width: 1000px; margin: 0 auto; text-align: center; position: relative;">
+		<!-- 中央に見せたい見出し -->
+		<h1 style="margin: 0;">シフト提出</h1>
 
+        <div th:if="${message}" class="alert alert-success">
+            <p th:text="${message}"></p>
+        </div>
+        <div th:if="${error}" class="alert alert-danger">
+            <p th:text="${error}"></p>
+        </div>
 
-
-	<div style="max-width: 1000px; margin: 0 auto; text-align: center;">
-
-	<form method="post">
-		<label for="user">名前：</label>
-		<select name="user" id="userName">
-			<option value="----">----</option>
-			<option value="佐藤 翔太">佐藤 翔太</option>
-			<option value="田中 美咲">田中 美咲</option>
-			<option value="山本 健">山本 健</option>
-			<option value="鈴木 彩乃">鈴木 彩乃</option>
-			<option value="中村 大輔">中村 大輔</option>
-			<option value="井上 由佳">井上 由佳</option>
-			<option value="松本 陽平">松本 陽平</option>
-			<option value="木村 奈々">木村 奈々</option>
-			<option value="高橋 亮">高橋 亮</option>
-			<option value="渡辺 真理">渡辺 真理</option>
-			<option value="藤田 悠人">藤田 悠人</option>
-			<option value="石井 結衣">石井 結衣</option>
-			<option value="小林 翔">小林 翔</option>
-			<option value="大野 沙羅">大野 沙羅</option>
+		<!-- 右寄せエリア（ボタン + プルダウン）-->
+		<div style="position: absolute; right: 0; top: 50%; transform: translateY(-50%); display: flex; align-items: center; gap: 10px;">
+			<a href="/shifttop">
+				<button type="button">トップページへ</button>
+			</a>
+			<a href="/manage">
+				<button type="button">管理者画面へ</button>
+			</a>
+			<select name="sign" id="out" onchange="handleSelectChange(this)">
+				<option value="ログイン中">ログイン中</option>
+				<option value="ログアウト">ログアウト</option>
 		</select>
+		</div>
+	</div>
 
-
-		<div style="display: flex; align-items: center; gap: 10px; justify-content: center;">
-			  <h2 style="margin: 0;">2025年8月</h2>
-			  <form method="post">
-			    <select name="startTime" id="startTime">
-			      <option value="8月">8月</option>
-				  <option value="7月">7月</option>
-			      <option value="9月">9月</option>
-			      <option value="10月">10月</option>
+	<div style="display: flex; justify-content: center; align-items: center; gap: 10px;">
+		<h2 style="margin: 0;" id="currentMonth"></h2>
+			  <select name="user" id="monthSelect" onchange="handleMonthChange()">
+				<!-- 月のオプションはJavaScriptで生成 -->
 			    </select>
-			  </form>
 			</div>
 
 			<table>
@@ -133,149 +203,261 @@
 						<th class="saturday">土</th>
 					</tr>
 				</thead>
-				<tbody>
-					<tr>
-						<td class="sunday"></td>
-						<td></td>
-						<td></td>
-						<td></td>
-						<td></td>
-						<td class="clickable" onclick="openModal()">1</td>
-						<td class="saturday">2</td>
-					</tr>
-					<tr>
-						<td class="sunday">3</td>
-						<td>4</td>
-						<td>5</td>
-						<td>6</td>
-						<td>7</td>
-						<td>8</td>
-						<td class="saturday">9</td>
-					</tr>
-					<tr>
-						<td class="sunday">10</td>
-						<td class="holiday">11</td>
-						<td>12</td>
-						<td>13</td>
-						<td>14</td>
-						<td>15</td>
-						<td class="saturday">16</td>
-					</tr>
-					<tr>
-						<td class="sunday">17</td>
-						<td>18</td>
-						<td>19</td>
-						<td>20</td>
-						<td>21</td>
-						<td>22</td>
-						<td class="saturday">23</td>
-					</tr>
-					<tr>
-						<td class="sunday">24</td>
-						<td>25</td>
-						<td>26</td>
-						<td>27</td>
-						<td>28</td>
-						<td>29</td>
-						<td class="saturday">30</td>
-					</tr>
-					<tr>
-						<td class="sunday">31</td>
-						<td></td>
-						<td></td>
-						<td></td>
-						<td></td>
-						<td></td>
-						<td class="saturday"></td>
-					</tr>
+		<tbody id="calendarBody">
+			<!-- カレンダーのセルはJavaScriptで動的に生成 -->
 				</tbody>
 			</table>
-			<a href  ="/shifttop">
-				<button>トップページへ</button>
-			</a>
-			<a href = "/manage">
-				<button>管理者画面へ</button>
-			</a>
 
-			<!-- モーダル本体 -->
-			<div id="modal" class="modal">
+	<!-- モーダル -->
+	<div id="shiftModal" class="modal">
 				<div class="modal-content">
-					<div id="kiboubi">【希望日】</div>
 					<span class="close" onclick="closeModal()">&times;</span>
-					<form method="post" onsubmit="return validateForm()">
-						<label for="user">出勤：</label>
-						<select name="user" id="user">
-							<option value="----">----</option>
-							<option value="9:00">9:00</option>
-							<option value="10:00">10:00</option>
-							<option value="11:00">11:00</option>
-							<option value="12:00">12:00</option>
-							<option value="13:00">13:00</option>
-							<option value="14:00">14:00</option>
-							<option value="15:00">15:00</option>
-							<option value="16:00">16:00</option>
-							<option value="17:00">17:00</option>
-							<option value="18:00">18:00</option>
-							<option value="19:00">19:00</option>
-							<option value="20:00">20:00</option>
-							<option value="21:00">21:00</option>
-							<option value="22:00">22:00</option>
-							
+			<h3 id="modalDate"></h3>
+			
+			<h4>スタッフ別シフト入力</h4>
+			<!-- 編集ボタンを追加 -->
+			<button type="button" id="editModeBtn" onclick="enterEditMode()" class="shift-form">編集</button>
+			<form id="shiftForm" action="/registerShift" method="post" class="shift-form">
+				<input type="hidden" id="selectedDate" name="shiftDate">
+				<input type="hidden" name="sourcePage" value="submit">
+				
+				<label for="staffSelect">スタッフ:</label>
+				<select id="staffSelect" name="staffId" required>
+					<option value="">-- スタッフを選択してください --</option>
+					<option th:each="staff : ${staffList}" th:value="${staff.staffId}" th:text="${staff.staffName}"></option>
 						</select>
-							<br>
-							<label for="endTime">退勤：</label>
-							<select name="endTime" id="endTime">
-							<option value="----">----</option>
-							<option value="9:00">9:00</option>
-							<option value="10:00">10:00</option>
-							<option value="11:00">11:00</option>
-							<option value="12:00">12:00</option>
-							<option value="13:00">13:00</option>
-							<option value="14:00">14:00</option>
-							<option value="15:00">15:00</option>
-							<option value="16:00">16:00</option>
-							<option value="17:00">17:00</option>
-							<option value="18:00">18:00</option>
-							<option value="19:00">19:00</option>
-							<option value="20:00">20:00</option>
-							<option value="21:00">21:00</option>
-							<option value="22:00">22:00</option>
-							
-						</select>
-							<br>
-							<input type="text" placeholder="備考欄">
-							<button type="submit">登録</button>
+
+				<label for="startTime">出勤時刻:</label>
+				<input type="time" id="startTime" name="startTime">
+				
+				<label for="endTime">退勤時刻:</label>
+				<input type="time" id="endTime" name="endTime">
+				
+				<label for="remarks">備考:</label>
+				<textarea id="remarks" name="remarks" placeholder="備考"></textarea>
+
+				<button type="submit">シフトを提出</button>
+						</form>
+						<!-- 編集モード用フォーム（初期は非表示） -->
+						<form id="editShiftForm" style="display:none; margin-top:20px;">
+						  <div id="editShiftList"></div>
+						  <button type="button" onclick="saveEditedShifts()">保存</button>
+						  <button type="button" onclick="cancelEditMode()">キャンセル</button>
 						</form>
 						</div>
-						
-						
-			<!-- JavaScript（モーダル制御） -->
-			<script>
-				function openModal() {
-					document.getElementById("modal").style.display = "block";
-				}
-				function closeModal() {
-					document.getElementById("modal").style.display = "none";
-				}
-				// モーダル外クリックで閉じる
-				window.onclick = function (event) {
-					const modal = document.getElementById("modal");
-					if (event.target === modal) {
-						modal.style.display = "none";
-					}
-				}
-				function validateForm() {
-						const userName = document.getElementById("userName").value;
-						if (userName === "----") {
-							alert("名前を選択してください");
-							return false; // 登録処理を中断
-						}
-						return true;
-					}
-			</script>
+	</div>
 
-	
+	<script th:inline="javascript">
+	/*<![CDATA[*/
+	var staffList = /*[[${staffList}]]*/ [];
+	var shiftsForMonth = /*[[${shiftsForMonth}]]*/ [];
+	var currentYearFromBackend = /*[[${currentYear}]]*/ null;
+	var currentMonthFromBackend = /*[[${currentMonth}]]*/ null;
+	/*]]>*/
+
+	const calendarBody = document.getElementById('calendarBody');
+	const currentMonthHeader = document.getElementById('currentMonth');
+	const monthSelect = document.getElementById('monthSelect');
+	const shiftModal = document.getElementById('shiftModal');
+	const modalDateHeader = document.getElementById('modalDate');
+	const selectedDateInput = document.getElementById('selectedDate');
+	const shiftForm = document.getElementById('shiftForm');
+	const staffSelect = document.getElementById('staffSelect');
+	const startTimeInput = document.getElementById('startTime');
+	const endTimeInput = document.getElementById('endTime');
+	const remarksInput = document.getElementById('remarks');
+
+	// Initialize currentYear and currentMonth based on backend data, or current date if not provided
+	let currentYear = currentYearFromBackend !== null ? currentYearFromBackend : new Date().getFullYear();
+	// currentMonthFromBackend is 1-indexed. For JS Date constructor, it needs to be 0-indexed.
+	let currentMonth = currentMonthFromBackend !== null ? currentMonthFromBackend : (new Date().getMonth() + 1); // This will be 1-indexed
+
+	function generateMonthOptions() {
+		// Populate monthSelect with 1-indexed values (matching backend)
+		for (let i = 0; i < 12; i++) {
+			const option = document.createElement('option');
+			// Date constructor uses 0-indexed month, so i is the month index
+			const date = new Date(currentYear, i, 1);
+			option.value = i + 1; // Store 1-indexed month value in option value
+			option.textContent = date.toLocaleString('ja-JP', { month: 'long' });
+			monthSelect.appendChild(option);
+		}
+		// Set selected month, ensuring it's 1-indexed
+		monthSelect.value = currentMonth;
+	}
+
+	function generateCalendar() {
+		calendarBody.innerHTML = '';
+		// currentMonth is already 1-indexed from the variable 'currentMonth'
+		const firstDayOfMonth = new Date(currentYear, currentMonth - 1, 1); // Date constructor needs 0-indexed month
+		const daysInMonth = new Date(currentYear, currentMonth, 0).getDate(); // Date constructor needs 0-indexed month for month + 1, 0 day
+		const firstDayOfWeek = firstDayOfMonth.getDay(); // 0:Sunday, 1:Monday, ..., 6:Saturday
+
+		currentMonthHeader.textContent = `${currentYear}年${firstDayOfMonth.toLocaleString('ja-JP', { month: 'long' })}`;
+
+		let date = 1;
+		for (let i = 0; i < 6; i++) { // 6 rows to accommodate all days
+			const row = document.createElement('tr');
+			for (let j = 0; j < 7; j++) {
+				const cell = document.createElement('td');
+				if (i === 0 && j < firstDayOfWeek) {
+					// Empty cells before the first day of the month
+					cell.textContent = '';
+				} else if (date > daysInMonth) {
+					// Empty cells after the last day of the month
+					cell.textContent = '';
+				} else {
+					cell.textContent = date;
+					// Construct fullDate string with 1-indexed month
+					const fullDate = `${currentYear}-${String(currentMonth).padStart(2, '0')}-${String(date).padStart(2, '0')}`;
+					cell.setAttribute('data-date', fullDate);
+					cell.classList.add('clickable');
+					cell.onclick = function() { openModal(this); };
+
+					// Add weekend classes
+					if (j === 0) { // Sunday
+						cell.classList.add('sunday');
+					} else if (j === 6) { // Saturday
+						cell.classList.add('saturday');
+					}
+
+					// shiftsForMonthに該当日があればhas-shiftクラスを付与
+					const hasShift = shiftsForMonth.some(shift => shift.shiftDate === fullDate);
+					if (hasShift) {
+						cell.classList.add('has-shift');
+					}
+
+					date++;
+				}
+				row.appendChild(cell);
+			}
+			calendarBody.appendChild(row);
+			if (date > daysInMonth) break;
+		}
+	}
+
+	function openModal(cell) {
+		const selectedDate = cell.getAttribute('data-date');
+		modalDateHeader.textContent = selectedDate;
+		selectedDateInput.value = selectedDate;
+		
+		// 全ての入力フィールドをクリアし、初期値を設定 (登録画面のため)
+		staffSelect.value = '';
+		startTimeInput.value = '';
+		endTimeInput.value = '';
+		remarksInput.value = '';
+		// 編集モード解除
+		document.getElementById('shiftForm').style.display = '';
+		document.getElementById('editShiftForm').style.display = 'none';
+		document.getElementById('editModeBtn').style.display = '';
+		shiftModal.style.display = 'block';
+	}
+
+	function closeModal() {
+		shiftModal.style.display = 'none';
+	}
+
+	function enterEditMode() {
+		// 編集モードに切り替え
+		document.getElementById('shiftForm').style.display = 'none';
+		document.getElementById('editShiftForm').style.display = '';
+		document.getElementById('editModeBtn').style.display = 'none';
+		const selectedDate = selectedDateInput.value;
+		// その日のシフト一覧を取得
+		fetch('/getShiftsForDate?date=' + selectedDate)
+			.then(response => response.json())
+			.then(data => {
+				renderEditShiftList(data);
+			});
+	}
+
+	function renderEditShiftList(shifts) {
+		const listDiv = document.getElementById('editShiftList');
+		if (!shifts || shifts.length === 0) {
+			listDiv.innerHTML = '<p>この日に登録されているシフトはありません。</p>';
+			return;
+		}
+		let html = '';
+		for (const shift of shifts) {
+			html += `<div style='border-bottom:1px solid #ccc; margin-bottom:10px; padding-bottom:10px;'>
+				<b>${shift.staffName || shift.staff_name || ''}</b><br>
+				出勤: <input type='time' value='${shift.startTime ? shift.startTime.substring(0,5) : ''}' id='editStartTime_${shift.shiftId}'>
+				退勤: <input type='time' value='${shift.endTime ? shift.endTime.substring(0,5) : ''}' id='editEndTime_${shift.shiftId}'>
+				備考: <input type='text' value='${shift.remarks || ''}' id='editRemarks_${shift.shiftId}'>
+				<input type='hidden' value='${shift.staffId}' id='editStaffId_${shift.shiftId}'>
+				<input type='hidden' value='${shift.shiftId}' id='editShiftId_${shift.shiftId}'>
+			</div>`;
+		}
+		listDiv.innerHTML = html;
+	}
+
+	function saveEditedShifts() {
+		const listDiv = document.getElementById('editShiftList');
+		const divs = listDiv.querySelectorAll('div');
+		const shifts = [];
+		divs.forEach(div => {
+			const shiftId = div.querySelector("[id^='editShiftId_']").value;
+			const staffId = div.querySelector("[id^='editStaffId_']").value;
+			const startTime = div.querySelector("[id^='editStartTime_']").value;
+			const endTime = div.querySelector("[id^='editEndTime_']").value;
+			const remarks = div.querySelector("[id^='editRemarks_']").value;
+			shifts.push({ shiftId, staffId, startTime, endTime, remarks });
+		});
+		const selectedDate = selectedDateInput.value;
+		// 編集内容を一括送信
+		fetch('/saveDailySchedule', {
+			method: 'POST',
+			headers: { 'Content-Type': 'application/json' },
+			body: JSON.stringify({ shiftDate: selectedDate, shifts })
+		})
+		.then(response => response.text())
+		.then(msg => {
+			alert(msg);
+			closeModal();
+			window.location.reload();
+		})
+		.catch(() => alert('保存に失敗しました'));
+	}
+
+	function cancelEditMode() {
+		document.getElementById('shiftForm').style.display = '';
+		document.getElementById('editShiftForm').style.display = 'none';
+		document.getElementById('editModeBtn').style.display = '';
+	}
+
+	// New function to handle month change and redirect
+	function handleMonthChange() {
+		const selectedMonth = parseInt(monthSelect.value); // This is already 1-indexed
+		window.location.href = `/submit?year=${currentYear}&month=${selectedMonth}`;
+	}
+
+	// 初期表示
+	document.addEventListener('DOMContentLoaded', function() {
+		generateMonthOptions();
+		// Set monthSelect to the currentMonth provided by the backend on page load
+		monthSelect.value = currentMonth;
+		generateCalendar(); // Now generateCalendar just renders, no redirect
+        // ログアウト処理の仮実装
+        const outSelect = document.getElementById('out');
+        if (outSelect) {
+            outSelect.addEventListener('change', function() {
+                if (this.value === 'ログアウト') {
+                    alert('ログアウトしました。');
+                    // 実際のログアウト処理（セッションクリアなど）はバックエンドで行う
+                    // window.location.href = '/logout'; // 例
+                }
+            });
+        }
+
+        // メッセージの自動非表示 (オプション)
+        const alertDiv = document.querySelector('.alert');
+        if (alertDiv) {
+            setTimeout(() => {
+                alertDiv.style.display = 'none';
+            }, 5000); // 5秒後に非表示
+        }
+	});
+
+	</script>
 </body>
-
-
 </html>
