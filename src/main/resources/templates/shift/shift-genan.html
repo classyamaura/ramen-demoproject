@@ -5,11 +5,15 @@
 	<title>楽々シフト管理</title>
 	
 	<style>
+		body{
+			background-color: #f7e2c6;
+		}
 	  table {
 	    border-collapse: collapse;
 	    width: 350px;
 	    border: 4px solid #333;
 		margin: 20px auto; 
+		background-color: white;
 	  }
 	  th, td {
 	    border: 1px solid #999;
@@ -33,6 +37,24 @@
 
 	 .clickable:hover {
 		  background-color: #d0e7ff;
+		}
+		
+		button{
+			background-color: white;
+			 color: rgba(0, 0, 0, 0.87);
+			 border: none;
+			 padding: 10px 20px;
+			 font-size: 1rem;
+			 border-radius: 8px;
+			 cursor: pointer;
+			 transition: background-color 0.3s ease, transform 0.1s ease;
+			 min-width: 140px;
+			 display: inline-block;
+		}
+		
+		button:hover {
+		  background-color: orange;
+		  transform: scale(1.02);
 		}
 		
 		/* モーダルスタイル */
