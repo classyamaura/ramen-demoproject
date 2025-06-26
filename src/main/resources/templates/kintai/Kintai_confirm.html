@@ -4,38 +4,94 @@
   <meta charset="UTF-8" />
   <title>修正内容確認</title>
   <style>
-    body {
-      font-family: Arial, sans-serif;
-      margin: 20px;
-    }
-    h1 {
-      margin-bottom: 30px;
-    }
-    table {
-      border-collapse: collapse;
-      width: 100%;
-      max-width: 600px;
-      margin-bottom: 30px;
-    }
-    th, td {
-      border: 1px solid #ccc;
-      padding: 10px;
-      text-align: left;
-    }
-    th {
-      background-color: #eee;
-      width: 150px;
-    }
-    .buttons {
-      margin-top: 20px;
-    }
-    button {
-      padding: 10px 20px;
-      font-size: 16px;
-      cursor: pointer;
-      margin-right: 15px;
-    }
-  </style>
+      body {
+        font-family: Arial, sans-serif;
+        background-color: #f7e2c6;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        min-height: 100vh;
+        margin: 0;
+        padding: 40px 20px;
+      }
+
+      h1 {
+        margin-bottom: 30px;
+        text-align: center;
+        color: rgba(0, 0, 0, 0.87);
+      }
+
+      p {
+        font-size: 1.1rem;
+        margin-bottom: 20px;
+        text-align: center;
+      }
+
+      table {
+        border-collapse: collapse;
+        background-color: white;
+        width: 100%;
+        max-width: 600px;
+        margin-bottom: 30px;
+        font-size: 1rem;
+      }
+
+      th, td {
+        border: 1px solid #ccc;
+        padding: 12px;
+        text-align: left;
+      }
+
+      th {
+        background-color: #f0f0f0;
+        width: 150px;
+      }
+
+      .buttons {
+        display: flex;
+        justify-content: center;
+        gap: 20px;
+      }
+
+      button {
+        background-color: white;
+        color: orange;
+        border: none;
+        padding: 10px 20px;
+        font-size: 1rem;
+        border-radius: 8px;
+        cursor: pointer;
+        transition: background-color 0.3s;
+      }
+
+      button:hover {
+        background-color: orange;
+      }
+	  
+	  .buttons {
+	    display: flex;
+	    justify-content: center;  /* 中央寄せ。右寄せにしたい場合は flex-end に */
+	    gap: 20px;                /* ボタン間のスペースを指定 */
+	  }
+
+	  .buttons button {
+	    background-color: white;
+	    color: rgba(0, 0, 0, 0.87);
+	    border: none;
+	    padding: 12px 24px;
+	    font-size: 1rem;
+	    border-radius: 8px;
+	    cursor: pointer;
+	    transition: background-color 0.3s ease, transform 0.1s ease;
+	  }
+
+	  .buttons button:hover {
+	    background-color: orange;
+	    transform: scale(1.02);
+	  }
+	  
+    </style>
 </head>
 <body>
   <h1>修正内容のご確認</h1>
@@ -65,7 +121,8 @@
       <td colspan="2" th:text="${reason}">打刻ミスの修正</td>
     </tr>
   </table>
-
+  
+  <div class="buttons">
   <form th:action="@{/tenpoedit/update}" method="post" style="display: inline;">
 
     <input type="hidden" name="name" th:value="${name}" />
@@ -79,6 +136,7 @@
   <form th:action="@{/tenmanager}" method="get" style="display: inline;">
     <button type="submit">キャンセル</button>
   </form>
+  </div>
 
 </body>
 </html>
