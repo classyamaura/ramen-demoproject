@@ -4,13 +4,138 @@
     <meta charset="UTF-8">
     <title>店舗管理画面</title>
     <style>
-        body { font-family: sans-serif; padding: 20px; }
-        table { border-collapse: collapse; width: 100%; margin-top: 20px; }
-        th, td { border: 1px solid #ccc; padding: 8px; text-align: left; }
-        th { background-color: #eee; }
-        tr.selected { background-color: #cceeff; }
-        .form-area { margin-bottom: 20px; }
-    </style>
+		
+		    /* ベース設定 */
+		    html, body {
+		        margin: 0;
+		        padding: 0;
+		        height: 100%;
+		        background-color: #f7e2c6;
+		        font-family: "Hiragino Sans", "Yu Gothic", sans-serif;
+		        color: #333;
+		    }
+
+		    h1 {
+		        text-align: center;
+		        margin-top: 1em;
+		        color: #444;
+		        font-size: 2rem;
+		        font-weight: 600;
+		        letter-spacing: 1px;
+		    }
+
+		    .form-area {
+		        display: flex;
+		        flex-wrap: wrap;
+		        justify-content: center;
+		        align-items: center;
+		        gap: 1em;
+		        margin: 20px auto;
+		        max-width: 1000px;
+		    }
+
+		    .form-area label {
+		        font-weight: bold;
+		        font-size: 1.1rem;
+		        color: #222;
+		        white-space: nowrap;
+		    }
+
+		    .form-area input, .form-area select {
+		        min-height: 40px;
+		        font-size: 1rem;
+		        padding: 5px 12px;
+		        border-radius: 6px;
+		        border: 1px solid #ccc;
+		        box-sizing: border-box;
+		        font-family: "Hiragino Sans", "Yu Gothic", sans-serif;
+		    }
+
+		    .form-area button {
+		        border: none;
+		        background-color: white;
+		        color: orange;
+		        padding: 10px 20px;
+		        font-size: 1rem;
+		        border-radius: 8px;
+		        cursor: pointer;
+		        transition: background-color 0.3s;
+		        font-weight: bold;
+		        font-family: "Hiragino Sans", "Yu Gothic", sans-serif;
+		    }
+
+		    .form-area button:hover {
+		        background-color: #f7c27c;
+		    }
+
+		    /* 編集ボタン */
+		    form#editForm {
+		        text-align: center;
+		        margin-bottom: 1em;
+		    }
+
+		    form#editForm button {
+		        background-color: white;
+		        color: orange;
+		        padding: 10px 20px;
+		        font-size: 1rem;
+		        border-radius: 8px;
+		        cursor: pointer;
+		        transition: background-color 0.3s;
+		        border: none;
+		        font-weight: bold;
+		        font-family: "Hiragino Sans", "Yu Gothic", sans-serif;
+		    }
+
+		    form#editForm button:hover {
+		        background-color: #f7c27c;
+		    }
+
+		    /* テーブル全体 */
+		    table {
+		        border-collapse: collapse;
+		        width: 90%;
+		        margin: 0 auto 2em;
+		        background-color: white;
+		        border-radius: 10px;
+		        overflow: hidden;
+		        box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+		        font-family: "Yu Gothic", "Hiragino Sans", sans-serif;
+		    }
+
+		    th, td {
+		        border: 1px solid #ccc;
+		        padding: 12px;
+		        text-align: center;
+		        font-size: 1rem;
+		    }
+
+		    th {
+		        background-color: #ffe4b5;
+		        font-weight: bold;
+		        font-size: 1.1rem;
+		        color: #444;
+		    }
+
+		    tr:nth-child(even) {
+		        background-color: #fdf6ee;
+		    }
+
+		    tr.selected {
+		        background-color: #cceeff !important;
+		    }
+		</style>
+
+
+		
+		
+<!--        body { font-family: sans-serif; padding: 20px; }-->
+<!--        table { border-collapse: collapse; width: 100%; margin-top: 20px; }-->
+<!--        th, td { border: 1px solid #ccc; padding: 8px; text-align: left; }-->
+<!--        th { background-color: #eee; }-->
+<!--        tr.selected { background-color: #cceeff; }-->
+<!--        .form-area { margin-bottom: 20px; }-->
+<!--    </style>-->
 </head>
 <body>
     <h1>店舗勤怠管理</h1>
