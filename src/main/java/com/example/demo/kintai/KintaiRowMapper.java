@@ -11,6 +11,10 @@ public class KintaiRowMapper implements RowMapper<KintaiEntity> {
     @Override
     public KintaiEntity mapRow(ResultSet rs, int rowNum) throws SQLException {
         KintaiEntity k = new KintaiEntity();
+
+        // ★ id をセット
+        k.setId(rs.getLong("id"));
+
         k.setName(rs.getString("name"));
 
         LocalDateTime start = rs.getTimestamp("start_time").toLocalDateTime();

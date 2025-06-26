@@ -49,7 +49,7 @@ public class KintaiController {
 	
 	// 全体従業員の名前取得
 	private List<String> getAllNames() {
-	    return kintaiDao.findAllNames(); // Dao に追加するメソッド
+	    return kintaiDao.findAllNames(); 
 	    
 	}
 	@GetMapping("/tenmanager")
@@ -135,9 +135,12 @@ public class KintaiController {
 	    LocalDate date = LocalDate.parse(dateStr);
 
 	    KintaiEntity oldKintai = kintaiDao.findByNameAndDate(name, date);
+	    
 	    if (oldKintai == null) {
 	        return "redirect:/tenmanager";
 	    }
+	    
+	    Long id = oldKintai.getId();
 
 	   
 	    String displayReason = reason;
@@ -155,6 +158,7 @@ public class KintaiController {
 	    model.addAttribute("newStartTime", newStartTimeStr);
 	    model.addAttribute("newEndTime", newEndTimeStr);
 	    model.addAttribute("reason", displayReason);
+	    model.addAttribute("id", id); 
 
 	    return "kintai/Kintai_confirm";
 	}
@@ -162,35 +166,24 @@ public class KintaiController {
 	//修正した情報を更新する
 	@PostMapping("/tenpoedit/update")
 	public String updateKintai(
-	        @RequestParam("name") String name,
+	        @RequestParam("id") Long id,
 	        @RequestParam("date") String dateStr,
 	        @RequestParam("startTime") String newStartTimeStr,
 	        @RequestParam("endTime") String newEndTimeStr,
 	        RedirectAttributes redirectAttributes) {
 
 	    try {
-	        // 日付解析
 	        LocalDate date = LocalDate.parse(dateStr);
-
-	        // 旧データ取得
-	        KintaiEntity kintai = kintaiDao.findByNameAndDate(name, date);
-	        if (kintai == null) {
-	            redirectAttributes.addFlashAttribute("error", "更新対象のデータが見つかりません。");
-	            return "redirect:/tenmanager";
-	        }
-
-	        // 新しい時間を LocalDateTime に変換
 	        LocalDateTime newStartTime = LocalDateTime.of(date, LocalDateTime.parse(dateStr + "T" + newStartTimeStr).toLocalTime());
 	        LocalDateTime newEndTime = LocalDateTime.of(date, LocalDateTime.parse(dateStr + "T" + newEndTimeStr).toLocalTime());
 
-	        // 更新
+	        KintaiEntity kintai = new KintaiEntity();
+	        kintai.setId(id); // ← 关键点
 	        kintai.setStartTime(newStartTime);
 	        kintai.setEndTime(newEndTime);
 
-	        // 保存
 	        kintaiDao.update(kintai);
 
-	        // 完了後、一覧ページへ戻る
 	        redirectAttributes.addFlashAttribute("success", "勤怠情報を更新しました。");
 	        return "redirect:/tenmanager";
 
@@ -200,5 +193,6 @@ public class KintaiController {
 	        return "redirect:/tenmanager";
 	    }
 	}
+
 
 }

@@ -3,7 +3,8 @@ package com.example.demo.kintai;
 import java.time.LocalDateTime;
 
 public class KintaiEntity {
-
+	
+	private Long id; 
 	private String name;
 	private LocalDateTime startTime;
 	private LocalDateTime endTime;
@@ -50,6 +51,14 @@ public class KintaiEntity {
 
 	public void setWorkDurationStr(String workDurationStr) {
 		this.workDurationStr = workDurationStr;
+	}
+
+	public Long getId() {
+		return id;
+	}
+
+	public void setId(Long id) {
+		this.id = id;
 	}
 
 }

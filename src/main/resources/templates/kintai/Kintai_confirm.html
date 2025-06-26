@@ -124,7 +124,8 @@
   
   <div class="buttons">
   <form th:action="@{/tenpoedit/update}" method="post" style="display: inline;">
-
+	
+	<input type="hidden" name="id" th:value="${id}" />
     <input type="hidden" name="name" th:value="${name}" />
     <input type="hidden" name="date" th:value="${date}" />
     <input type="hidden" name="startTime" th:value="${newStartTime}" />
