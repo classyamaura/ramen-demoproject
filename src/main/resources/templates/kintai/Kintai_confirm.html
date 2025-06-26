@@ -4,94 +4,91 @@
   <meta charset="UTF-8" />
   <title>修正内容確認</title>
   <style>
-      body {
-        font-family: Arial, sans-serif;
-        background-color: #f7e2c6;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        justify-content: center;
-        min-height: 100vh;
-        margin: 0;
-        padding: 40px 20px;
-      }
+    body {
+      font-family: "Hiragino Sans", "Yu Gothic", sans-serif;
+      background-color: #f7e2c6;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+      margin: 0;
+	  padding: 5px 20px 40px 20px;
+	    justify-content: flex-start;
+      font-weight: 600;
+      color: #222; /* 少し濃くしてコントラストアップ */
+    }
 
-      h1 {
-        margin-bottom: 30px;
-        text-align: center;
-        color: rgba(0, 0, 0, 0.87);
-      }
+    h1 {
+      margin-bottom: 18px; /* 間隔詰めた */
+      text-align: center;
+      font-weight: 700;
+      font-size: 2rem;
+      color: #333;
+      letter-spacing: 1px;
+    }
 
-      p {
-        font-size: 1.1rem;
-        margin-bottom: 20px;
-        text-align: center;
-      }
+    p {
+      font-size: 1.15rem;
+      margin-top: 0; /* 上マージンなくした */
+      margin-bottom: 20px;
+      text-align: center;
+      font-weight: 600;
+      line-height: 1.6; /* 行間を広めに */
+      color: #444; /* やや濃いめに */
+    }
 
-      table {
-        border-collapse: collapse;
-        background-color: white;
-        width: 100%;
-        max-width: 600px;
-        margin-bottom: 30px;
-        font-size: 1rem;
-      }
+    table {
+      border-collapse: collapse;
+      background-color: white;
+      width: 100%;
+      max-width: 600px;
+      margin-bottom: 30px;
+      font-size: 1rem;
+      border-radius: 12px;
+      overflow: hidden;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    }
 
-      th, td {
-        border: 1px solid #ccc;
-        padding: 12px;
-        text-align: left;
-      }
+    th, td {
+      border: 1px solid #ccc;
+      padding: 12px;
+      text-align: left;
+      font-weight: 600;
+    }
 
-      th {
-        background-color: #f0f0f0;
-        width: 150px;
-      }
+    th {
+      background-color: #f0f0f0;
+      width: 150px;
+      font-weight: 700;
+    }
 
-      .buttons {
-        display: flex;
-        justify-content: center;
-        gap: 20px;
-      }
+    .buttons {
+      display: flex;
+      justify-content: center;
+      gap: 20px;
+    }
 
-      button {
-        background-color: white;
-        color: orange;
-        border: none;
-        padding: 10px 20px;
-        font-size: 1rem;
-        border-radius: 8px;
-        cursor: pointer;
-        transition: background-color 0.3s;
-      }
+    .buttons button {
+      background-color: orange;
+      color: black;
+      border: none;
+      padding: 12px 24px;
+      font-size: 1.1rem;
+      border-radius: 12px;
+      cursor: pointer;
+      font-weight: 700;
+      transition: background-color 0.3s ease, transform 0.15s ease;
+      box-shadow: 0 2px 6px rgba(255,165,0,0.4);
+    }
 
-      button:hover {
-        background-color: orange;
-      }
-	  
-	  .buttons {
-	    display: flex;
-	    justify-content: center;  /* 中央寄せ。右寄せにしたい場合は flex-end に */
-	    gap: 20px;                /* ボタン間のスペースを指定 */
-	  }
-
-	  .buttons button {
-	    background-color: white;
-	    color: rgba(0, 0, 0, 0.87);
-	    border: none;
-	    padding: 12px 24px;
-	    font-size: 1rem;
-	    border-radius: 8px;
-	    cursor: pointer;
-	    transition: background-color 0.3s ease, transform 0.1s ease;
-	  }
-
-	  .buttons button:hover {
-	    background-color: orange;
-	    transform: scale(1.02);
-	  }
-	  
-    </style>
+    .buttons button:hover {
+      background-color: #f7c27c;
+      transform: scale(1.05);
+      color: black;
+      box-shadow: 0 4px 12px rgba(255,165,0,0.6);
+    }
+  </style>
 </head>
 <body>
   <h1>修正内容のご確認</h1>
@@ -123,20 +120,19 @@
   </table>
   
   <div class="buttons">
-  <form th:action="@{/tenpoedit/update}" method="post" style="display: inline;">
-	
-	<input type="hidden" name="id" th:value="${id}" />
-    <input type="hidden" name="name" th:value="${name}" />
-    <input type="hidden" name="date" th:value="${date}" />
-    <input type="hidden" name="startTime" th:value="${newStartTime}" />
-    <input type="hidden" name="endTime" th:value="${newEndTime}" />
-    <input type="hidden" name="reason" th:value="${reason}" />
-    <button type="submit">確認</button>
-  </form>
+    <form th:action="@{/tenpoedit/update}" method="post" style="display: inline;">
+      <input type="hidden" name="id" th:value="${id}" />
+      <input type="hidden" name="name" th:value="${name}" />
+      <input type="hidden" name="date" th:value="${date}" />
+      <input type="hidden" name="startTime" th:value="${newStartTime}" />
+      <input type="hidden" name="endTime" th:value="${newEndTime}" />
+      <input type="hidden" name="reason" th:value="${reason}" />
+      <button type="submit">確認</button>
+    </form>
 
-  <form th:action="@{/tenmanager}" method="get" style="display: inline;">
-    <button type="submit">キャンセル</button>
-  </form>
+    <form th:action="@{/tenmanager}" method="get" style="display: inline;">
+      <button type="submit">キャンセル</button>
+    </form>
   </div>
 
 </body>
