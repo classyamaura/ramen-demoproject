@@ -3,9 +3,46 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
+<style>
+  body {
+    background-color: #f7c27c;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+    margin: 0;
+  }
+
+  h1, p {
+    text-align: center;
+    color: white;
+  }
+
+  form {
+    margin: 10px 0;
+  }
+
+  button {
+    background-color: white;
+    color: orange;
+    border: none;
+    padding: 10px 20px;
+    font-size: 1rem;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+  }
+
+  button:hover {
+    background-color: #ffe5b4;
+  }
+</style>
+
 </head>
 <body>
-	<h1>どの業務をしますか？</h1>
+	<h1>業務選択画面</h1>
+	<p>どの業務をしますか？</p>
 	<form action="http://localhost:8080/shifttop" method="get" target="_blank">
 	  <button type="submit">シフト作成</button>
 	</form>
