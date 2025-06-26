@@ -142,38 +142,38 @@
 	       <td class="saturday">2</td>
 	     </tr>
 	     <tr>
-	       <td class="sunday highlight">3</td>
+	       <td class="sunday">3</td>
 	       <td>4</td>
 	       <td>5</td>
 	       <td>6</td>
 	       <td>7</td>
-	       <td class="highlight">8</td>
-	       <td class="saturday highlight">9</td>
+	       <td>8</td>
+	       <td>9</td>
 	     </tr>
 	     <tr>
 	       <td class="sunday">10</td>
-	       <td class="holiday highlight">11</td>
+	      <td class="holiday highlight clickable" onclick="openModal(this)">11</td>
 	       <td>12</td>
-	       <td class="highlight">13</td>
+	       <td>13</td>
 	       <td>14</td>
 	       <td>15</td>
 	       <td class="saturday">16</td>
 	     </tr>
 	     <tr>
 	       <td class="sunday">17</td>
-	       <td class="highlight">18</td>
+	       <td>18</td>
 	       <td>19</td>
 	       <td>20</td>
 	       <td>21</td>
 	       <td>22</td>
-	       <td class="saturday highlight">23</td>
+	       <td class="saturday">23</td>
 	     </tr>
 	     <tr>
 	       <td class="sunday">24</td>
 	       <td>25</td>
-	       <td class="highlight">26</td>
+	       <td>26</td>
 	       <td>27</td>
-	       <td class="highlight">28</td>
+	       <td>28</td>
 	       <td>29</td>
 	       <td class="saturday">30</td>
 	     </tr>
@@ -193,7 +193,7 @@
 	<div id="modal" class="modal">
 	  <div class="modal-content">
 	    <span class="close" onclick="closeModal()">&times;</span>
-	    <h3>2025年8月1日</h3>
+	    <h3 id="modal-date-title">2025年8月1日</h3>
 	    <p>シフトを選択してください</p>
 
 	
@@ -265,6 +265,12 @@
 		  function openModal(cell) {
 		     clickedCell = cell;
 		     isSaved = false; // 開いたときは保存されていない
+			 // セルの中の数字（日付）を取得
+			   const day = cell.textContent.trim();
+
+			   // モーダルタイトル更新
+			   const title = document.getElementById("modal-date-title");
+			   title.textContent = `2025年8月${day}日`;
 		     document.getElementById("modal").style.display = "block";
 		   }
 		   
@@ -287,11 +293,11 @@
 	   
 	  // クリックでハイライトを切り替える
 	  document.addEventListener('DOMContentLoaded', function () {
-	  	document.querySelectorAll('.shift.clickable').forEach(cell => {
-	  		cell.addEventListener('click', function () {
-	  			this.classList.toggle('highlight');
-	  		});
-	  	});
+	    document.querySelectorAll('.clickable.highlight').forEach(cell => {
+	      cell.addEventListener('click', function () {
+	        openModal(this);
+	      });
+	    });
 	  });
 	  
 	  function saveShift() {
