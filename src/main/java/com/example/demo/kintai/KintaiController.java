@@ -67,12 +67,22 @@ public class KintaiController {
 	        Model model) {
 
 	    List<KintaiEntity> kintaiList = kintaiDao.search(name, date, yearMonth);
+	    
+	    long totalMinutes = 0;
+	    long totalWage = 0;
+
+	    for (KintaiEntity k : kintaiList) {
+	        totalMinutes += k.getWorkMinutes();
+	        totalWage += (k.getWorkMinutes() * k.getHourlyWage()) / 60;
+	    }
 
 	    model.addAttribute("kintaiList", kintaiList);
 	    model.addAttribute("searchName", name);
 	    model.addAttribute("searchDate", date);
 	    model.addAttribute("searchYearMonth", yearMonth);
 	    model.addAttribute("nameList", getAllNames());
+	    model.addAttribute("totalWorkMinutes", totalMinutes);
+	    model.addAttribute("totalWage", totalWage);
 
 	    return "kintai/Kintai_tenmanager";
 	}

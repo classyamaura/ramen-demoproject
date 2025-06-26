@@ -187,6 +187,15 @@
             </tr>
         </tbody>
     </table>
+	
+	<div style="width: 90%; margin: 0 auto 2em; background-color: white; border-radius: 10px; padding: 20px; box-shadow: 0 2px 8px rgba(0,0,0,0.1); font-size: 1.1rem;">
+	    <p style="margin: 0.5em 0;"><strong>総勤務時間：</strong>
+	        <span th:text="|${totalWorkMinutes ?: 0} 分|">0 分</span>
+	    </p>
+	    <p style="margin: 0.5em 0;"><strong>総人件費：</strong>
+	        <span th:text="|${totalWage ?: 0} 円|">0 円</span>
+	    </p>
+	</div>
 
     <script>
         let selectedRow = null;

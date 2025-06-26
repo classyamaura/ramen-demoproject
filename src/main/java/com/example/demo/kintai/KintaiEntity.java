@@ -9,6 +9,8 @@ public class KintaiEntity {
 	private LocalDateTime startTime;
 	private LocalDateTime endTime;
 	private String workTime;
+	private int hourlyWage;
+	private long workMinutes;
 
 	// Getter
 	public String getName() {
@@ -59,6 +61,22 @@ public class KintaiEntity {
 
 	public void setId(Long id) {
 		this.id = id;
+	}
+
+	public int getHourlyWage() {
+		return hourlyWage;
+	}
+
+	public void setHourlyWage(int hourlyWage) {
+		this.hourlyWage = hourlyWage;
+	}
+
+	public long getWorkMinutes() {
+		return workMinutes;
+	}
+
+	public void setWorkMinutes(long workMinutes) {
+		this.workMinutes = workMinutes;
 	}
 
 }
