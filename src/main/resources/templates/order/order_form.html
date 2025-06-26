@@ -93,6 +93,25 @@
  	    justify-content: flex-end;
 	}
 	
+	form input[type="submit"],
+	  form button {
+	    background-color: #ffe5b4;
+	    color: rgba(0, 0, 0, 0.87);
+	    border: none;
+	    padding: 12px 24px;
+	    font-size: 1rem;
+	    border-radius: 8px;
+	    cursor: pointer;
+	    transition: background-color 0.3s ease, transform 0.1s ease;
+	    min-width: 120px;
+	  }
+
+	  form input[type="submit"]:hover,
+	  form button:hover {
+	    background-color: orange;
+	    transform: scale(1.02);
+	  }
+	
 	.wrapper {
 	  display: flex;
 	  flex-direction: column;        /* 縦に積むレイアウト */
