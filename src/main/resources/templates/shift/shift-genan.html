@@ -19,11 +19,11 @@
 			vertical-align: top; /* 上揃えに修正 */
 			padding-top: 5px; /* 上部に少し余白 */
       }
-      th { background-color: #f2f2f2; }
+      th { background-color: #f8f8f8; }
       .sunday { color: red; }
       .saturday { color: blue; }
       .holiday { color: red; }
-		.clickable:hover { background-color: #d0e7ff; cursor: pointer; }
+		.clickable:hover { background-color: #fab881; cursor: pointer; }
       .highlight { background-color: #ffff99; }
 
 		.alert {
@@ -213,13 +213,22 @@
 		.adjust-needed {
 		  position: absolute;
 		  top: 2px;
-		  left: 2px;
-		  font-size: 10px;
-		  background-color: #ffcccc;
-		  color: #b30000;
-		  padding: 2px 4px;
-		  border-radius: 3px;
+		  right: 2px; /* 右上に変更 */
+		  font-size: 14px; /* 少し大きく */
+		  background-color: #f5723a; 
+		  color: white; /* 白に変更 */
+		  padding: 0; /* paddingを削除 */
+			
+		  border-radius: 50%; 
 		  font-weight: bold;
+		  width: 20px;
+		  height: 20px; 
+		  display: flex;
+		  align-items: center;
+		  justify-content: center;
+		  line-height: 20px; /* 「！」を垂直方向中央に揃える */
+		  box-shadow: 0 0 5px rgba(0,0,0,0.1); 
+				
 		}
 		td {
 		  position: relative; /* relative指定が必要 */
@@ -414,6 +423,15 @@
 					const hasShift = shiftsForMonth.some(shift => shift.shiftDate === fullDate);
 					if (hasShift) {
 						cell.classList.add('has-shift');
+					}
+
+					// 日付ごとのシフト件数をカウント
+					const shiftsOnThisDate = shiftsForMonth.filter(shift => shift.shiftDate === fullDate);
+					if (shiftsOnThisDate.length >= 1 && shiftsOnThisDate.length <= 2) { // シフト人数が1人以上2人以下の場合
+						const warning = document.createElement('div');
+						warning.textContent = '！'; // テキストを「！」に変更
+						warning.classList.add('adjust-needed');
+						cell.appendChild(warning);
 					}
 
 					date++;
@@ -662,20 +680,6 @@
 			console.error('Error saving daily schedule:', error);
 			alert('シフトの保存に失敗しました。');
 		});
-	}
-	// shiftsForMonthに該当日があればhas-shiftクラスを付与
-	const hasShift = shiftsForMonth.some(shift => shift.shiftDate === fullDate);
-	if (hasShift) {
-	  cell.classList.add('has-shift');
-	}
-	
-	// 日付ごとのシフト件数をカウント
-	const shiftsOnThisDate = shiftsForMonth.filter(shift => shift.shiftDate === fullDate);
-	if (shiftsOnThisDate.length > 0 && (shiftsOnThisDate.length < 3 || shiftsOnThisDate.length > 4)) {
-	  const warning = document.createElement('div');
-	  warning.textContent = '調整必要';
-	  warning.classList.add('adjust-needed');
-	  cell.appendChild(warning);
 	}
 
 	</script>
