@@ -42,7 +42,7 @@ public class OrderController {
         return "order/stockmanagement";
     }
 
-    @GetMapping("/role-selection")
+    @GetMapping("/role")
     public String showRoleSelection() {
         return "order/role-selection";
     }
