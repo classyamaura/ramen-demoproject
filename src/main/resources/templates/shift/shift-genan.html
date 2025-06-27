@@ -318,7 +318,7 @@
 		  		  <!-- 右寄せ部分（完成ボタン + ログアウトプルダウン） -->
 				  <div style="display: flex; align-items: center; gap: 10px;">
 				  		  		    <a href="/complete">
-				  		  		      <button type="button" class="kansei">完成（確定画面へ）</button>
+				  		  		     <button type="button" class="kansei" onclick="confirmCompletion()">完成（確定画面へ）</button>
 				  		  		    </a>
 				  		  		    <select name="sign" id="out" onchange="handleSelectChange(this)" >
 				  		  		      <option value="ログイン中">ログイン中</option>
@@ -733,6 +733,17 @@
 			console.error('Error saving daily schedule:', error);
 			alert('シフトの保存に失敗しました。');
 		});
+	}
+	function confirmCompletion() {
+	  const unadjustedCells = document.querySelectorAll('.adjust-needed');
+	  if (unadjustedCells.length > 0) {
+	    const confirmResult = confirm('未調整の日があります。完成画面へ移動しますか？');
+	    if (!confirmResult) {
+	      return;
+	    }
+	  }
+	  // 確認後、遷移
+	  window.location.href = '/complete';
 	}
 
 	</script>

@@ -151,7 +151,7 @@
   <a href="/genan">
     <button class="but1">編集に戻る</button>
   </a>
-  <button class="but1">通知・印刷</button>
+ <button class="but1" onclick="notifyAndPrint()">通知・印刷</button>
 </div>
 
 <!-- モーダル -->
@@ -175,13 +175,18 @@
 </div>
 
 <script>
+	
+	function notifyAndPrint() {
+	  alert("通知・印刷が完了しました。");
+	}
   const shiftData = {
     "2025-08-01": [
       { name: "佐藤 翔太", start: "10:00", end: "15:00" },
       { name: "田中 美咲", start: "15:00", end: "21:00" },
       { name: "山本 健", start: "18:00", end: "21:00" },
 	  { name: "木村 奈々", start: "11:00", end: "17:00" },
-	  { name: "高橋 亮", start: "10:00", end: "16:00" }
+	  { name: "渡辺 真理", start: "10:00", end: "18:00" },
+	  { name: "藤田 悠人", start: "16:00", end: "22:00" }
     ],
     "2025-08-02": [
       { name: "鈴木 彩乃", start: "09:00", end: "15:00" },
