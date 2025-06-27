@@ -68,16 +68,16 @@
 	        message.textContent = '顔認証中・・・';
 	      });
 
-	    // 3秒後に認証成功表示 → さらに2秒後にリダイレクト
-	    setTimeout(() => {
-	      message.textContent = "顔認証に成功しました ✅";
-	      document.querySelector('.overlay').style.borderColor = "#00ff88";
+	    // 1秒後に認証成功表示 → さらに1秒後にリダイレクト
+		setTimeout(() => {
+		  message.textContent = "顔認証に成功しました ✅";
+		  document.querySelector('.overlay').style.borderColor = "#00ff88";
 
-	      // さらに2秒後に /show に移動
-	      setTimeout(() => {
-	        window.location.href = "http://localhost:8080/show";
-	      }, 2000);
-	    }, 3000);
+		  // 1秒後に /show に移動
+		  setTimeout(() => {
+		    window.location.href = "http://localhost:8080/show";
+		  }, 1000);
+		}, 1000);
 	  </script>
 	</body>
 	</html>
