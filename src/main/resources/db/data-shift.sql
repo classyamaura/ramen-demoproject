@@ -33,7 +33,7 @@ INSERT INTO shifts (staff_id, shift_date, start_time, end_time, remarks) VALUES 
 INSERT INTO shifts (staff_id, shift_date, start_time, end_time, remarks) VALUES (10, '2025-08-05', '09:00:00', '15:00:00', '');
 INSERT INTO shifts (staff_id, shift_date, start_time, end_time, remarks) VALUES (11, '2025-08-01', '16:00:00', '22:00:00', '');
 INSERT INTO shifts (staff_id, shift_date, start_time, end_time, remarks) VALUES (12, '2025-08-06', '11:00:00', '19:00:00', '');
-INSERT INTO shifts (staff_id, shift_date, start_time, end_time, remarks) VALUES (13, '2025-08-06', '09:00:00', '13:00:00', '');
+INSERT INTO shifts (staff_id, shift_date, start_time, end_time, remarks) VALUES (13, '2025-08-04', '09:00:00', '13:00:00', '');
 INSERT INTO shifts (staff_id, shift_date, start_time, end_time, remarks) VALUES (14, '2025-08-07', '18:00:00', '23:00:00', '');
 INSERT INTO shifts (staff_id, shift_date, start_time, end_time, remarks) VALUES (15, '2025-08-07', '14:00:00', '21:00:00', '');
 INSERT INTO shifts (staff_id, shift_date, start_time, end_time, remarks) VALUES (1, '2025-08-08', '09:00:00', '17:00:00', '');
