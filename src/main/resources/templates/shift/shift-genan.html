@@ -239,15 +239,17 @@
 		<div th:if="${error}" class="alert alert-danger">
 			<p th:text="${error}"></p>
 		</div>
-
 		<!-- 見出しと操作パネル -->
 		<div style="display: flex; justify-content: space-between; align-items: center; max-width: 1000px; margin: 0 auto 20px;">
-		  
+
+		  <!-- ダミー左エリア（空） -->
+		  <div style="width: 200px;"></div>
+
 		  <!-- 中央寄せ部分（月見出し + 月セレクト） -->
-		  <div style="display: flex; align-items: center; gap: 10px; margin: 0 auto;">
+		  <div style="display: flex; align-items: center; gap: 10px; text-align: center;">
 		    <h2 style="margin: 0;" id="currentMonth"></h2>
 		    <select name="user" id="monthSelect" onchange="handleGenanMonthChange()">
-		      <!-- JavaScriptで月のオプションを生成 -->
+		      <!-- 月のオプションはJSで生成 -->
 		    </select>
 		  </div>
 
@@ -262,6 +264,7 @@
 		      <option value="ログアウト">ログアウト</option>
 		    </select>
 		  </div>
+
 		</div>
 
 	   
