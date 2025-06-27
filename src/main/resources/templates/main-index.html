@@ -14,6 +14,7 @@
       align-items: center;
       position: relative;
       overflow: hidden;
+      height: 100vh; /* ビューポートに固定して揺れ防止 */
     }
 
     /* ラーメン背景用 */
@@ -26,11 +27,18 @@
     }
 
     h1.title {
-      font-size: 2.5rem;
-      color: black;
-      margin-bottom: 30px;
-      letter-spacing: 2px;
-      z-index: 1;
+		font-size: 3.8rem;
+		color: #000000; /* 黒文字 */
+		background: linear-gradient(to right, #fff8e1, #f7e2c6); /* 背景になじむ */
+		padding: 20px 40px;
+		border: 4px solid #5d4037; /* 焦げ茶の縁取り */
+		border-radius: 15px;
+		font-family: "Yuji Syuku", "Arial Black", sans-serif; /* 和風フォント */
+		letter-spacing: 4px;
+		text-align: center;
+		text-shadow: 1px 1px 0 #ffffff;
+		box-shadow: 3px 3px 8px rgba(93, 64, 55, 0.3); /* 焦げ茶の影 */
+		z-index: 1;
     }
 
     .grid-layout {
@@ -126,14 +134,14 @@
 
     <div class="cell">
       <div class="button-box">
-        <form action="http://localhost:8080/submit" method="get" target="_blank">
-          <button type="submit">シフト提出</button>
-        </form>
+		<form th:action="@{/submit}">
+		      <button type="submit">シフト提出</button>
+		  </form>
       </div>
     </div>
     <div class="cell">
       <div class="button-box">
-        <form action="http://localhost:8080/role-selection" method="get" target="_blank">
+        <form th:action="@{/role-selection}" method="get">
           <button type="submit">発注業務</button>
         </form>
       </div>
@@ -141,35 +149,35 @@
 
     <div class="cell">
       <div class="button-box">
-        <form action="http://localhost:8080/kintaitop" method="get" target="_blank">
+        <form th:action="@{/kintaitop}" method="get">
           <button type="submit">打刻</button>
         </form>
       </div>
     </div>
     <div class="cell">
-      <div class="button-box">
-        <form action="http://localhost:8080/manage" method="get" target="_blank">
+      <div th:class="button-box">
+        <form th:action="@{/manage}" method="get">
           <button type="submit">シフト管理</button>
         </form>
       </div>
     </div>
-	<div class="cell">
-	     <div class="button-box">
-	       <form action="http://localhost:8080/personal" method="get" target="_blank">
-	         <button type="submit">シフト確認</button>
-	       </form>
-	     </div>
-	   </div>
 
-    
     <div class="cell">
       <div class="button-box">
-        <form action="http://localhost:8080/logintenpo" method="get" target="_blank">
+        <form th:action="@{/personal}" method="get">
+          <button type="submit">シフト確認</button>
+        </form>
+      </div>
+    </div>
+
+    <div class="cell">
+      <div class="button-box">
+        <form th:action="@{/logintenpo}" method="get">
           <button type="submit">勤怠管理</button>
         </form>
       </div>
     </div>
   </div>
-  
-  </body>
-  </html>
+
+</body>
+</html>
