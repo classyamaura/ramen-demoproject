@@ -209,6 +209,21 @@
 			max-width: 35px !important;
 			overflow: hidden; /* 内容がはみ出す場合 */
 		}
+		
+		.adjust-needed {
+		  position: absolute;
+		  top: 2px;
+		  left: 2px;
+		  font-size: 10px;
+		  background-color: #ffcccc;
+		  color: #b30000;
+		  padding: 2px 4px;
+		  border-radius: 3px;
+		  font-weight: bold;
+		}
+		td {
+		  position: relative; /* relative指定が必要 */
+		}
 
     </style>
 </head>
@@ -225,25 +240,32 @@
 			<p th:text="${error}"></p>
 		</div>
 
-		<!-- 右寄せエリア（ボタン + プルダウン）-->
-		<div style="position: absolute; right: 0; top: 50%; transform: translateY(-50%); display: flex; align-items: center; gap: 10px;">
-			<a href="/complete">
-				<button type="button">完成（確定画面へ）</button>
-			</a>
+		<!-- 見出しと操作パネル -->
+		<div style="display: flex; justify-content: space-between; align-items: center; max-width: 1000px; margin: 0 auto 20px;">
+		  
+		  <!-- 中央寄せ部分（月見出し + 月セレクト） -->
+		  <div style="display: flex; align-items: center; gap: 10px; margin: 0 auto;">
+		    <h2 style="margin: 0;" id="currentMonth"></h2>
+		    <select name="user" id="monthSelect" onchange="handleGenanMonthChange()">
+		      <!-- JavaScriptで月のオプションを生成 -->
+		    </select>
+		  </div>
 
-			<select name="sign" id="out" onchange="handleSelectChange(this)">
-				<option value="ログイン中">ログイン中</option>
-				<option value="ログアウト">ログアウト</option>
-			</select>
+		  <!-- 右寄せ部分（完成ボタン + ログアウトプルダウン） -->
+		  <div style="display: flex; align-items: center; gap: 10px;">
+		    <a href="/complete">
+		      <button type="button">完成（確定画面へ）</button>
+		    </a>
+
+		    <select name="sign" id="out" onchange="handleSelectChange(this)">
+		      <option value="ログイン中">ログイン中</option>
+		      <option value="ログアウト">ログアウト</option>
+		    </select>
+		  </div>
 		</div>
-	</div>
+
 	   
-	    <div style="display: flex; justify-content: center; align-items: center; gap: 10px;">
-		<h2 style="margin: 0;" id="currentMonth"></h2>
-	      <select name="user" id="monthSelect" onchange="handleGenanMonthChange()">
-				<!-- 月のオプションはJavaScriptで生成 -->
-	        </select>
-	    </div>
+	   
 		
 	<table>
 	  <thead>
@@ -482,7 +504,7 @@
 
 			// 区分（ここでは仮に「社員」または「パート」を設定）
 			const categoryCell = document.createElement('td');
-			categoryCell.textContent = staff.staffId <= 5 ? '社員' : 'パート'; // 仮のロジック
+			categoryCell.textContent = staff.staffId <= 5 ? '社員' : 'アルバイト'; // 仮のロジック
 			row.appendChild(categoryCell);
 
 			// 氏名
@@ -639,6 +661,20 @@
 			console.error('Error saving daily schedule:', error);
 			alert('シフトの保存に失敗しました。');
 		});
+	}
+	// shiftsForMonthに該当日があればhas-shiftクラスを付与
+	const hasShift = shiftsForMonth.some(shift => shift.shiftDate === fullDate);
+	if (hasShift) {
+	  cell.classList.add('has-shift');
+	}
+	
+	// 日付ごとのシフト件数をカウント
+	const shiftsOnThisDate = shiftsForMonth.filter(shift => shift.shiftDate === fullDate);
+	if (shiftsOnThisDate.length > 0 && (shiftsOnThisDate.length < 3 || shiftsOnThisDate.length > 4)) {
+	  const warning = document.createElement('div');
+	  warning.textContent = '調整必要';
+	  warning.classList.add('adjust-needed');
+	  cell.appendChild(warning);
 	}
 
 	</script>
