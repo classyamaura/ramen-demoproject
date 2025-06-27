@@ -18,7 +18,8 @@ public class OrderDao {
     }
 
     public List<OrderEntity> findAll() {
-        String sql = "SELECT o.id, o.name, o.weight, ws.registered_weight AS registered_weight_from_sensor, ws.threshold_weight FROM orders o LEFT JOIN weight_sensors ws ON o.name = ws.material_name";
+        String sql = "SELECT o.id, o.name, o.weight, ws.registered_weight AS registered_weight_from_sensor, ws.threshold_weight " +
+                     "FROM orders o LEFT JOIN weight_sensors ws ON o.name = ws.material_name";
         return jdbcTemplate.query(sql, new OrderRowMapper());
     }
 
@@ -37,7 +38,7 @@ public class OrderDao {
             Integer thresholdWeight = rs.getObject("threshold_weight", Integer.class);
 
             Double calculatedUnit = null;
-            if (registeredWeightFromSensor != null && registeredWeightFromSensor != 0) {
+            if (registeredWeightFromSensor != null && registeredWeightFromSensor > 0) {
                 calculatedUnit = (double) weight / registeredWeightFromSensor;
             }
 
@@ -53,11 +54,21 @@ public class OrderDao {
                     statusSymbol = "△";
                 }
             } else {
-                // thresholdWeightがnullまたは0の場合のデフォルト値
-                statusSymbol = "-"; // または別の適切なシンボル
+                statusSymbol = "-";
             }
 
-            return new OrderEntity(id, name, weight, registeredWeightFromSensor, calculatedUnit, statusSymbol);
+            int requiredOrderQuantity = 0;
+            if (thresholdWeight != null && weight != null && registeredWeightFromSensor != null && registeredWeightFromSensor > 0) {
+                double neededWeight = thresholdWeight - weight;
+                if (neededWeight > 0) {
+                    requiredOrderQuantity = (int) Math.ceil(neededWeight / registeredWeightFromSensor);
+                }
+            }
+            
+            OrderEntity order = new OrderEntity(id, name, weight, registeredWeightFromSensor, calculatedUnit, statusSymbol);
+            order.setThresholdWeight(thresholdWeight != null ? thresholdWeight : 0);
+            order.setRequiredOrderQuantity(requiredOrderQuantity);
+            return order;
         }
     }
 }
