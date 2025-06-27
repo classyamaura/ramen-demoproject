@@ -12,6 +12,17 @@
       display: flex;
       flex-direction: column;
       align-items: center;
+      position: relative;
+      overflow: hidden;
+    }
+
+    /* ラーメン背景用 */
+    .ramen {
+      position: absolute;
+      width: 100px;
+      opacity: 0.2;
+      pointer-events: none;
+      z-index: 0;
     }
 
     h1.title {
@@ -19,15 +30,16 @@
       color: black;
       margin-bottom: 30px;
       letter-spacing: 2px;
+      z-index: 1;
     }
 
-    /* グリッドレイアウト：2列表示 */
     .grid-layout {
       display: grid;
       grid-template-columns: 1fr 1fr;
       width: 90%;
       max-width: 800px;
       gap: 20px;
+      z-index: 1;
     }
 
     .header-cell {
@@ -76,16 +88,13 @@
       height: 100%;
     }
 
-    /* スマホ対応：縦並び */
     @media (max-width: 700px) {
       .grid-layout {
         grid-template-columns: 1fr;
       }
-
       .header-cell {
         width: 100%;
       }
-
       .button-box {
         height: 70px;
       }
@@ -94,14 +103,27 @@
 </head>
 <body>
 
+  <!-- ラーメン背景画像を追加するスクリプト -->
+  <script>
+    const ramenUrl = "https://japaclip.com/files/ramen.png";
+
+    for (let i = 0; i < 50; i++) {
+      const img = document.createElement('img');
+      img.src = ramenUrl;
+      img.className = 'ramen';
+      img.style.top = Math.random() * window.innerHeight + 'px';
+      img.style.left = Math.random() * window.innerWidth + 'px';
+      img.style.transform = `rotate(${Math.random() * 360}deg)`;
+      document.body.appendChild(img);
+    }
+  </script>
+
   <h1 class="title">NaviN</h1>
 
   <div class="grid-layout">
-    <!-- タイトル行 -->
     <div class="header-cell">パート・アルバイト</div>
     <div class="header-cell">社員</div>
 
-    <!-- シフト提出／発注業務 -->
     <div class="cell">
       <div class="button-box">
         <form action="http://localhost:8080/submit" method="get" target="_blank">
@@ -117,7 +139,6 @@
       </div>
     </div>
 
-    <!-- 打刻／シフト管理 -->
     <div class="cell">
       <div class="button-box">
         <form action="http://localhost:8080/kintaitop" method="get" target="_blank">
@@ -132,9 +153,15 @@
         </form>
       </div>
     </div>
+	<div class="cell">
+	     <div class="button-box">
+	       <form action="http://localhost:8080/personal" method="get" target="_blank">
+	         <button type="submit">シフト確認</button>
+	       </form>
+	     </div>
+	   </div>
 
-    <!-- 空欄（左）／勤怠管理 -->
-    <div class="cell"></div>
+    
     <div class="cell">
       <div class="button-box">
         <form action="http://localhost:8080/logintenpo" method="get" target="_blank">
@@ -143,6 +170,6 @@
       </div>
     </div>
   </div>
-
-</body>
-</html>
+  
+  </body>
+  </html>
