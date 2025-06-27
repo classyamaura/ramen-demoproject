@@ -27,8 +27,7 @@ INSERT INTO shifts (staff_id, shift_date, start_time, end_time, remarks) VALUES 
 
 -- 追加のシフトデータ (2025年に更新、備考欄を空白に)
 INSERT INTO shifts (staff_id, shift_date, start_time, end_time, remarks) VALUES (1, '2025-08-01', '10:00:00', '15:00:00', '');
-INSERT INTO shifts (staff_id, shift_date, start_time, end_time, remarks) VALUES (1, '2025-08-01', '18:00:00', '21:00:00', '');
-INSERT INTO shifts (staff_id, shift_date, start_time, end_time, remarks) VALUES (8, '2025-08-01', '11:00:00', '17:00:00', '');
+INSERT INTO shifts (staff_id, shift_date, start_time, end_time, remarks) VALUES (8, '2025-08-05', '11:00:00', '17:00:00', '');
 INSERT INTO shifts (staff_id, shift_date, start_time, end_time, remarks) VALUES (9, '2025-08-01', '10:00:00', '16:00:00', '');
 INSERT INTO shifts (staff_id, shift_date, start_time, end_time, remarks) VALUES (10, '2025-08-05', '09:00:00', '15:00:00', '');
 INSERT INTO shifts (staff_id, shift_date, start_time, end_time, remarks) VALUES (11, '2025-08-01', '16:00:00', '22:00:00', '');
@@ -51,8 +50,8 @@ INSERT INTO shifts (staff_id, shift_date, start_time, end_time, remarks) VALUES 
 INSERT INTO shifts (staff_id, shift_date, start_time, end_time, remarks) VALUES (13, '2025-08-13', '08:00:00', '12:00:00', '');
 INSERT INTO shifts (staff_id, shift_date, start_time, end_time, remarks) VALUES (14, '2025-08-14', '17:00:00', '23:00:00', '');
 INSERT INTO shifts (staff_id, shift_date, start_time, end_time, remarks) VALUES (15, '2025-08-14', '13:00:00', '20:00:00', '');
-
-
+INSERT INTO shifts (staff_id, shift_date, start_time, end_time, remarks) VALUES (13, '2025-08-1', '10:00:00', '18:00:00', '');
+INSERT INTO shifts (staff_id, shift_date, start_time, end_time, remarks) VALUES (10, '2025-08-1', '10:00:00', '18:00:00', '');
 
 
 
