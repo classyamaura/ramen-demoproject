@@ -18,16 +18,17 @@ INSERT INTO staff (staff_id, staff_name) VALUES (14, '長谷川 優');
 INSERT INTO staff (staff_id, staff_name) VALUES (15, '大野 沙羅');
 
 -- アルバイトスタッフのシフトデータ例 (2025年に更新、備考欄を空白に)
-INSERT INTO shifts (staff_id, shift_date, start_time, end_time, remarks) VALUES (2, '2025-08-01', '09:00:00', '15:00:00', '');
-INSERT INTO shifts (staff_id, shift_date, start_time, end_time, remarks) VALUES (3, '2025-08-01', '10:00:00', '16:00:00', '');
+INSERT INTO shifts (staff_id, shift_date, start_time, end_time, remarks) VALUES (2, '2025-08-01', '15:00:00', '21:00:00', '');
+INSERT INTO shifts (staff_id, shift_date, start_time, end_time, remarks) VALUES (3, '2025-08-01', '18:00:00', '23:00:00', '');
 INSERT INTO shifts (staff_id, shift_date, start_time, end_time, remarks) VALUES (4, '2025-08-02', '11:00:00', '17:00:00', '');
 INSERT INTO shifts (staff_id, shift_date, start_time, end_time, remarks) VALUES (5, '2025-08-02', '12:00:00', '18:00:00', '');
 INSERT INTO shifts (staff_id, shift_date, start_time, end_time, remarks) VALUES (6, '2025-08-03', '09:00:00', '14:00:00', '');
 INSERT INTO shifts (staff_id, shift_date, start_time, end_time, remarks) VALUES (7, '2025-08-03', '17:00:00', '22:00:00', '');
 
 -- 追加のシフトデータ (2025年に更新、備考欄を空白に)
-INSERT INTO shifts (staff_id, shift_date, start_time, end_time, remarks) VALUES (1, '2025-08-01', '10:00:00', '18:00:00', '');
-INSERT INTO shifts (staff_id, shift_date, start_time, end_time, remarks) VALUES (8, '2025-08-04', '13:00:00', '20:00:00', '');
+INSERT INTO shifts (staff_id, shift_date, start_time, end_time, remarks) VALUES (1, '2025-08-01', '10:00:00', '15:00:00', '');
+INSERT INTO shifts (staff_id, shift_date, start_time, end_time, remarks) VALUES (1, '2025-08-01', '18:00:00', '21:00:00', '');
+INSERT INTO shifts (staff_id, shift_date, start_time, end_time, remarks) VALUES (8, '2025-08-01', '11:00:00', '17:00:00', '');
 INSERT INTO shifts (staff_id, shift_date, start_time, end_time, remarks) VALUES (9, '2025-08-01', '10:00:00', '16:00:00', '');
 INSERT INTO shifts (staff_id, shift_date, start_time, end_time, remarks) VALUES (10, '2025-08-05', '09:00:00', '15:00:00', '');
 INSERT INTO shifts (staff_id, shift_date, start_time, end_time, remarks) VALUES (11, '2025-08-01', '16:00:00', '22:00:00', '');

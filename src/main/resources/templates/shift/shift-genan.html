@@ -507,7 +507,7 @@
 
 			// 区分（ここでは仮に「社員」または「パート」を設定）
 			const categoryCell = document.createElement('td');
-			categoryCell.textContent = staff.staffId <= 5 ? '社員' : 'アルバイト'; // 仮のロジック
+			categoryCell.textContent = staff.staffId <= 4 ? '社員' : 'アルバイト'; // 仮のロジック
 			row.appendChild(categoryCell);
 
 			// 氏名
