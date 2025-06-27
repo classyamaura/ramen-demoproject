@@ -97,9 +97,14 @@
 			margin: 15% auto;
 			padding: 20px;
 			border: 2px solid #666;
-			width: 300px;
+			width: 460px;
 			text-align: center;
 			border-radius: 10px;
+		}
+		
+		
+		.modal-content td {
+		  padding: 4px;
 		}
 
 		.close {
@@ -118,6 +123,19 @@
 		            align-items: center;
 		            gap: 10px;
 		        }
+				
+		.modal-table {
+				  width: 100%;
+				  max-width: 300px;
+				  margin: 0 auto;
+				  border-collapse: collapse;
+				  font-size: 14px;
+				}
+		.modal-table th, .modal-table td {
+				  padding: 8px;
+				  border: 1px solid #ccc;
+				  text-align: center;
+				}
 		</style>
 </head>
 <body>
@@ -125,7 +143,7 @@
 	
 	   
 	   <div class="header">
-	           <h1>佐藤翔太さん、こんにちは</h1>
+	           <h1>木村奈々さん こんにちは</h1>
 	           <select name="sign" id="out" onchange="handleSelectChange(this)">
 	               <option value="ログイン中">ログイン中</option>
 	               <option value="ログアウト">ログアウト</option>
@@ -215,18 +233,16 @@
 					<div class="modal-content">
 						<div id="kiboubi">【スケジュール】</div>
 						<span class="close" onclick="closeModal()">&times;</span>
-                        <div class="table1">
-						<table>
-							<tr>
-								<td><h6>出勤</h6></td>
-								<td><h6>退勤</h6></td>
-							</tr>
-							<tr>
-								<td>10:00</td>
-								<td>15:00</td>
-							</tr>
-						</table>
-						</div>
+                   
+							<table class="modal-table">
+							  <thead>
+							    <tr><th>出勤</th><th>退勤</th></tr>
+							  </thead>
+							  <tbody>
+							    <tr><td>10:00</td><td>15:00</td></tr>
+							  </tbody>
+							</table>
+						
 						<a href = "/show">
 						<button>OK</button></a>
 					</div>
