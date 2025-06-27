@@ -4,12 +4,22 @@
     <meta charset="UTF-8">
     <title>シフト管理</title>
     <style>
+		body {
+		  background-color: #f7e2c6;
+		  font-family: "Yuji Syuku", "Arial Black", sans-serif;
+		  margin: 0;
+		  padding: 20px;
+		  display: flex;
+		  flex-direction: column;
+		  align-items: center;
+		}
       table {
         border-collapse: collapse;
 			width: 100%; /* 幅を調整 */
 			max-width: 800px; /* 最大幅を設定 */
         border: 4px solid #333;
         margin: 20px auto;
+		background-color: white;
       }
       th, td {
         border: 1px solid #999;
@@ -230,9 +240,45 @@
 		  box-shadow: 0 0 5px rgba(0,0,0,0.1); 
 				
 		}
+		
+		#adjust-needed {
+		  display: inline-flex;
+		  align-items: center;
+		  justify-content: center;
+		  width: 20px;
+		  height: 20px;
+		  border-radius: 50%;
+		  background-color: #f5723a;
+		  color: white;
+		  font-size: 14px;
+		  font-weight: bold;
+		  line-height: 20px;
+		  margin-right: 5px; /* pタグとの間隔 */
+		}
+
+		p {
+		  display: inline-flex;
+		  align-items: center;
+		  gap: 5px; /* アイコンとテキストの間隔 */
+		}
+				
 		td {
 		  position: relative; /* relative指定が必要 */
 		}
+		
+		.kansei{
+			padding: 8px 15px;
+						background-color: #FF773E;
+						color: white;
+						border: none;
+						border-radius: 5px;
+			        cursor: pointer;
+		}
+		
+		.kansei:hover {
+					background-color: #FF6928;
+				}
+		
 
     </style>
 </head>
@@ -255,27 +301,27 @@
 		  <div style="width: 200px;"></div>
 
 		  <!-- 中央寄せ部分（月見出し + 月セレクト） -->
-		  <div style="display: flex; align-items: center; gap: 10px; text-align: center;">
-		    <h2 style="margin: 0;" id="currentMonth"></h2>
-		    <select name="user" id="monthSelect" onchange="handleGenanMonthChange()">
-		      <!-- 月のオプションはJSで生成 -->
-		    </select>
-		  </div>
+		  		  <div style="display: flex; align-items: center; gap: 10px; text-align: center;">
+		  		    <h2 style="margin: 0;" id="currentMonth"></h2>
+		  		    <select name="user" id="monthSelect" onchange="handleGenanMonthChange()">
+		  		      <!-- 月のオプションはJSで生成 -->
+		  		    </select>
+		  		  </div>
 
-		  <!-- 右寄せ部分（完成ボタン + ログアウトプルダウン） -->
-		  <div style="display: flex; align-items: center; gap: 10px;">
-		    <a href="/complete">
-		      <button type="button">完成（確定画面へ）</button>
-		    </a>
-
-		    <select name="sign" id="out" onchange="handleSelectChange(this)">
-		      <option value="ログイン中">ログイン中</option>
-		      <option value="ログアウト">ログアウト</option>
-		    </select>
-		  </div>
+		  		  <!-- 右寄せ部分（完成ボタン + ログアウトプルダウン） -->
+				  <div style="display: flex; align-items: center; gap: 10px;">
+				  		  		    <a href="/complete">
+				  		  		      <button type="button" class="kansei">完成（確定画面へ）</button>
+				  		  		    </a>
+				  		  		    <select name="sign" id="out" onchange="handleSelectChange(this)" >
+				  		  		      <option value="ログイン中">ログイン中</option>
+				  		  		      <option value="ログアウト">ログアウト</option>
+				  		  		    </select>
+				  		  		  </div>
 
 		</div>
-
+		
+		<p><a id="adjust-needed">!</a>=未調整</p>
 	   
 	   
 		
