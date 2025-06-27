@@ -114,8 +114,15 @@
 </head>
 <body>
 
-<h1>シフト表【完成版】</h1>
-
+	<!-- タイトルとプルダウンを横並びにする -->
+	<div style="display: flex; justify-content: space-between; align-items: center; max-width: 800px; margin: 0 auto;">
+	  <h1 style="margin: 20px 0;">シフト表【完成版】</h1>
+	  <select id="out" style="padding: 6px 10px; font-size: 1rem;">
+	    <option value="ログイン中">ログイン中</option>
+	    <option value="ログアウト">ログアウト</option>
+	  </select>
+	</div>
+	
 <div style="display: flex; justify-content: center; align-items: center; margin-bottom: 15px; gap: 10px;">
   <h2 style="margin: 0;">2025年 シフトカレンダー</h2>
   <select id="month-select" style="padding: 4px 8px;">
@@ -187,6 +194,25 @@
   };
 
   const holidays = ["2025-08-11"];
+  
+  // ページ読み込み時にイベントをセット
+  document.addEventListener('DOMContentLoaded', () => {
+    const outSelect = document.getElementById('out');
+    if (outSelect) {
+      outSelect.addEventListener('change', function() {
+        handleSelectChange(this);
+      });
+    }
+  });
+
+  // ログアウト処理
+  function handleSelectChange(selectElement) {
+    if (selectElement.value === 'ログアウト') {
+      alert('ログアウトしました。');
+      window.location.href = '/main';
+    }
+  }
+
 
   function buildCalendar(year, month) {
     const tbody = document.getElementById("calendar-body");

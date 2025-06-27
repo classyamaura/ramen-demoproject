@@ -569,7 +569,7 @@
 		summaryDateInput.value = defaultSummaryDate; // 8月1日をデフォルトで表示
 
 		// ログアウト処理の仮実装
-		const outSelect = document.getElementById('out');
+		/*const outSelect = document.getElementById('out');
 		if (outSelect) {
 			outSelect.addEventListener('change', function() {
 				if (this.value === 'ログアウト') {
@@ -578,7 +578,7 @@
 					// window.location.href = '/logout'; // 例
 				}
 			});
-		}
+		}*/
 
 		// メッセージの自動非表示 (オプション)
 		const alertDiv = document.querySelector('.alert');
@@ -590,12 +590,10 @@
 	});
 
 	function handleSelectChange(selectElement) {
-		// ログアウト処理の仮実装
-		if (selectElement.value === 'ログアウト') {
-			alert('ログアウトしました。');
-			// 実際のログアウト処理（セッションクリアなど）はバックエンドで行う
-			// window.location.href = '/logout'; // 例
-		}
+	  if (selectElement.value === 'ログアウト') {
+	    alert('ログアウトしました。');
+	    window.location.href = '/main'; // ← ここで遷移させる
+	  }
 	}
 
 	function updateShiftSummaryTableByDate() {
