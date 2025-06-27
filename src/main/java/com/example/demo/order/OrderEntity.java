@@ -7,6 +7,8 @@ public class OrderEntity {
     private Integer registeredWeightFromSensor; // WEIGHT_SENSORSから取得する登録重さ
     private Double calculatedUnit; // 計算結果
     private String statusSymbol; // 新しく追加するステータスシンボル
+    private int thresholdWeight; // 新しく追加
+    private int requiredOrderQuantity; // 新しく追加
 
     public OrderEntity(Long id, String name, Integer weight, Integer registeredWeightFromSensor, Double calculatedUnit, String statusSymbol) {
         this.id = id;
@@ -64,5 +66,21 @@ public class OrderEntity {
 
     public void setStatusSymbol(String statusSymbol) {
         this.statusSymbol = statusSymbol;
+    }
+
+    public int getThresholdWeight() {
+        return thresholdWeight;
+    }
+
+    public void setThresholdWeight(int thresholdWeight) {
+        this.thresholdWeight = thresholdWeight;
+    }
+
+    public int getRequiredOrderQuantity() {
+        return requiredOrderQuantity;
+    }
+
+    public void setRequiredOrderQuantity(int requiredOrderQuantity) {
+        this.requiredOrderQuantity = requiredOrderQuantity;
     }
 }
