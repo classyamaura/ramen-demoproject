@@ -93,14 +93,17 @@
 		}
 
 		.modal-content {
-			background-color: #fff;
-			margin: 15% auto;
-			padding: 20px;
-			border: 2px solid #666;
-			width: 460px;
-			text-align: center;
-			border-radius: 10px;
+		  width: 600px;           /* 横幅を広げる */
+		  max-height: 80vh;       /* 画面高さの80%までに制限 */
+		  overflow-y: auto;       /* 縦に長くなったらスクロール */
+		  margin: 10% auto;       /* 上下マージンを少し狭く */
+		  padding: 20px;
+		  box-sizing: border-box;
+		  border-radius: 10px;
+		  background-color: #fff;
+		  text-align: center;
 		}
+
 		
 		
 		.modal-content td {
@@ -124,18 +127,16 @@
 		            gap: 10px;
 		        }
 				
-		.modal-table {
-				  width: 100%;
-				  max-width: 300px;
+				.modal-table {
+				  width: 40%;             /* ← 小さめに縮小 */
+				  max-width: 250px;       /* ← 最大でもこの幅に制限 */
 				  margin: 0 auto;
 				  border-collapse: collapse;
-				  font-size: 14px;
+				  font-size: 12px;        /* ← 文字もやや小さく */
+				  background-color: #fdfdfd;
 				}
-		.modal-table th, .modal-table td {
-				  padding: 8px;
-				  border: 1px solid #ccc;
-				  text-align: center;
-				}
+
+				
 		</style>
 </head>
 <body>
@@ -181,14 +182,14 @@
 						      <td></td>
 						      <td></td>
 						      <td></td>
-						      <td id="day-1">1</td>
+						      <td id="day-1" class="clickable" onclick="openModal()">1</td>
 						      <td id="day-2" class="saturday">2</td>
 						    </tr>
 						    <tr>
 						      <td id="day-3" class="sunday">3</td>
 						      <td id="day-4">4</td>
 						      <td id="day-5">5</td>
-						      <td id="day-6" class="clickable" onclick="openModal()">6</td>
+						      <td id="day-6">6</td>
 						      <td id="day-7">7</td>
 						      <td id="day-8">8</td>
 						      <td id="day-9" class="saturday">9</td>
@@ -230,22 +231,20 @@
 
 				<!-- モーダル本体 -->
 				<div id="modal" class="modal">
-					<div class="modal-content">
-						<div id="kiboubi">【スケジュール】</div>
-						<span class="close" onclick="closeModal()">&times;</span>
-                   
-							<table class="modal-table">
-							  <thead>
-							    <tr><th>出勤</th><th>退勤</th></tr>
-							  </thead>
-							  <tbody>
-							    <tr><td>10:00</td><td>15:00</td></tr>
-							  </tbody>
-							</table>
-						
-						<a href = "/show">
-						<button>OK</button></a>
-					</div>
+				  <div class="modal-content">
+				    <span class="close" onclick="closeModal()">&times;</span>
+				    
+				    <h3>【スケジュール】</h3>
+				    
+				    <div class="shift-info">
+				      <p><strong>出勤：</strong>11:00</p>
+				      <p><strong>退勤：</strong>17:00</p>
+				    </div>
+				    
+				    <a href="/show">
+				      <button>OK</button>
+				    </a>
+				  </div>
 				</div>
 
 				<!-- JavaScript（モーダル制御） -->
@@ -266,7 +265,7 @@
 
 			
 					  // あらかじめ選んだ出勤日（ランダムで指定済み）
-					  const workDays = [3, 6, 8, 11, 15, 19, 22, 28]; // ← あなたの要望に合わせて固定で指定しています
+					  const workDays = [1, 6, 8, 11, 15]; // ← あなたの要望に合わせて固定で指定しています
 
 					  workDays.forEach(day => {
 					    const cell = document.getElementById(`day-${day}`);
@@ -280,7 +279,7 @@
 					  
 					  function handleSelectChange(select) {
 					  	           if (select.value === "ログアウト") {
-					  	               window.location.href = "http://localhost:8080/shifttop";
+					  	               window.location.href = "http://localhost:8080/main";
 					  	           }
 					  	       }
 					
