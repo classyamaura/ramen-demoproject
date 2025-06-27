@@ -218,18 +218,19 @@
 
     /* クリック可能セル */
     .clickable:hover {
-      background-color: #f0f9ff;
+      background-color: #fab881;
       cursor: pointer;
       transition: background-color 0.25s ease;
     }
-
+    
     /* シフト登録済セル */
-    .has-shift {
+    /* .has-shift {
       background-color: #ffe4c4;
       position: relative;
       transition: background-color 0.3s ease;
-    }
-
+    }  */
+    
+    /*
     .has-shift::after {
       content: "●";
       color:#ff773e;
@@ -239,7 +240,7 @@
       right: 5px;
       user-select: none;
     }
-
+    */
     /* モーダル背景 */
     .modal {
       display: none;
@@ -413,38 +414,55 @@
       background-color: #5d4037;
       color: white;
     }
-	/* トップページボタン */
-	div#topButtonArea a button {
-	  background-color: orange;  /* 彩度低めのオレンジ */
-	  color: black;               /* 文字黒 */
-	  border: none;
-	  padding: 8px 16px;
-	  border-radius: 8px;
-	  font-size: 1rem;
-	  font-weight: bold;
-	  cursor: pointer;
-	  box-shadow: 0 3px 6px rgba(240, 196, 140, 0.4);
-	  transition: background-color 0.3s ease;
-  }
-	  
-	  div#topButtonArea a button:hover {
-	    background-color: #e2b75e; /* 少し濃くしてホバー */
-	    color: #000;
-	  }
+
+    /* --- ▼ここから変更・追加したCSS▼ --- */
+    
+    /* スタッフ名と削除ボタンを横並びにするためのスタイル */
+    .staff-info {
+      display: flex;
+      justify-content: space-between; /* 要素を両端に配置 */
+      align-items: center; /* 垂直方向中央揃え */
+      margin-bottom: 12px; /* 下の入力欄との余白 */
+    }
+
+    .staff-info b {
+      font-size: 1.1rem; /* スタッフ名を少し大きく */
+    }
+
+    /* 削除ボタンの新しいスタイル */
+    .delete-btn {
+      background-color: #e53935; /* より分かりやすい赤色に変更 */
+      color: white;
+      border: none;
+      border-radius: 6px; /* 角丸を調整 */
+      font-weight: bold;
+      cursor: pointer;
+      padding: 8px 16px; /* ボタンのサイズを調整 */
+      margin-left: 10px; /* 自動配置のため元のmargin-leftは維持しても良い */
+      transition: background-color 0.3s ease, box-shadow 0.3s ease;
+      font-family: "Hiragino Sans", "Yu Gothic", sans-serif;
+      font-size: 0.95rem; /* フォントサイズを調整 */
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2); /* 影を調整 */
+    }
+
+    .delete-btn:hover {
+      background-color: #c62828; /* ホバー時の色を濃くする */
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    }
+    
+    /* --- ▲ここまで変更・追加したCSS▲ --- */
 
   </style>
 </head>
 
 <body>
   <div id="container">
-    <!-- トップページボタン -->
     <div id="topButtonArea">
       <a href="/main">
         <button type="button">トップページへ</button>
       </a>
     </div>
 
-    <!-- 中央に見せたい見出し -->
     <h1>シフト提出</h1>
 
     <div th:if="${message}" class="alert alert-success">
@@ -454,12 +472,10 @@
       <p th:text="${error}"></p>
     </div>
 
-    <!-- 右寄せエリア（ボタン + プルダウン）-->
     <div id="monthSelectArea">
       <h2 id="currentMonth"></h2>
       <select name="user" id="monthSelect" onchange="handleMonthChange()">
-        <!-- 月のオプションはJavaScriptで生成 -->
-      </select>
+        </select>
     </div>
 
     <table>
@@ -475,19 +491,16 @@
         </tr>
       </thead>
       <tbody id="calendarBody">
-        <!-- カレンダーのセルはJavaScriptで動的に生成 -->
-      </tbody>
+        </tbody>
     </table>
 
-    <!-- モーダル -->
     <div id="shiftModal" class="modal">
       <div class="modal-content">
         <span class="close" onclick="closeModal()">&times;</span>
         <h3 id="modalDate"></h3>
 
-        <h4>スタッフ別シフト入力</h4>
-        <!-- 編集ボタンを追加 -->
-        <button type="button" id="editModeBtn" onclick="enterEditMode()" class="shift-form">編集</button>
+        <h4>シフト入力画面</h4>
+        <button type="button" id="editModeBtn" onclick="enterEditMode()" class="shift-form">提出済スタッフを編集</button>
 
         <form id="shiftForm" action="/registerShift" method="post" class="shift-form">
           <input type="hidden" id="selectedDate" name="shiftDate" />
@@ -511,7 +524,6 @@
           <button type="submit">シフトを提出</button>
         </form>
 
-        <!-- 編集モード用フォーム（初期は非表示） -->
         <form id="editShiftForm" style="display:none;">
           <div id="editShiftList"></div>
           <button type="button" onclick="saveEditedShifts()">保存</button>
@@ -636,6 +648,7 @@
         });
     }
 
+    /* --- ▼ここから変更したJavaScript▼ --- */
     function renderEditShiftList(shifts) {
       const listDiv = document.getElementById("editShiftList");
       if (!shifts || shifts.length === 0) {
@@ -644,8 +657,12 @@
       }
       let html = "";
       for (const shift of shifts) {
+        // 変更点: スタッフ名と削除ボタンを .staff-info で囲み、<br> を削除しました。
         html += `<div>
-          <b>${shift.staffName || shift.staff_name || ""}</b><br>
+          <div class="staff-info">
+            <b>${shift.staffName || shift.staff_name || ""}</b>
+            <button type='button' onclick='deleteShift(${shift.shiftId})' class='delete-btn'>削除</button>
+          </div>
           出勤: <input type='time' value='${shift.startTime ? shift.startTime.substring(0, 5) : ""}' id='editStartTime_${shift.shiftId}'>
           退勤: <input type='time' value='${shift.endTime ? shift.endTime.substring(0, 5) : ""}' id='editEndTime_${shift.shiftId}'>
           備考: <input type='text' value='${shift.remarks || ""}' id='editRemarks_${shift.shiftId}'>
@@ -655,6 +672,7 @@
       }
       listDiv.innerHTML = html;
     }
+    /* --- ▲ここまで変更したJavaScript▲ --- */
 
     function saveEditedShifts() {
       const listDiv = document.getElementById("editShiftList");
@@ -718,6 +736,21 @@
         }, 5000);
       }
     });
+
+    function deleteShift(shiftId) {
+      if (confirm("このシフトを削除してもよろしいですか？")) {
+        fetch("/deleteShift?shiftId=" + shiftId, {
+            method: "POST", // または "DELETE" が適切ですが、Springの標準を考慮しPOSTとします。
+          })
+          .then((response) => response.text())
+          .then((msg) => {
+            alert(msg);
+            closeModal();
+            window.location.reload();
+          })
+          .catch(() => alert("削除に失敗しました"));
+      }
+    }
   </script>
 </body>
 
