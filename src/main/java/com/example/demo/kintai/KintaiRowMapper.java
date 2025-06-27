@@ -12,9 +12,8 @@ public class KintaiRowMapper implements RowMapper<KintaiEntity> {
     public KintaiEntity mapRow(ResultSet rs, int rowNum) throws SQLException {
         KintaiEntity k = new KintaiEntity();
 
-        // ★ id をセット
+        // ID・名前・時間を取得
         k.setId(rs.getLong("id"));
-
         k.setName(rs.getString("name"));
 
         LocalDateTime start = rs.getTimestamp("start_time").toLocalDateTime();
@@ -31,6 +30,16 @@ public class KintaiRowMapper implements RowMapper<KintaiEntity> {
 
         // フォーマットして格納
         k.setWorkDurationStr(hours + "時間" + minutes + "分");
+
+        // 分単位の総勤務時間を格納（集計用）
+        k.setWorkMinutes(totalMinutes);
+
+        // 時給を格納（nullチェック）
+        int wage = rs.getInt("hourly_wage");
+        if (rs.wasNull()) {
+            wage = 0;  // nullなら0に設定（適宜変更可）
+        }
+        k.setHourlyWage(wage);
 
         return k;
     }

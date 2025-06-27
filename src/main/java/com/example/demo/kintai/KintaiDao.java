@@ -16,25 +16,31 @@ public class KintaiDao {
     @Autowired
     private JdbcTemplate jdbcTemplate;
 
-    // 一覧検索（名前・日付・年月）
+    // 一覧検索（名前・日付・年月）　※employee表とJOINして時給も取得
     public List<KintaiEntity> search(String name, LocalDate date, String yearMonth) {
-        StringBuilder sql = new StringBuilder("SELECT id, name, start_time, end_time FROM kintai WHERE 1=1 ");
+        StringBuilder sql = new StringBuilder(
+            "SELECT k.id, k.name, k.start_time, k.end_time, e.hourly_wage " +
+            "FROM kintai k " +
+            "LEFT JOIN employee e ON k.name = e.name " +
+            "WHERE 1=1 "
+        );
         List<Object> params = new ArrayList<>();
 
         if (name != null && !name.isEmpty()) {
-            sql.append(" AND name = ? ");
+            sql.append(" AND k.name = ? ");
             params.add(name);
         }
 
         if (date != null) {
-            sql.append(" AND TO_CHAR(start_time, 'YYYY-MM-DD') = ? ");
+            sql.append(" AND FORMATDATETIME(k.start_time, 'yyyy-MM-dd') = ? ");
             params.add(date.toString());
         } else if (yearMonth != null && !yearMonth.isEmpty()) {
-            sql.append(" AND TO_CHAR(start_time, 'YYYY-MM') = ? ");
+            sql.append(" AND FORMATDATETIME(k.start_time, 'yyyy-MM') = ? ");
             params.add(yearMonth);
         }
 
-        sql.append(" ORDER BY start_time");
+        sql.append(" ORDER BY k.start_time");
+
         return jdbcTemplate.query(sql.toString(), params.toArray(), new KintaiRowMapper());
     }
 
@@ -46,7 +52,9 @@ public class KintaiDao {
 
     // 編集画面で使用（名前と出勤時間から取得）
     public KintaiEntity findByNameAndStartTime(String name, LocalDateTime startTime) {
-        String sql = "SELECT id, name, start_time, end_time FROM kintai WHERE name = ? AND start_time = ?";
+        String sql = "SELECT k.id, k.name, k.start_time, k.end_time, e.hourly_wage " +
+                     "FROM kintai k LEFT JOIN employee e ON k.name = e.name " +
+                     "WHERE k.name = ? AND k.start_time = ?";
         try {
             return jdbcTemplate.queryForObject(sql, new Object[]{name, startTime}, new KintaiRowMapper());
         } catch (EmptyResultDataAccessException e) {
@@ -56,8 +64,14 @@ public class KintaiDao {
 
     // 確認画面で使用（名前と日付から取得）
     public KintaiEntity findByNameAndDate(String name, LocalDate date) {
-        String sql = "SELECT id, name, start_time, end_time FROM kintai WHERE name = ? AND TO_CHAR(start_time, 'yyyy-MM-dd') = ?";
-        return jdbcTemplate.queryForObject(sql, new Object[]{name, date.toString()}, new KintaiRowMapper());
+        String sql = "SELECT k.id, k.name, k.start_time, k.end_time, e.hourly_wage " +
+                     "FROM kintai k LEFT JOIN employee e ON k.name = e.name " +
+                     "WHERE k.name = ? AND FORMATDATETIME(k.start_time, 'yyyy-MM-dd') = ?";
+        try {
+            return jdbcTemplate.queryForObject(sql, new Object[]{name, date.toString()}, new KintaiRowMapper());
+        } catch (EmptyResultDataAccessException e) {
+            return null;
+        }
     }
 
     // 更新処理（idで指定して1件だけ更新）
@@ -66,7 +80,17 @@ public class KintaiDao {
         jdbcTemplate.update(sql,
             kintai.getStartTime(),
             kintai.getEndTime(),
-            kintai.getId() 
+            kintai.getId()
         );
+    }
+
+    // 時給データを取得する（個別に必要なら）
+    public Integer findHourlyWageByName(String name) {
+        String sql = "SELECT hourly_wage FROM employee WHERE name = ?";
+        try {
+            return jdbcTemplate.queryForObject(sql, new Object[]{name}, Integer.class);
+        } catch (EmptyResultDataAccessException e) {
+            return null;
+        }
     }
 }
